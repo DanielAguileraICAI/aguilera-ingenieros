@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aguilera Ingenieros</title>
+<link rel="icon" type="image/png" href="assets/logo_isotype.png">
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="site.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script src="data.js"></script>
+<script type="text/babel" src="components/i18n.jsx"></script>
+<script type="text/babel" src="components/animations.jsx"></script>
+<script type="text/babel" src="components/core.jsx"></script>
+<script type="text/babel" src="components/Nav.jsx"></script>
+<script type="text/babel" src="components/blocks.jsx"></script>
+<script type="text/babel" src="components/VerticalsHero.jsx"></script>
+<script type="text/babel" src="components/Footer.jsx"></script>
+<script type="text/babel" src="components/pages.jsx"></script>
+<script type="text/babel">
+const App = () => {
+  const [route, setRoute] = React.useState(() => localStorage.getItem("ai_route") || "home");
+  React.useEffect(() => { localStorage.setItem("ai_route", route); }, [route]);
+  let page;
+  if (route === "home") page = <PageHome setRoute={setRoute} />;
+  else if (route === "quienes") page = <PageQuienes setRoute={setRoute} />;
+  else if (route === "proyectos") page = <PageProyectos setRoute={setRoute} />;
+  else if (route === "personas") page = <PagePersonas setRoute={setRoute} />;
+  else if (route === "talento") page = <PageTalento setRoute={setRoute} />;
+  else if (route === "contacto") page = <PageContacto setRoute={setRoute} />;
+  return (
+    <div data-screen-label={route}>
+      <Nav route={route} setRoute={setRoute} />
+      <main key={route} className="page-shell">{page}</main>
+      {route !== "contacto" && <Footer setRoute={setRoute} />}
+      <CookieBar />
+    </div>
+  );
+};
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <AILangProvider>
+    <App />
+  </AILangProvider>
+);
+</script>
+</body>
+</html>
