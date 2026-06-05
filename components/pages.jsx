@@ -334,13 +334,19 @@ const PageNewsletter = () => {
             {t.news.map((a, i) => (
               <Reveal key={i} delay={80 + i * 80}>
                 <li className="newsletter__issue">
-                  <div className="newsletter__issue-meta">
-                    <span className="newsletter__issue-n">{a.n}</span>
-                    <span className="newsletter__issue-date">{a.date}</span>
-                    <span className="newsletter__issue-tag">{a.tag}</span>
-                    <span className="newsletter__issue-read">{a.read}</span>
+                  <a className="newsletter__issue-thumb">
+                    <img src={a.img} alt="" loading="lazy" />
+                  </a>
+                  <div className="newsletter__issue-body">
+                    <div className="newsletter__issue-meta">
+                      <span className="newsletter__issue-n">{a.n}</span>
+                      <span className="newsletter__issue-date">{a.date}</span>
+                      <span className="newsletter__issue-tag">{a.tag}</span>
+                      <span className="newsletter__issue-read">{a.read}</span>
+                    </div>
+                    <a className="newsletter__issue-title">{a.title} <span className="arr">→</span></a>
+                    <p className="newsletter__issue-excerpt">{a.excerpt}</p>
                   </div>
-                  <a className="newsletter__issue-title">{a.title} <span className="arr">→</span></a>
                 </li>
               </Reveal>
             ))}
