@@ -12,27 +12,24 @@ window.AI_I18N = {
     ],
 
     /* Client logos shown on the home + projects pages in a rotating
-       strip. `logo` is optional — if absent, the marquee renders a text
-       placeholder using `name`. Real logos drop into
-       aguilera-ingenieros/assets/clients/<slug>.svg and we add the
-       `logo` field pointing at them. */
+       strip. Real logo files live in assets/clients/. Ordered alphabetically
+       to avoid implying any hierarchy of importance between clients. */
     clients: [
-      { name: "BBVA" },
-      { name: "Banco de España" },
-      { name: "Banco Santander" },
-      { name: "Beiersdorf" },
-      { name: "Airbus" },
-      { name: "PwC" },
-      { name: "Foster + Partners" },
-      { name: "El Corte Inglés" },
-      { name: "Sheraton" },
-      { name: "Ritz-Carlton" },
-      { name: "Hyatt" },
-      { name: "Kempinski" },
-      { name: "Vestas" },
-      { name: "Quironsalud" },
-      { name: "GSK" },
-      { name: "MSD" },
+      { name: "Banco Santander",         logo: "assets/clients/banco-santander.png" },
+      { name: "BBVA",                    logo: "assets/clients/bbva.png" },
+      { name: "Beiersdorf",              logo: "assets/clients/beiersdorf.png" },
+      { name: "Bloomberg",               logo: "assets/clients/bloomberg.png" },
+      { name: "Boston Consulting Group", logo: "assets/clients/bcg.svg" },
+      { name: "BP Solar",                logo: "assets/clients/bp-solar.png" },
+      { name: "Data4",                   logo: "assets/clients/data4.png" },
+      { name: "El Corte Inglés",         logo: "assets/clients/el-corte-ingles.png" },
+      { name: "GSK",                     logo: "assets/clients/gsk.png" },
+      { name: "Hyatt",                   logo: "assets/clients/hyatt.png" },
+      { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
+      { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
+      { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp" },
     ],
 
     home: {
@@ -375,22 +372,21 @@ window.AI_I18N = {
 
     /* Same client list as ES — names are identical brand-wise. */
     clients: [
-      { name: "BBVA" },
-      { name: "Banco de España" },
-      { name: "Banco Santander" },
-      { name: "Beiersdorf" },
-      { name: "Airbus" },
-      { name: "PwC" },
-      { name: "Foster + Partners" },
-      { name: "El Corte Inglés" },
-      { name: "Sheraton" },
-      { name: "Ritz-Carlton" },
-      { name: "Hyatt" },
-      { name: "Kempinski" },
-      { name: "Vestas" },
-      { name: "Quironsalud" },
-      { name: "GSK" },
-      { name: "MSD" },
+      { name: "Banco Santander",         logo: "assets/clients/banco-santander.png" },
+      { name: "BBVA",                    logo: "assets/clients/bbva.png" },
+      { name: "Beiersdorf",              logo: "assets/clients/beiersdorf.png" },
+      { name: "Bloomberg",               logo: "assets/clients/bloomberg.png" },
+      { name: "Boston Consulting Group", logo: "assets/clients/bcg.svg" },
+      { name: "BP Solar",                logo: "assets/clients/bp-solar.png" },
+      { name: "Data4",                   logo: "assets/clients/data4.png" },
+      { name: "El Corte Inglés",         logo: "assets/clients/el-corte-ingles.png" },
+      { name: "GSK",                     logo: "assets/clients/gsk.png" },
+      { name: "Hyatt",                   logo: "assets/clients/hyatt.png" },
+      { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
+      { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
+      { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp" },
     ],
 
     home: {
