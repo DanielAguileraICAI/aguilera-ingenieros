@@ -7,7 +7,7 @@ window.AI_I18N = {
       { id: "proyectos",  label: "Proyectos" },
       { id: "personas",   label: "Personas" },
       { id: "talento",    label: "Talento" },
-      { id: "newsletter", label: "Newsletter" },
+      { id: "newsletter", label: "Noticias" },
       { id: "contacto",   label: "Contacto" },
     ],
 
@@ -233,7 +233,7 @@ window.AI_I18N = {
     },
 
     newsletter: {
-      eyebrow: "Newsletter",
+      eyebrow: "Noticias",
       title: "Aguilera Ingenieros · Boletín técnico.",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
       formEyebrow: "Suscríbase",
@@ -287,7 +287,7 @@ window.AI_I18N = {
       { id: "proyectos",  label: "Projects" },
       { id: "personas",   label: "People" },
       { id: "talento",    label: "Careers" },
-      { id: "newsletter", label: "Newsletter" },
+      { id: "newsletter", label: "News" },
       { id: "contacto",   label: "Contact" },
     ],
 
@@ -513,7 +513,7 @@ window.AI_I18N = {
     },
 
     newsletter: {
-      eyebrow: "Newsletter",
+      eyebrow: "News",
       title: "Aguilera Ingenieros · Technical bulletin.",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
       formEyebrow: "Subscribe",
