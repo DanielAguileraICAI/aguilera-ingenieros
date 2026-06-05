@@ -27,9 +27,9 @@ window.AI_I18N = {
       { name: "Hyatt",                   logo: "assets/clients/hyatt.png" },
       { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
-      { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
-      { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
-      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp",      scale: 1.35 },
+      { name: "mAbxience",               logo: "assets/clients/mabxience.png" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.png" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.png",       scale: 1.35 },
     ],
 
     home: {
@@ -384,9 +384,9 @@ window.AI_I18N = {
       { name: "Hyatt",                   logo: "assets/clients/hyatt.png" },
       { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
-      { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
-      { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
-      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp",      scale: 1.35 },
+      { name: "mAbxience",               logo: "assets/clients/mabxience.png" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.png" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.png",       scale: 1.35 },
     ],
 
     home: {
