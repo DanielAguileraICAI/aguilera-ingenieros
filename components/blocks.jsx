@@ -143,22 +143,13 @@ const ClientStrip = ({ eyebrowKey }) => {
       )}
       <div className="client-strip__viewport">
         <div className="client-strip__track">
-          {loop.map((c, i) => {
-            // Per-logo `scale` override — some marks read too big at the
-            // default size (chunky wordmarks like BBVA) or too small (logos
-            // with lots of padding around the mark, like PharmaMar).
-            const imgStyle = c.scale ? {
-              maxWidth:  Math.round(160 * c.scale) + "px",
-              maxHeight: Math.round(54  * c.scale) + "px",
-            } : null;
-            return (
-              <div key={i} className="client-strip__item" title={c.name}>
-                {c.logo
-                  ? <img src={c.logo} alt={c.name} loading="lazy" style={imgStyle} />
-                  : <span className="client-strip__placeholder">{c.name}</span>}
-              </div>
-            );
-          })}
+          {loop.map((c, i) => (
+            <div key={i} className="client-strip__item" title={c.name}>
+              {c.logo
+                ? <img src={c.logo} alt={c.name} loading="lazy" />
+                : <span className="client-strip__placeholder">{c.name}</span>}
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -733,11 +733,9 @@ button{font:inherit;cursor:pointer}
 .client-strip__item img{
   max-width:160px;max-height:54px;width:auto;height:auto;display:block;
   filter:grayscale(1) contrast(.85) opacity(.5);
-  /* `darken` keeps whichever pixel is darker per channel; white always loses
-     to the off-white page bg, so JPG/WebP logos with white (or near-white)
-     borders sit cleanly on the page with no visible rectangle. Works better
-     than `multiply` when the source isn't pure 255-255-255. */
-  mix-blend-mode:darken;
+  /* multiply blends any white background (JPG/WebP logos) into the off-white
+     page so the logo sits on the page without a visible rectangle around it. */
+  mix-blend-mode:multiply;
   transition:filter 280ms var(--ease-out);
 }
 .client-strip__item:hover img{
