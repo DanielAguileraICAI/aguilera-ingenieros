@@ -37,7 +37,7 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Centros de Proceso de Datos", headline: "Infraestructura crítica. Diseñada para no fallar.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg" },
+        { eyebrow: "Centros de Proceso de Datos", headline: "Infraestructura crítica. Diseñada para no fallar.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg", objectPosition: "center 25%" },
         { eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", sub: "Salas blancas, laboratorios P2/P3, GMP, FDA, ISPE.",        img: "assets/hero_farma.jpg" },
         { eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",                 sub: "Desde la viabilidad técnica hasta la puesta en marcha.",     img: "assets/bg_industrial_4.jpg" },
       ],
@@ -395,7 +395,7 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Data Centers",                 headline: "Critical infrastructure. Designed to never fail.", sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_bbva_noche.jpg" },
+        { eyebrow: "Data Centers",                 headline: "Critical infrastructure. Designed to never fail.", sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_bbva_noche.jpg", objectPosition: "center 25%" },
         { eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          sub: "Cleanrooms, P2/P3 labs, GMP, FDA, ISPE.",                     img: "assets/hero_farma.jpg" },
         { eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     sub: "From technical feasibility through commissioning.",          img: "assets/bg_industrial_4.jpg" },
       ],

@@ -10,7 +10,7 @@ const HeroCarousel = ({ setRoute }) => {
     <section className="hero">
       {slides.map((s, idx) => (
         <div key={idx} className={"hero__slide " + (idx === i ? "is-active" : "")}>
-          <img src={s.img} alt="" className="hero__img" />
+          <img src={s.img} alt="" className="hero__img" style={s.objectPosition ? {objectPosition: s.objectPosition} : null} />
           <div className="hero__overlay" />
           <div className="hero__inner">
             <div className={"hero__content " + (idx === i ? "is-shown" : "")}>
