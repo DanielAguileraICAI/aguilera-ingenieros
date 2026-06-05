@@ -700,6 +700,76 @@ button{font:inherit;cursor:pointer}
 .grid-3__cta{margin-top:var(--sp-7);display:flex;justify-content:center;}
 
 /* =========================================================
+   Client trust strip — desaturated logos in a left→right marquee.
+   Hover any logo to restore colour; hover the strip to pause.
+   ========================================================= */
+.client-strip{
+  background:var(--bg-alt);
+  padding:var(--sp-7) 0 var(--sp-8);
+  overflow:hidden;
+}
+.client-strip__head{margin-bottom:var(--sp-6);}
+
+/* Soft fade-out at both edges so logos enter / exit cleanly instead of
+   getting clipped against the section background. */
+.client-strip__viewport{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%);
+}
+.client-strip__track{
+  display:flex;align-items:center;gap:80px;
+  width:max-content;
+  animation:client-marquee 60s linear infinite;
+}
+.client-strip:hover .client-strip__track{animation-play-state:paused;}
+
+.client-strip__item{
+  flex-shrink:0;
+  height:54px;min-width:140px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 8px;
+}
+.client-strip__item img{
+  max-width:160px;max-height:54px;width:auto;height:auto;display:block;
+  filter:grayscale(1) contrast(.85) opacity(.5);
+  transition:filter 280ms var(--ease-out);
+}
+.client-strip__item:hover img{
+  filter:grayscale(0) contrast(1) opacity(1);
+}
+
+/* Placeholder used until a real logo file lands. Renders the client
+   name in the brand display face, treated like a wordmark. Gets the
+   same grey → colour treatment via colour transition. */
+.client-strip__placeholder{
+  font-family:var(--font-display);
+  font-weight:700;font-size:18px;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:rgba(17,17,17,.42);
+  white-space:nowrap;
+  transition:color 280ms var(--ease-out);
+}
+.client-strip__item:hover .client-strip__placeholder{
+  color:var(--accent);
+}
+
+@keyframes client-marquee{
+  from{transform:translateX(0);}
+  to  {transform:translateX(-50%);}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .client-strip__track{animation:none;}
+}
+@media (max-width:700px){
+  .client-strip__track{gap:48px;animation-duration:42s;}
+  .client-strip__item{height:42px;min-width:110px;}
+  .client-strip__item img{max-width:120px;max-height:42px;}
+  .client-strip__placeholder{font-size:15px;}
+}
+
+/* =========================================================
    Article (individual news issue)
    ========================================================= */
 .article{padding-top:var(--nav-h);background:#fff;}

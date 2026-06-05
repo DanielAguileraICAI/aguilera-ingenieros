@@ -11,6 +11,30 @@ window.AI_I18N = {
       { id: "contacto",   label: "Contacto" },
     ],
 
+    /* Client logos shown on the home + projects pages in a rotating
+       strip. `logo` is optional — if absent, the marquee renders a text
+       placeholder using `name`. Real logos drop into
+       aguilera-ingenieros/assets/clients/<slug>.svg and we add the
+       `logo` field pointing at them. */
+    clients: [
+      { name: "BBVA" },
+      { name: "Banco de España" },
+      { name: "Banco Santander" },
+      { name: "Beiersdorf" },
+      { name: "Airbus" },
+      { name: "PwC" },
+      { name: "Foster + Partners" },
+      { name: "El Corte Inglés" },
+      { name: "Sheraton" },
+      { name: "Ritz-Carlton" },
+      { name: "Hyatt" },
+      { name: "Kempinski" },
+      { name: "Vestas" },
+      { name: "Quironsalud" },
+      { name: "GSK" },
+      { name: "MSD" },
+    ],
+
     home: {
       heroSlides: [
         { eyebrow: "Centros de Proceso de Datos", headline: "Infraestructura crítica. Diseñada para no fallar.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_cpd.jpg" },
@@ -89,6 +113,7 @@ window.AI_I18N = {
       insightsTitle: "Casos, certificaciones y perspectivas",
       readMore: "Leer más",
       viewAllNews: "Ver todas las noticias",
+      clientsEyebrow: "Confían en nosotros",
     },
 
     featured: [
@@ -348,6 +373,26 @@ window.AI_I18N = {
       { id: "contacto",   label: "Contact" },
     ],
 
+    /* Same client list as ES — names are identical brand-wise. */
+    clients: [
+      { name: "BBVA" },
+      { name: "Banco de España" },
+      { name: "Banco Santander" },
+      { name: "Beiersdorf" },
+      { name: "Airbus" },
+      { name: "PwC" },
+      { name: "Foster + Partners" },
+      { name: "El Corte Inglés" },
+      { name: "Sheraton" },
+      { name: "Ritz-Carlton" },
+      { name: "Hyatt" },
+      { name: "Kempinski" },
+      { name: "Vestas" },
+      { name: "Quironsalud" },
+      { name: "GSK" },
+      { name: "MSD" },
+    ],
+
     home: {
       heroSlides: [
         { eyebrow: "Data Centers",                 headline: "Critical infrastructure. Designed to never fail.", sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_cpd.jpg" },
@@ -426,6 +471,7 @@ window.AI_I18N = {
       insightsTitle: "Cases, certifications and perspectives",
       readMore: "Read more",
       viewAllNews: "View all news",
+      clientsEyebrow: "Trusted by",
     },
 
     featured: [

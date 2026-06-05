@@ -8,6 +8,9 @@ const PageHome = ({ setRoute }) => {
       <HeroCarousel setRoute={setRoute} />
       <VerticalsHero setRoute={setRoute} />
 
+      {/* Client trust strip — desaturated logos, marquee */}
+      <ClientStrip />
+
       {/* Vision memo */}
       <section className="section section--light section--memo">
         <div className="container memo">
@@ -188,6 +191,9 @@ const PageProyectos = () => {
           </div>
         </div>
       </section>
+
+      {/* Client trust strip at the bottom of the projects grid */}
+      <ClientStrip />
     </>
   );
 };

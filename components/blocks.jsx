@@ -121,4 +121,39 @@ const Accordion = ({ items, applyLabel }) => {
   );
 };
 
-Object.assign(window, { HeroCarousel, ProjectCard, ArticleCard, FilterTabs, TeamCard, Accordion });
+/* ClientStrip — continuous left→right marquee of client logos.
+   Each logo renders as an <img> when `logo` path is present in the data,
+   else as a text placeholder using the client name. Both render through
+   the same desaturated-by-default / colour-on-hover treatment, so the
+   strip works the moment real logo files arrive (no component change). */
+const ClientStrip = ({ eyebrowKey }) => {
+  const { t } = useLang();
+  const eyebrow = (t.home && t.home[eyebrowKey || "clientsEyebrow"]) || "";
+  const clients = t.clients || [];
+  if (clients.length === 0) return null;
+  // Duplicate the list so the loop is seamless: when the first copy
+  // scrolls fully off-screen, the second copy is already mid-track.
+  const loop = [...clients, ...clients];
+  return (
+    <section className="client-strip">
+      {eyebrow && (
+        <div className="container client-strip__head">
+          <Eyebrow muted>{eyebrow}</Eyebrow>
+        </div>
+      )}
+      <div className="client-strip__viewport">
+        <div className="client-strip__track">
+          {loop.map((c, i) => (
+            <div key={i} className="client-strip__item" title={c.name}>
+              {c.logo
+                ? <img src={c.logo} alt={c.name} loading="lazy" />
+                : <span className="client-strip__placeholder">{c.name}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+Object.assign(window, { HeroCarousel, ProjectCard, ArticleCard, FilterTabs, TeamCard, Accordion, ClientStrip });
