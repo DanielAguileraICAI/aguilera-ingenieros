@@ -57,10 +57,10 @@ const ProjectCard = ({ p, onClick }) => {
   );
 };
 
-const ArticleCard = ({ a }) => {
+const ArticleCard = ({ a, onClick }) => {
   const { t } = useLang();
   return (
-    <a className="acard">
+    <a className="acard" onClick={onClick} style={onClick ? {cursor:"pointer"} : null}>
       <div className="acard__ph"><img src={a.img} alt="" loading="lazy" /></div>
       <div className="acard__body">
         <span className="acard__tag">{a.tag}</span>

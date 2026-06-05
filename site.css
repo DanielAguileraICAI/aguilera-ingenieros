@@ -708,6 +708,9 @@ button{font:inherit;cursor:pointer}
   .vt-block{transition:opacity 240ms ease;}
 }
 
+/* CTA under the 3-card home news grid (links to the full news page) */
+.grid-3__cta{margin-top:var(--sp-7);display:flex;justify-content:center;}
+
 /* =========================================================
    News page — articles list + editorial note
    ========================================================= */
@@ -729,6 +732,11 @@ button{font:inherit;cursor:pointer}
   letter-spacing:.06em;color:var(--fg-mid);
 }
 .newsletter__issue-n{color:var(--accent);font-weight:600;}
+.newsletter__issue-tag{
+  text-transform:uppercase;letter-spacing:.14em;
+  font-size:11px;font-weight:600;color:var(--accent);
+  padding-left:14px;border-left:1px solid var(--ai-hairline);
+}
 .newsletter__issue-read{
   margin-left:auto;text-transform:uppercase;letter-spacing:.14em;
   font-size:11px;color:var(--ai-text-muted);

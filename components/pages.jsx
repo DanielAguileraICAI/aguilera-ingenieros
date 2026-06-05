@@ -50,7 +50,7 @@ const PageHome = ({ setRoute }) => {
         </div>
       </section>
 
-      {/* Insights */}
+      {/* Insights — first 3 entries of the unified news source */}
       <section className="section section--alt">
         <div className="container">
           <Reveal className="section__head">
@@ -58,12 +58,15 @@ const PageHome = ({ setRoute }) => {
             <h2 className="section__title">{H.insightsTitle}</h2>
           </Reveal>
           <div className="grid-3">
-            {t.articles.map((a,i) => (
+            {t.news.slice(0, 3).map((a,i) => (
               <Reveal key={i} delay={i * 100}>
-                <ArticleCard a={a} />
+                <ArticleCard a={a} onClick={() => setRoute("newsletter")} />
               </Reveal>
             ))}
           </div>
+          <Reveal delay={400} className="grid-3__cta">
+            <ArrowCTA onClick={() => setRoute("newsletter")}>{H.viewAllNews}</ArrowCTA>
+          </Reveal>
         </div>
       </section>
 
@@ -332,12 +335,13 @@ const PageNewsletter = () => {
           <Reveal className="section__head"><Eyebrow>{N.archiveEyebrow}</Eyebrow></Reveal>
 
           <ul className="newsletter__archive">
-            {N.archive.map((a, i) => (
+            {t.news.map((a, i) => (
               <Reveal key={i} delay={80 + i * 80}>
                 <li className="newsletter__issue">
                   <div className="newsletter__issue-meta">
                     <span className="newsletter__issue-n">{a.n}</span>
                     <span className="newsletter__issue-date">{a.date}</span>
+                    <span className="newsletter__issue-tag">{a.tag}</span>
                     <span className="newsletter__issue-read">{a.read}</span>
                   </div>
                   <a className="newsletter__issue-title">{a.title} <span className="arr">→</span></a>

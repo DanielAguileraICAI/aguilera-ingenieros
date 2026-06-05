@@ -89,6 +89,7 @@ window.AI_I18N = {
       insightsEyebrow: "Últimas noticias e insights",
       insightsTitle: "Casos, certificaciones y perspectivas",
       readMore: "Leer más",
+      viewAllNews: "Ver todas las noticias",
     },
 
     featured: [
@@ -100,10 +101,29 @@ window.AI_I18N = {
       { tag: "Sostenibilidad", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid", img: "assets/hero_oficinas.jpg" },
     ],
 
-    articles: [
-      { tag: "Caso de éxito", title: "BBVA Tres Cantos: primer CPD Tier IV certificado en España", excerpt: "Aguilera Ingenieros lideró el diseño y supervisión de las instalaciones del centro de datos más avanzado de la banca española.", img: "assets/hero_cpd.jpg" },
-      { tag: "Sostenibilidad", title: "Certificación LEED Gold: Torre Sacyr y Banco Popular Abelias", excerpt: "Nuestros proyectos pioneros en España en eficiencia energética y sostenibilidad certificada por USGBC.", img: "assets/hero_oficinas.jpg" },
-      { tag: "Conferencia", title: "Edificación, infraestructuras e internacionalización", excerpt: "Casos de éxito con BBVA: cómo gestionar proyectos de instalaciones complejos a escala corporativa global.", img: "assets/hero_oficinas.jpg" },
+    /* Unified news source — feeds both the home "Latest news & insights"
+       cards (first 3) and the /newsletter page (all entries). */
+    news: [
+      { n: "Nº 14", date: "Marzo 2026",     read: "5 min", tag: "Caso de éxito",
+        title: "BBVA Tres Cantos: primer CPD Tier IV certificado en España",
+        excerpt: "Aguilera Ingenieros lideró el diseño y supervisión de las instalaciones del centro de datos más avanzado de la banca española.",
+        img: "assets/hero_cpd.jpg" },
+      { n: "Nº 13", date: "Diciembre 2025", read: "7 min", tag: "Farma & Bioseguridad",
+        title: "Filtración HEPA H14 en suites GMP de llenado aséptico",
+        excerpt: "Notas técnicas sobre la cascada de presiones, integridad de filtros y validación periódica en entornos farmacéuticos.",
+        img: "assets/hero_farma.jpg" },
+      { n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Sostenibilidad",
+        title: "Certificación LEED Gold: Torre Sacyr y Banco Popular Abelias",
+        excerpt: "Proyectos pioneros en España en eficiencia energética y sostenibilidad certificada por el USGBC.",
+        img: "assets/hero_oficinas.jpg" },
+      { n: "Nº 11", date: "Junio 2025",     read: "6 min", tag: "Fabricación avanzada",
+        title: "Plantas industriales de alta precisión: el caso Beiersdorf Lechia",
+        excerpt: "De la viabilidad técnica a la puesta en marcha de una planta de fabricación de gran formato en Poznań.",
+        img: "assets/hero_industriales.jpg" },
+      { n: "Nº 10", date: "Marzo 2025",     read: "4 min", tag: "Conferencia",
+        title: "Edificación, infraestructuras e internacionalización",
+        excerpt: "Casos de éxito con BBVA: cómo gestionar proyectos de instalaciones complejos a escala corporativa global.",
+        img: "assets/hero_oficinas.jpg" },
     ],
 
     quienes: {
@@ -236,12 +256,7 @@ window.AI_I18N = {
       eyebrow: "Noticias",
       title: "Aguilera Ingenieros · Boletín técnico.",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
-      archiveEyebrow: "Ediciones recientes",
-      archive: [
-        { n: "Nº 14", date: "Marzo 2026",     title: "Tier IV en la práctica: lecciones de BBVA Tres Cantos II.", read: "5 min" },
-        { n: "Nº 13", date: "Diciembre 2025", title: "Filtración HEPA H14 en suites GMP de llenado aséptico.",   read: "7 min" },
-        { n: "Nº 12", date: "Septiembre 2025", title: "Plantas industriales de alta precisión: el caso Beiersdorf Lechia.", read: "6 min" },
-      ],
+      archiveEyebrow: "Todas las ediciones",
       noteEyebrow: "Sobre el contenido",
       noteBody: "Cada edición está escrita por nuestro equipo técnico. Sin contenido patrocinado. Datos verificados, fuentes citadas, conclusiones propias.",
     },
@@ -359,6 +374,7 @@ window.AI_I18N = {
       insightsEyebrow: "Latest news & insights",
       insightsTitle: "Cases, certifications and perspectives",
       readMore: "Read more",
+      viewAllNews: "View all news",
     },
 
     featured: [
@@ -370,10 +386,29 @@ window.AI_I18N = {
       { tag: "Sustainability", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid",       img: "assets/hero_oficinas.jpg" },
     ],
 
-    articles: [
-      { tag: "Case study",     title: "BBVA Tres Cantos: the first Tier IV-certified data center in Spain", excerpt: "Aguilera Ingenieros led the design and supervision of installations for Spanish banking's most advanced data center.", img: "assets/hero_cpd.jpg" },
-      { tag: "Sustainability", title: "LEED Gold certification: Sacyr Tower and Banco Popular Abelias",     excerpt: "Our pioneering projects in Spain on energy efficiency and sustainability certified by USGBC.",                       img: "assets/hero_oficinas.jpg" },
-      { tag: "Conference",     title: "Construction, infrastructure and internationalisation",              excerpt: "Case studies with BBVA: managing complex installation projects at corporate global scale.",                           img: "assets/hero_oficinas.jpg" },
+    /* Unified news source — feeds both the home "Latest news & insights"
+       cards (first 3) and the /newsletter page (all entries). */
+    news: [
+      { n: "Nº 14", date: "March 2026",     read: "5 min", tag: "Case study",
+        title: "BBVA Tres Cantos: the first Tier IV-certified data center in Spain",
+        excerpt: "Aguilera Ingenieros led the design and supervision of installations for Spanish banking's most advanced data center.",
+        img: "assets/hero_cpd.jpg" },
+      { n: "Nº 13", date: "December 2025",  read: "7 min", tag: "Pharma & Biosafety",
+        title: "HEPA H14 filtration in aseptic-fill GMP suites",
+        excerpt: "Engineering notes on pressure cascades, filter integrity testing, and periodic validation in pharmaceutical environments.",
+        img: "assets/hero_farma.jpg" },
+      { n: "Nº 12", date: "September 2025", read: "6 min", tag: "Sustainability",
+        title: "LEED Gold certification: Sacyr Tower and Banco Popular Abelias",
+        excerpt: "Pioneering projects in Spain on energy efficiency and sustainability, certified by USGBC.",
+        img: "assets/hero_oficinas.jpg" },
+      { n: "Nº 11", date: "June 2025",      read: "6 min", tag: "Advanced manufacturing",
+        title: "High-precision industrial plants: the Beiersdorf Lechia case",
+        excerpt: "From technical feasibility through to commissioning of a large-format manufacturing plant in Poznań.",
+        img: "assets/hero_industriales.jpg" },
+      { n: "Nº 10", date: "March 2025",     read: "4 min", tag: "Conference",
+        title: "Construction, infrastructure and internationalisation",
+        excerpt: "Case studies with BBVA: managing complex installation projects at corporate global scale.",
+        img: "assets/hero_oficinas.jpg" },
     ],
 
     quienes: {
@@ -506,12 +541,7 @@ window.AI_I18N = {
       eyebrow: "News",
       title: "Aguilera Ingenieros · Technical bulletin.",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
-      archiveEyebrow: "Recent issues",
-      archive: [
-        { n: "Nº 14", date: "March 2026",     title: "Tier IV in practice: lessons from BBVA Tres Cantos II.", read: "5 min" },
-        { n: "Nº 13", date: "December 2025",  title: "HEPA H14 filtration in aseptic-fill GMP suites.",        read: "7 min" },
-        { n: "Nº 12", date: "September 2025", title: "High-precision industrial plants: the Beiersdorf Lechia case.", read: "6 min" },
-      ],
+      archiveEyebrow: "All issues",
       noteEyebrow: "About the content",
       noteBody: "Each issue is written by our technical team. No sponsored content. Verified data, cited sources, our own conclusions.",
     },
