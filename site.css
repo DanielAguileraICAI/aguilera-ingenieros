@@ -64,8 +64,10 @@ button{font:inherit;cursor:pointer}
 .hero__headline{font-family:var(--font-display);font-weight:700;font-size:var(--fs-hero);line-height:1.05;letter-spacing:-0.01em;max-width:1000px;margin:14px 0 18px;color:#F5F5F3;}
 .hero__sub{font-size:20px;font-weight:300;color:rgba(245,245,243,.88);max-width:620px;margin:0 0 28px;line-height:1.5;}
 .hero__cta{display:flex;gap:12px;}
-.hero__arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(13,27,42,.3);color:#fff;border:1px solid rgba(255,255,255,.3);width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:all 200ms;}
-.hero__arrow:hover{background:rgba(43,82,204,.8);border-color:#005090;}
+.hero__arrow{position:absolute;top:50%;transform:translateY(-50%);background:transparent;color:rgba(255,255,255,.75);border:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color 200ms var(--ease-out), transform 200ms var(--ease-out);padding:0;}
+.hero__arrow:hover{color:#fff;}
+.hero__arrow--l:hover{transform:translate(-3px,-50%);}
+.hero__arrow--r:hover{transform:translate(3px,-50%);}
 /* Pin the arrows just outside the container edge so they keep a constant gap
    from the headline text. Falls back to a 12px minimum when the viewport is
    narrower than the container plus the gap. */
