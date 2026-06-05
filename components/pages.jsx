@@ -320,8 +320,7 @@ const PageNewsletter = () => {
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{N.eyebrow}</Eyebrow></Reveal>
-          <Reveal delay={100}><h1 className="display" style={{color:"#F5F5F3",maxWidth:900}}>{N.title}</h1></Reveal>
-          <Reveal delay={200}><p className="body-lg" style={{color:"rgba(245,245,243,.8)",marginTop:16,maxWidth:680}}>{N.sub}</p></Reveal>
+          <Reveal delay={120}><p className="body-lg" style={{color:"rgba(245,245,243,.85)",marginTop:18,maxWidth:680}}>{N.sub}</p></Reveal>
         </div>
       </section>
 

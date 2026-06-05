@@ -248,7 +248,6 @@ window.AI_I18N = {
 
     newsletter: {
       eyebrow: "Noticias",
-      title: "Aguilera Ingenieros · Boletín técnico.",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
       archiveEyebrow: "Todas las ediciones",
     },
@@ -525,7 +524,6 @@ window.AI_I18N = {
 
     newsletter: {
       eyebrow: "News",
-      title: "Aguilera Ingenieros · Technical bulletin.",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
       archiveEyebrow: "All issues",
     },
