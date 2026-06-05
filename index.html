@@ -32,6 +32,7 @@ const App = () => {
   else if (route === "proyectos") page = <PageProyectos setRoute={setRoute} />;
   else if (route === "personas") page = <PagePersonas setRoute={setRoute} />;
   else if (route === "talento") page = <PageTalento setRoute={setRoute} />;
+  else if (route === "newsletter") page = <PageNewsletter setRoute={setRoute} />;
   else if (route === "contacto") page = <PageContacto setRoute={setRoute} />;
   return (
     <div data-screen-label={route}>
