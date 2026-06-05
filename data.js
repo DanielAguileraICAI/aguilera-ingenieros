@@ -28,7 +28,7 @@ window.AI_I18N = {
       { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
       { name: "mAbxience",               logo: "assets/clients/mabxience.png" },
-      { name: "Mapfre",                  logo: "assets/clients/mapfre.png" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.png",          scale: 1.3 },
       { name: "PharmaMar",               logo: "assets/clients/pharmamar.png",       scale: 1.35 },
     ],
 
@@ -385,7 +385,7 @@ window.AI_I18N = {
       { name: "J.P. Morgan",             logo: "assets/clients/jp-morgan.png" },
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
       { name: "mAbxience",               logo: "assets/clients/mabxience.png" },
-      { name: "Mapfre",                  logo: "assets/clients/mapfre.png" },
+      { name: "Mapfre",                  logo: "assets/clients/mapfre.png",          scale: 1.3 },
       { name: "PharmaMar",               logo: "assets/clients/pharmamar.png",       scale: 1.35 },
     ],
 
