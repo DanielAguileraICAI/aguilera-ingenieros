@@ -101,29 +101,92 @@ window.AI_I18N = {
       { tag: "Sostenibilidad", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid", img: "assets/hero_oficinas.jpg" },
     ],
 
-    /* Unified news source — feeds both the home "Latest news & insights"
-       cards (first 3) and the /newsletter page (all entries). */
+    /* Unified news source — feeds the home "Latest news & insights" cards
+       (first 3), the /newsletter page list, and the article detail pages.
+       Each article has a `body` array of typed blocks; renderer maps the
+       types to the brand typography tokens (--fs-h2, --fs-body, etc.).
+       Block types: lede | p | h2 | h3 | image | quote. */
     news: [
-      { n: "Nº 14", date: "Marzo 2026",     read: "5 min", tag: "Caso de éxito",
+      { id: "14-bbva-tres-cantos-tier-iv",
+        n: "Nº 14", date: "Marzo 2026", read: "5 min", tag: "Caso de éxito",
         title: "BBVA Tres Cantos: primer CPD Tier IV certificado en España",
         excerpt: "Aguilera Ingenieros lideró el diseño y supervisión de las instalaciones del centro de datos más avanzado de la banca española.",
-        img: "assets/hero_cpd.jpg" },
-      { n: "Nº 13", date: "Diciembre 2025", read: "7 min", tag: "Farma & Bioseguridad",
+        img: "assets/hero_cpd.jpg",
+        body: [
+          { type: "lede", text: "El centro de proceso de datos BBVA Tres Cantos II obtuvo en marzo la certificación Tier IV del Uptime Institute. Es el primer CPD bancario en España que alcanza el nivel más alto de tolerancia a fallos en construcción concurrente y mantenimiento sin interrupción del servicio." },
+          { type: "h2", text: "El alcance del proyecto" },
+          { type: "p", text: "El encargo cubrió el diseño completo de instalaciones mecánicas, eléctricas y de seguridad: cuatro salas blancas de 600 m² con densidades de hasta 18 kW por rack, redundancia 2N en alimentación y refrigeración, y un sistema de gestión integrado que unifica más de 9.000 puntos de monitorización." },
+          { type: "p", text: "Aguilera Ingenieros acompañó al cliente desde el anteproyecto hasta la puesta en marcha y la auditoría final del Uptime Institute, en colaboración con los equipos internos de BBVA y la propiedad." },
+          { type: "image", src: "assets/hero_cpd.jpg", caption: "Sala técnica del CPD Tres Cantos II. Madrid, febrero 2026." },
+          { type: "h2", text: "Por qué Tier IV importa" },
+          { type: "p", text: "Tier IV exige tolerancia simultánea a un fallo en cualquier componente y a la pérdida de un camino de distribución completo. En términos prácticos, el cliente puede sustituir un transformador, una enfriadora o un cuadro eléctrico sin parar ningún servicio crítico." },
+          { type: "quote", text: "El reto técnico no es alcanzar Tier IV una vez. Es operarlo durante 25 años sin perder esa condición." },
+          { type: "p", text: "El diseño contempla además un PUE objetivo de 1,35 en régimen anual, gracias a un sistema de free-cooling indirecto adiabático que aprovecha la baja humedad del entorno de Tres Cantos durante más de 6.000 horas al año." },
+          { type: "h2", text: "Próximos pasos" },
+          { type: "p", text: "BBVA prevé replicar el modelo en Latinoamérica durante 2027. Aguilera Ingenieros participará en el diseño base de las nuevas sedes en colaboración con los equipos locales." },
+        ] },
+
+      { id: "13-hepa-h14-gmp",
+        n: "Nº 13", date: "Diciembre 2025", read: "7 min", tag: "Farma & Bioseguridad",
         title: "Filtración HEPA H14 en suites GMP de llenado aséptico",
         excerpt: "Notas técnicas sobre la cascada de presiones, integridad de filtros y validación periódica en entornos farmacéuticos.",
-        img: "assets/hero_farma.jpg" },
-      { n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Sostenibilidad",
+        img: "assets/hero_farma.jpg",
+        body: [
+          { type: "lede", text: "Las suites de llenado aséptico bajo Anexo 1 (EU GMP, revisión 2023) exigen una filtración terminal HEPA H14 sobre la zona de trabajo grado A. Resumimos las claves de diseño que aplicamos en los últimos proyectos para clientes del sector farmacéutico." },
+          { type: "h2", text: "Cascada de presiones" },
+          { type: "p", text: "El gradiente típico entre salas grado A → B → C → D es de 10–15 Pa por escalón. En suites pequeñas (<30 m²) trabajamos con 12 Pa nominales, con tolerancia de ±3 Pa monitorizada en tiempo real por el BMS." },
+          { type: "p", text: "Las esclusas de personal usan presión intermedia con interbloqueo de puertas; las de material, en cambio, se diseñan presurizadas en pico (\"bubble\") para evitar arrastre desde la zona menos crítica durante la transferencia." },
+          { type: "image", src: "assets/hero_farma.jpg", caption: "Suite de llenado aséptico bajo flujo laminar. Cliente confidencial, 2025." },
+          { type: "h2", text: "Integridad de filtros" },
+          { type: "p", text: "El test DOP/PAO de integridad se realiza in-situ tras la instalación, tras cualquier intervención sobre el plenum, y al menos semestralmente en producción. Aceptamos penetración máxima del 0,01 % en condición de servicio." },
+          { type: "quote", text: "Una suite GMP no se valida una vez. Se revalida cada vez que algo cambia: filtro, AHU, set-point, procedimiento." },
+          { type: "h2", text: "Validación periódica" },
+          { type: "p", text: "El plan de cualificación incluye DQ, IQ, OQ y PQ. La PQ se repite anualmente con muestreo microbiológico (pasivo y activo) en condiciones de reposo y operación. Documentamos todos los datos en el sistema de gestión documental del cliente." },
+        ] },
+
+      { id: "12-leed-gold-sacyr-abelias",
+        n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Sostenibilidad",
         title: "Certificación LEED Gold: Torre Sacyr y Banco Popular Abelias",
         excerpt: "Proyectos pioneros en España en eficiencia energética y sostenibilidad certificada por el USGBC.",
-        img: "assets/hero_oficinas.jpg" },
-      { n: "Nº 11", date: "Junio 2025",     read: "6 min", tag: "Fabricación avanzada",
+        img: "assets/hero_oficinas.jpg",
+        body: [
+          { type: "lede", text: "Aguilera Ingenieros firmó el diseño de instalaciones de los dos primeros edificios de oficinas en Madrid con certificación LEED Gold otorgada por el U.S. Green Building Council. Cinco años después, ambos siguen entre los más eficientes de su categoría." },
+          { type: "h2", text: "Torre Sacyr / Sede PwC" },
+          { type: "p", text: "Diseñada por Foster & Partners, la torre integra fachada de doble piel con cámara ventilada, recuperación entálpica en todas las UTAs y un sistema VRV de alta eficiencia con recuperación de calor entre zonas." },
+          { type: "p", text: "El consumo medido tras dos años de operación se sitúa un 31 % por debajo de la referencia ASHRAE 90.1, suficiente para los créditos máximos en la categoría Energy & Atmosphere." },
+          { type: "image", src: "assets/hero_oficinas.jpg", caption: "Torre Sacyr — fachada sur, Madrid." },
+          { type: "h2", text: "Banco Popular C/ Abelias" },
+          { type: "p", text: "El proyecto Abelias planteaba un reto distinto: un edificio existente de los años ochenta sobre el que ejecutar una rehabilitación profunda sin perder superficie útil. La estrategia se centró en la mejora de la envolvente y la sustitución completa de la maquinaria por equipos de clase A++." },
+          { type: "quote", text: "Sostenibilidad medida, no declarada. Lo que importa es el consumo real cinco años después de la entrega." },
+        ] },
+
+      { id: "11-beiersdorf-lechia",
+        n: "Nº 11", date: "Junio 2025", read: "6 min", tag: "Fabricación avanzada",
         title: "Plantas industriales de alta precisión: el caso Beiersdorf Lechia",
         excerpt: "De la viabilidad técnica a la puesta en marcha de una planta de fabricación de gran formato en Poznań.",
-        img: "assets/hero_industriales.jpg" },
-      { n: "Nº 10", date: "Marzo 2025",     read: "4 min", tag: "Conferencia",
+        img: "assets/hero_industriales.jpg",
+        body: [
+          { type: "lede", text: "La planta Beiersdorf Lechia de Poznań (Polonia) entró en producción a comienzos de 2025. Aguilera Ingenieros se encargó del diseño de instalaciones, supervisión y commissioning sobre una superficie construida de 38.000 m²." },
+          { type: "h2", text: "Bases del diseño" },
+          { type: "p", text: "El proceso requiere control simultáneo de temperatura (±1 °C), humedad (±5 % HR) y carga partícula en las salas de mezclado, envasado y almacén de producto terminado. La planta opera 24/7 con paradas planificadas trimestrales." },
+          { type: "p", text: "La ingeniería se desarrolló íntegramente en modelo BIM federado entre tres disciplinas, lo que permitió detectar y resolver más de 1.400 interferencias antes de la fase de obra." },
+          { type: "image", src: "assets/hero_industriales.jpg", caption: "Nave de proceso — Beiersdorf Lechia, Poznań." },
+          { type: "h2", text: "Puesta en marcha" },
+          { type: "p", text: "El protocolo de commissioning se ejecutó en cuatro fases (factory acceptance, site acceptance, operational qualification, performance qualification) durante un total de 14 semanas. Todos los sistemas críticos pasaron la PQ en la primera iteración." },
+        ] },
+
+      { id: "10-construccion-internacionalizacion",
+        n: "Nº 10", date: "Marzo 2025", read: "4 min", tag: "Conferencia",
         title: "Edificación, infraestructuras e internacionalización",
         excerpt: "Casos de éxito con BBVA: cómo gestionar proyectos de instalaciones complejos a escala corporativa global.",
-        img: "assets/hero_oficinas.jpg" },
+        img: "assets/hero_oficinas.jpg",
+        body: [
+          { type: "lede", text: "El pasado febrero, nuestro Director General participó en la jornada \"Construcción, infraestructuras e internacionalización\" organizada por el Colegio de Ingenieros Industriales de Madrid. Resumimos los puntos principales de su intervención." },
+          { type: "h2", text: "Escalar sin diluir el criterio técnico" },
+          { type: "p", text: "El reto al acompañar a un cliente corporativo a varios países no es replicar un proyecto: es replicar el criterio que llevó a un buen proyecto. Esto exige un marco interno de estándares, listas de comprobación y procesos de revisión que sobreviva al cambio de equipo, de geografía y de proveedores." },
+          { type: "p", text: "En el caso de BBVA, ese marco se ha traducido en seis sedes corporativas y cuatro centros de datos en cinco países, con un mismo equipo técnico responsable del diseño base y equipos locales para la ejecución." },
+          { type: "quote", text: "La internacionalización no es exportar planos. Es exportar el modo de pensar el proyecto." },
+        ] },
     ],
 
     quienes: {
@@ -250,6 +313,8 @@ window.AI_I18N = {
       eyebrow: "Noticias",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
       archiveEyebrow: "Todas las ediciones",
+      backToList: "Volver a Noticias",
+      notFound: "Esta edición no está disponible.",
     },
 
     footer: {
@@ -377,29 +442,88 @@ window.AI_I18N = {
       { tag: "Sustainability", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid",       img: "assets/hero_oficinas.jpg" },
     ],
 
-    /* Unified news source — feeds both the home "Latest news & insights"
-       cards (first 3) and the /newsletter page (all entries). */
+    /* Unified news source — see ES block above for the schema. */
     news: [
-      { n: "Nº 14", date: "March 2026",     read: "5 min", tag: "Case study",
+      { id: "14-bbva-tres-cantos-tier-iv",
+        n: "Nº 14", date: "March 2026", read: "5 min", tag: "Case study",
         title: "BBVA Tres Cantos: the first Tier IV-certified data center in Spain",
         excerpt: "Aguilera Ingenieros led the design and supervision of installations for Spanish banking's most advanced data center.",
-        img: "assets/hero_cpd.jpg" },
-      { n: "Nº 13", date: "December 2025",  read: "7 min", tag: "Pharma & Biosafety",
+        img: "assets/hero_cpd.jpg",
+        body: [
+          { type: "lede", text: "The BBVA Tres Cantos II data center received Uptime Institute Tier IV certification in March. It is the first banking data center in Spain to reach the highest fault-tolerance level for concurrent maintenance and construction without service interruption." },
+          { type: "h2", text: "Project scope" },
+          { type: "p", text: "The assignment covered the full design of mechanical, electrical and security installations: four 600 m² white-space halls with densities of up to 18 kW per rack, 2N redundancy on power and cooling, and an integrated building management system unifying more than 9,000 monitoring points." },
+          { type: "p", text: "Aguilera Ingenieros accompanied the client from preliminary design through commissioning and final Uptime Institute audit, working alongside BBVA's internal teams and the property." },
+          { type: "image", src: "assets/hero_cpd.jpg", caption: "Technical room of Tres Cantos II data center. Madrid, February 2026." },
+          { type: "h2", text: "Why Tier IV matters" },
+          { type: "p", text: "Tier IV requires simultaneous tolerance to a failure of any component and to the loss of a complete distribution path. In practical terms, the client can replace a transformer, a chiller or an electrical switchboard without halting any critical service." },
+          { type: "quote", text: "The technical challenge isn't reaching Tier IV once. It's operating it for 25 years without losing that condition." },
+          { type: "p", text: "The design also targets a 1.35 annual PUE, achieved via an indirect adiabatic free-cooling system that takes advantage of the low ambient humidity around Tres Cantos for more than 6,000 hours per year." },
+          { type: "h2", text: "What's next" },
+          { type: "p", text: "BBVA plans to replicate the model in Latin America during 2027. Aguilera Ingenieros will participate in the base design of the new sites in collaboration with local teams." },
+        ] },
+
+      { id: "13-hepa-h14-gmp",
+        n: "Nº 13", date: "December 2025", read: "7 min", tag: "Pharma & Biosafety",
         title: "HEPA H14 filtration in aseptic-fill GMP suites",
         excerpt: "Engineering notes on pressure cascades, filter integrity testing, and periodic validation in pharmaceutical environments.",
-        img: "assets/hero_farma.jpg" },
-      { n: "Nº 12", date: "September 2025", read: "6 min", tag: "Sustainability",
+        img: "assets/hero_farma.jpg",
+        body: [
+          { type: "lede", text: "Aseptic-fill suites under Annex 1 (EU GMP, 2023 revision) require terminal HEPA H14 filtration above the Grade A work zone. We summarise the design keys applied in recent projects for pharmaceutical clients." },
+          { type: "h2", text: "Pressure cascade" },
+          { type: "p", text: "The typical gradient between Grades A → B → C → D is 10–15 Pa per step. In small suites (<30 m²) we work with 12 Pa nominal, with a ±3 Pa tolerance monitored in real time by the BMS." },
+          { type: "p", text: "Personnel airlocks use intermediate pressure with door interlock; material airlocks, by contrast, are designed with peak (\"bubble\") pressure to prevent carry-over from the less critical area during transfer." },
+          { type: "image", src: "assets/hero_farma.jpg", caption: "Aseptic-fill suite under laminar flow. Confidential client, 2025." },
+          { type: "h2", text: "Filter integrity" },
+          { type: "p", text: "DOP/PAO integrity testing is performed in-situ after installation, after any intervention on the plenum, and at minimum every six months in production. Maximum allowed penetration is 0.01 % under service conditions." },
+          { type: "quote", text: "A GMP suite isn't validated once. It's revalidated every time something changes: filter, AHU, set-point, procedure." },
+          { type: "h2", text: "Periodic validation" },
+          { type: "p", text: "The qualification plan includes DQ, IQ, OQ and PQ. PQ is repeated annually with microbiological sampling (passive and active) under at-rest and operational conditions. All data is documented in the client's document management system." },
+        ] },
+
+      { id: "12-leed-gold-sacyr-abelias",
+        n: "Nº 12", date: "September 2025", read: "6 min", tag: "Sustainability",
         title: "LEED Gold certification: Sacyr Tower and Banco Popular Abelias",
         excerpt: "Pioneering projects in Spain on energy efficiency and sustainability, certified by USGBC.",
-        img: "assets/hero_oficinas.jpg" },
-      { n: "Nº 11", date: "June 2025",      read: "6 min", tag: "Advanced manufacturing",
+        img: "assets/hero_oficinas.jpg",
+        body: [
+          { type: "lede", text: "Aguilera Ingenieros signed the installations design for the first two Madrid office buildings to receive LEED Gold certification from the U.S. Green Building Council. Five years on, both remain among the most efficient in their category." },
+          { type: "h2", text: "Sacyr Tower / PwC headquarters" },
+          { type: "p", text: "Designed by Foster & Partners, the tower integrates a double-skin façade with ventilated cavity, enthalpic recovery on every AHU, and a high-efficiency VRV system with cross-zone heat recovery." },
+          { type: "p", text: "Measured consumption after two years of operation sits 31 % below the ASHRAE 90.1 baseline, sufficient for maximum credits under the Energy & Atmosphere category." },
+          { type: "image", src: "assets/hero_oficinas.jpg", caption: "Sacyr Tower — south façade, Madrid." },
+          { type: "h2", text: "Banco Popular C/ Abelias" },
+          { type: "p", text: "The Abelias project posed a different challenge: an existing 1980s building requiring deep refurbishment without losing usable floor area. Strategy focused on envelope improvement and full replacement of equipment with class A++ units." },
+          { type: "quote", text: "Measured sustainability, not declared. What matters is the actual consumption five years after handover." },
+        ] },
+
+      { id: "11-beiersdorf-lechia",
+        n: "Nº 11", date: "June 2025", read: "6 min", tag: "Advanced manufacturing",
         title: "High-precision industrial plants: the Beiersdorf Lechia case",
         excerpt: "From technical feasibility through to commissioning of a large-format manufacturing plant in Poznań.",
-        img: "assets/hero_industriales.jpg" },
-      { n: "Nº 10", date: "March 2025",     read: "4 min", tag: "Conference",
+        img: "assets/hero_industriales.jpg",
+        body: [
+          { type: "lede", text: "The Beiersdorf Lechia plant in Poznań (Poland) entered production in early 2025. Aguilera Ingenieros handled installations design, supervision and commissioning across 38,000 m² of built area." },
+          { type: "h2", text: "Design basis" },
+          { type: "p", text: "The process requires simultaneous control of temperature (±1 °C), humidity (±5 % RH) and particle load across the mixing, filling and finished-product storage halls. The plant operates 24/7 with planned quarterly shutdowns." },
+          { type: "p", text: "The engineering was developed entirely in a federated BIM model across three disciplines, which allowed more than 1,400 clashes to be detected and resolved before the construction phase." },
+          { type: "image", src: "assets/hero_industriales.jpg", caption: "Process hall — Beiersdorf Lechia, Poznań." },
+          { type: "h2", text: "Commissioning" },
+          { type: "p", text: "The commissioning protocol ran in four phases (factory acceptance, site acceptance, operational qualification, performance qualification) over a total of 14 weeks. All critical systems passed PQ on the first iteration." },
+        ] },
+
+      { id: "10-construccion-internacionalizacion",
+        n: "Nº 10", date: "March 2025", read: "4 min", tag: "Conference",
         title: "Construction, infrastructure and internationalisation",
         excerpt: "Case studies with BBVA: managing complex installation projects at corporate global scale.",
-        img: "assets/hero_oficinas.jpg" },
+        img: "assets/hero_oficinas.jpg",
+        body: [
+          { type: "lede", text: "Last February our Managing Director took part in the \"Construction, infrastructure and internationalisation\" session organised by Madrid's Industrial Engineers Association. We summarise the key points of his intervention." },
+          { type: "h2", text: "Scaling without diluting technical judgement" },
+          { type: "p", text: "The challenge in following a corporate client to several countries isn't replicating a project: it's replicating the judgement that produced a good project. That demands an internal framework of standards, checklists and review processes that survives team, geography and supplier turnover." },
+          { type: "p", text: "In BBVA's case, that framework has translated into six corporate headquarters and four data centers across five countries, with one technical team responsible for the base design and local teams for execution." },
+          { type: "quote", text: "Internationalisation isn't exporting drawings. It's exporting the way you think about the project." },
+        ] },
     ],
 
     quienes: {
@@ -526,6 +650,8 @@ window.AI_I18N = {
       eyebrow: "News",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
       archiveEyebrow: "All issues",
+      backToList: "Back to News",
+      notFound: "This issue is not available.",
     },
 
     footer: {

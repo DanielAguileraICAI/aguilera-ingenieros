@@ -60,7 +60,7 @@ const PageHome = ({ setRoute }) => {
           <div className="grid-3">
             {t.news.slice(0, 3).map((a,i) => (
               <Reveal key={i} delay={i * 100}>
-                <ArticleCard a={a} onClick={() => setRoute("newsletter")} />
+                <ArticleCard a={a} onClick={() => setRoute({route:"article", articleId:a.id})} />
               </Reveal>
             ))}
           </div>
@@ -311,9 +311,10 @@ const PageContacto = () => {
 
 /* -------------------- Newsletter -------------------- */
 
-const PageNewsletter = () => {
+const PageNewsletter = ({ setRoute }) => {
   const { t } = useLang();
   const N = t.newsletter;
+  const open = (id) => setRoute({route:"article", articleId:id});
   return (
     <>
       <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_oficinas.jpg)`}}>
@@ -333,7 +334,7 @@ const PageNewsletter = () => {
           <ul className="newsletter__archive">
             {t.news.map((a, i) => (
               <Reveal key={i} delay={80 + i * 80}>
-                <li className="newsletter__issue">
+                <li className="newsletter__issue" onClick={() => open(a.id)} style={{cursor:"pointer"}}>
                   <a className="newsletter__issue-thumb">
                     <img src={a.img} alt="" loading="lazy" />
                   </a>
@@ -357,4 +358,81 @@ const PageNewsletter = () => {
   );
 };
 
-Object.assign(window, { PageHome, PageQuienes, PageProyectos, PagePersonas, PageTalento, PageNewsletter, PageContacto });
+/* -------------------- Article body renderer + Article page -------------------- */
+
+/* Renders one block from an article body. Maps block.type → the brand
+   typography token. Adding a new type (e.g. "list", "code") is just one case
+   here plus a matching .article-block--* CSS rule. The future editor will
+   produce this same shape. */
+const ArticleBlock = ({ block, i }) => {
+  switch (block.type) {
+    case "lede":
+      return <p className="article-block article-block--lede" key={i}>{block.text}</p>;
+    case "p":
+      return <p className="article-block article-block--p" key={i}>{block.text}</p>;
+    case "h2":
+      return <h2 className="article-block article-block--h2" key={i}>{block.text}</h2>;
+    case "h3":
+      return <h3 className="article-block article-block--h3" key={i}>{block.text}</h3>;
+    case "image":
+      return (
+        <figure className="article-block article-block--image" key={i}>
+          <img src={block.src} alt={block.caption || ""} loading="lazy" />
+          {block.caption && <figcaption>{block.caption}</figcaption>}
+        </figure>
+      );
+    case "quote":
+      return <blockquote className="article-block article-block--quote" key={i}>{block.text}</blockquote>;
+    default:
+      return null;
+  }
+};
+
+const PageArticle = ({ articleId, setRoute }) => {
+  const { t } = useLang();
+  const N = t.newsletter;
+  const article = t.news.find(a => a.id === articleId);
+
+  // Defensive — if someone lands here with no/bad id, send them back to the list.
+  if (!article) return (
+    <section className="section section--alt">
+      <div className="container" style={{textAlign:"center",padding:"80px 0"}}>
+        <Eyebrow>{N.eyebrow}</Eyebrow>
+        <p className="body-lg" style={{marginTop:16}}>{N.notFound}</p>
+        <a className="article__back" onClick={() => setRoute("newsletter")} style={{marginTop:24,display:"inline-block"}}>← {N.backToList}</a>
+      </div>
+    </section>
+  );
+
+  return (
+    <article className="article">
+      <div className="article__hero" style={{backgroundImage:`url(${article.img})`}}>
+        <div className="article__hero-ov"/>
+        <div className="container article__hero-inner">
+          <a className="article__back" onClick={() => setRoute("newsletter")}>← {N.backToList}</a>
+          <Reveal delay={120}>
+            <div className="article__meta">
+              <span className="article__meta-n">{article.n}</span>
+              <span className="article__meta-date">{article.date}</span>
+              <span className="article__meta-tag">{article.tag}</span>
+              <span className="article__meta-read">{article.read}</span>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <h1 className="article__title">{article.title}</h1>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="container article__body">
+        {article.body && article.body.map((block, i) => (
+          <Reveal key={i} delay={Math.min(i * 40, 240)}>
+            <ArticleBlock block={block} i={i} />
+          </Reveal>
+        ))}
+      </div>
+    </article>
+  );
+};
+
+Object.assign(window, { PageHome, PageQuienes, PageProyectos, PagePersonas, PageTalento, PageNewsletter, PageArticle, PageContacto });
