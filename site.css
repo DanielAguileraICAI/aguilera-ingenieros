@@ -757,10 +757,3 @@ button{font:inherit;cursor:pointer}
   opacity:1;transform:translateX(0);
 }
 
-.newsletter__note{
-  margin-top:var(--sp-8);
-  padding:var(--sp-6);
-  background:#fff;
-  border:1px solid var(--ai-hairline);
-  border-top:3px solid var(--accent);
-}

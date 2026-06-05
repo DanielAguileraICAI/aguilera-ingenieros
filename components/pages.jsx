@@ -349,13 +349,6 @@ const PageNewsletter = () => {
               </Reveal>
             ))}
           </ul>
-
-          <Reveal delay={400}>
-            <div className="newsletter__note">
-              <Eyebrow>{N.noteEyebrow}</Eyebrow>
-              <p className="body-sm" style={{marginTop:8,lineHeight:1.6}}>{N.noteBody}</p>
-            </div>
-          </Reveal>
         </div>
       </section>
     </>

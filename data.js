@@ -257,8 +257,6 @@ window.AI_I18N = {
       title: "Aguilera Ingenieros · Boletín técnico.",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
       archiveEyebrow: "Todas las ediciones",
-      noteEyebrow: "Sobre el contenido",
-      noteBody: "Cada edición está escrita por nuestro equipo técnico. Sin contenido patrocinado. Datos verificados, fuentes citadas, conclusiones propias.",
     },
 
     footer: {
@@ -542,8 +540,6 @@ window.AI_I18N = {
       title: "Aguilera Ingenieros · Technical bulletin.",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
       archiveEyebrow: "All issues",
-      noteEyebrow: "About the content",
-      noteBody: "Each issue is written by our technical team. No sponsored content. Verified data, cited sources, our own conclusions.",
     },
 
     footer: {
