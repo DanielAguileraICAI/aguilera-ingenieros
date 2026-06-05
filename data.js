@@ -16,7 +16,7 @@ window.AI_I18N = {
        to avoid implying any hierarchy of importance between clients. */
     clients: [
       { name: "Banco Santander",         logo: "assets/clients/banco-santander.png" },
-      { name: "BBVA",                    logo: "assets/clients/bbva.png" },
+      { name: "BBVA",                    logo: "assets/clients/bbva.png",            scale: 0.65 },
       { name: "Beiersdorf",              logo: "assets/clients/beiersdorf.png" },
       { name: "Bloomberg",               logo: "assets/clients/bloomberg.png" },
       { name: "Boston Consulting Group", logo: "assets/clients/bcg.svg" },
@@ -29,7 +29,7 @@ window.AI_I18N = {
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
       { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
       { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
-      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp",      scale: 1.35 },
     ],
 
     home: {
@@ -373,7 +373,7 @@ window.AI_I18N = {
     /* Same client list as ES — names are identical brand-wise. */
     clients: [
       { name: "Banco Santander",         logo: "assets/clients/banco-santander.png" },
-      { name: "BBVA",                    logo: "assets/clients/bbva.png" },
+      { name: "BBVA",                    logo: "assets/clients/bbva.png",            scale: 0.65 },
       { name: "Beiersdorf",              logo: "assets/clients/beiersdorf.png" },
       { name: "Bloomberg",               logo: "assets/clients/bloomberg.png" },
       { name: "Boston Consulting Group", logo: "assets/clients/bcg.svg" },
@@ -386,7 +386,7 @@ window.AI_I18N = {
       { name: "Kempinski",               logo: "assets/clients/kempinski.png" },
       { name: "mAbxience",               logo: "assets/clients/mabxience.jpg" },
       { name: "Mapfre",                  logo: "assets/clients/mapfre.jpg" },
-      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp" },
+      { name: "PharmaMar",               logo: "assets/clients/pharmamar.webp",      scale: 1.35 },
     ],
 
     home: {
