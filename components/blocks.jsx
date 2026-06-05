@@ -121,44 +121,4 @@ const Accordion = ({ items, applyLabel }) => {
   );
 };
 
-const ContactForm = () => {
-  const { t } = useLang();
-  const L = t.contacto.labels;
-  const [sent, setSent] = React.useState(false);
-  const [err, setErr] = React.useState({});
-  const submit = (e) => {
-    e.preventDefault();
-    const f = e.target;
-    const errs = {};
-    if (!f.name.value.trim()) errs.name = true;
-    if (!/^\S+@\S+\.\S+$/.test(f.email.value)) errs.email = true;
-    if (!f.message.value.trim()) errs.message = true;
-    setErr(errs);
-    if (!Object.keys(errs).length) setSent(true);
-  };
-  if (sent) return (
-    <div className="form__success">
-      <div className="eyebrow">{t.contacto.successEyebrow}</div>
-      <h3 className="h3" style={{marginTop:8}}>{t.contacto.successMsg}</h3>
-    </div>
-  );
-  return (
-    <form className="form" onSubmit={submit}>
-      <div className="form__row">
-        <label className="form__field"><span>{L.name} *</span><input name="name" className={err.name ? "err" : ""} /></label>
-        <label className="form__field"><span>{L.company}</span><input name="company" /></label>
-      </div>
-      <div className="form__row">
-        <label className="form__field"><span>{L.email} *</span><input name="email" type="email" className={err.email ? "err" : ""} /></label>
-        <label className="form__field"><span>{L.phone}</span><input name="phone" /></label>
-      </div>
-      <label className="form__field"><span>{L.subject}</span>
-        <select name="subject">{t.contacto.subjects.map(s => <option key={s}>{s}</option>)}</select>
-      </label>
-      <label className="form__field"><span>{L.message} *</span><textarea name="message" rows="5" className={err.message ? "err" : ""} /></label>
-      <button type="submit" className="btn btn-primary">{L.send} <span className="arr">→</span></button>
-    </form>
-  );
-};
-
-Object.assign(window, { HeroCarousel, ProjectCard, ArticleCard, FilterTabs, TeamCard, Accordion, ContactForm });
+Object.assign(window, { HeroCarousel, ProjectCard, ArticleCard, FilterTabs, TeamCard, Accordion });

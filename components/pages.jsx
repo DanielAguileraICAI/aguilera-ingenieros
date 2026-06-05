@@ -281,7 +281,7 @@ const PageContacto = () => {
   const C = t.contacto;
   return (
     <section className="contacto">
-      <div className="contacto__l">
+      <div className="contacto__inner">
         <Reveal><Eyebrow onDark>{C.eyebrow}</Eyebrow></Reveal>
         <Reveal delay={80}><h1 className="h1" style={{color:"#F5F5F3",marginTop:20}}>{C.company}</h1></Reveal>
         <Reveal delay={160}>
@@ -304,11 +304,6 @@ const PageContacto = () => {
           </div>
           <div className="contacto__note">{C.addressNote}</div>
         </Reveal>
-      </div>
-      <div className="contacto__r">
-        <Reveal><Eyebrow>{C.formEyebrow}</Eyebrow></Reveal>
-        <Reveal delay={80}><h2 className="h2" style={{marginTop:12,marginBottom:28}}>{C.formTitle}</h2></Reveal>
-        <Reveal delay={160}><ContactForm /></Reveal>
       </div>
     </section>
   );

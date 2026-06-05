@@ -243,12 +243,6 @@ window.AI_I18N = {
     contacto: {
       eyebrow: "Contacto", company: "Aguilera Ingenieros S.A.",
       mapCta: "Ver en Google Maps",
-      formEyebrow: "Escríbanos",
-      formTitle: "Cuéntenos sobre su proyecto.",
-      labels: { name: "Nombre", company: "Empresa", email: "Email", phone: "Teléfono", subject: "Asunto", message: "Mensaje", send: "Enviar mensaje" },
-      subjects: ["Nuevo proyecto", "Información", "Candidatura", "Otro"],
-      successEyebrow: "Enviado",
-      successMsg: "Mensaje enviado. Le contactaremos en breve.",
       addressNote: "A 5 minutos del Metro Islas Filipinas (L1) · Ciudad Universitaria (L6)",
     },
 
@@ -526,12 +520,6 @@ window.AI_I18N = {
     contacto: {
       eyebrow: "Contact", company: "Aguilera Ingenieros S.A.",
       mapCta: "Open in Google Maps",
-      formEyebrow: "Write to us",
-      formTitle: "Tell us about your project.",
-      labels: { name: "Name", company: "Company", email: "Email", phone: "Phone", subject: "Subject", message: "Message", send: "Send message" },
-      subjects: ["New project", "Information", "Application", "Other"],
-      successEyebrow: "Sent",
-      successMsg: "Message sent. We'll be in touch shortly.",
       addressNote: "5 min from Metro Islas Filipinas (L1) · Ciudad Universitaria (L6)",
     },
 
