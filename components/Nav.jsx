@@ -14,7 +14,7 @@ const Nav = ({ route, setRoute }) => {
       <nav className={"ai-nav " + (scrolled || route !== "home" ? "ai-nav--solid" : "")}>
         <div className="ai-nav__inner">
           <a className="ai-nav__logo" onClick={() => go("home")}>
-            <Logo dark={true} size={42} />
+            <Logo dark={true} size={55} />
           </a>
           <ul className="ai-nav__links">
             {t.nav.map(n => (
@@ -36,7 +36,7 @@ const Nav = ({ route, setRoute }) => {
       {open && (
         <div className="ai-nav__overlay">
           <div className="ai-nav__overlay-top">
-            <Logo dark size={42} />
+            <Logo dark size={55} />
             <button className="ai-nav__close" onClick={() => setOpen(false)} aria-label="Close">
               <Icon.Close s={26} c="#F5F5F3" />
             </button>
