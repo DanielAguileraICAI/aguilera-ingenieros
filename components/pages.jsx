@@ -319,8 +319,10 @@ const PageNewsletter = () => {
       <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_oficinas.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
-          <Reveal><Eyebrow onDark>{N.eyebrow}</Eyebrow></Reveal>
-          <Reveal delay={120}><p className="body-lg" style={{color:"rgba(245,245,243,.85)",marginTop:18,maxWidth:680}}>{N.sub}</p></Reveal>
+          <Reveal>
+            <Eyebrow onDark style={{fontSize:28,letterSpacing:".08em",color:"#F5F5F3"}}>{N.eyebrow}</Eyebrow>
+          </Reveal>
+          <Reveal delay={120}><p className="body-lg" style={{color:"rgba(245,245,243,.85)",marginTop:24,maxWidth:680}}>{N.sub}</p></Reveal>
         </div>
       </section>
 
