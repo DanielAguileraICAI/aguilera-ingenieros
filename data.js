@@ -37,9 +37,9 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Centros de Proceso de Datos", headline: "Infraestructura crítica. Diseñada para no fallar.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_cpd.jpg" },
+        { eyebrow: "Centros de Proceso de Datos", headline: "Infraestructura crítica. Diseñada para no fallar.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg" },
         { eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", sub: "Salas blancas, laboratorios P2/P3, GMP, FDA, ISPE.",        img: "assets/hero_farma.jpg" },
-        { eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",                 sub: "Desde la viabilidad técnica hasta la puesta en marcha.",     img: "assets/hero_industriales.jpg" },
+        { eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",                 sub: "Desde la viabilidad técnica hasta la puesta en marcha.",     img: "assets/bg_industrial_10.jpg" },
       ],
       heroEyebrow: "Tres verticales",
       heroTitle: "Ingeniería para los proyectos más exigentes.",
@@ -117,8 +117,8 @@ window.AI_I18N = {
     },
 
     featured: [
-      { tag: "Data Center", name: "BBVA Tres Cantos CPD II", loc: "Tier IV · Madrid", img: "assets/hero_cpd.jpg" },
-      { tag: "Data Center", name: "BBVA Perú", loc: "Tier III · Lima",                 img: "assets/hero_cpd.jpg" },
+      { tag: "Data Center", name: "BBVA Tres Cantos CPD II", loc: "Tier IV · Madrid", img: "assets/hero_bbva_noche.jpg" },
+      { tag: "Data Center", name: "BBVA Perú", loc: "Tier III · Lima",                 img: "assets/hero_bbva_noche.jpg" },
       { tag: "Farma",       name: "GSK — Proyecto Eagle", loc: "Tres Cantos, Madrid",  img: "assets/hero_farma.jpg" },
       { tag: "Fabricación", name: "Planta Beiersdorf Lechia", loc: "Poznań, Polonia",  img: "assets/hero_industriales.jpg" },
       { tag: "Oficinas",    name: "Torre Sacyr / PwC", loc: "Foster & Partners · Madrid", img: "assets/hero_oficinas.jpg" },
@@ -135,13 +135,13 @@ window.AI_I18N = {
         n: "Nº 14", date: "Marzo 2026", read: "5 min", tag: "Caso de éxito",
         title: "BBVA Tres Cantos: primer CPD Tier IV certificado en España",
         excerpt: "Aguilera Ingenieros lideró el diseño y supervisión de las instalaciones del centro de datos más avanzado de la banca española.",
-        img: "assets/hero_cpd.jpg",
+        img: "assets/hero_bbva_noche.jpg",
         body: [
           { type: "lede", text: "El centro de proceso de datos BBVA Tres Cantos II obtuvo en marzo la certificación Tier IV del Uptime Institute. Es el primer CPD bancario en España que alcanza el nivel más alto de tolerancia a fallos en construcción concurrente y mantenimiento sin interrupción del servicio." },
           { type: "h2", text: "El alcance del proyecto" },
           { type: "p", text: "El encargo cubrió el diseño completo de instalaciones mecánicas, eléctricas y de seguridad: cuatro salas blancas de 600 m² con densidades de hasta 18 kW por rack, redundancia 2N en alimentación y refrigeración, y un sistema de gestión integrado que unifica más de 9.000 puntos de monitorización." },
           { type: "p", text: "Aguilera Ingenieros acompañó al cliente desde el anteproyecto hasta la puesta en marcha y la auditoría final del Uptime Institute, en colaboración con los equipos internos de BBVA y la propiedad." },
-          { type: "image", src: "assets/hero_cpd.jpg", caption: "Sala técnica del CPD Tres Cantos II. Madrid, febrero 2026." },
+          { type: "image", src: "assets/proj_aerial_dc.jpg", caption: "Vista aérea del campus técnico — fase de obra exterior, 2025." },
           { type: "h2", text: "Por qué Tier IV importa" },
           { type: "p", text: "Tier IV exige tolerancia simultánea a un fallo en cualquier componente y a la pérdida de un camino de distribución completo. En términos prácticos, el cliente puede sustituir un transformador, una enfriadora o un cuadro eléctrico sin parar ningún servicio crítico." },
           { type: "quote", text: "El reto técnico no es alcanzar Tier IV una vez. Es operarlo durante 25 años sin perder esa condición." },
@@ -172,7 +172,7 @@ window.AI_I18N = {
         n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Sostenibilidad",
         title: "Certificación LEED Gold: Torre Sacyr y Banco Popular Abelias",
         excerpt: "Proyectos pioneros en España en eficiencia energética y sostenibilidad certificada por el USGBC.",
-        img: "assets/hero_oficinas.jpg",
+        img: "assets/hero_dc_green.jpg",
         body: [
           { type: "lede", text: "Aguilera Ingenieros firmó el diseño de instalaciones de los dos primeros edificios de oficinas en Madrid con certificación LEED Gold otorgada por el U.S. Green Building Council. Cinco años después, ambos siguen entre los más eficientes de su categoría." },
           { type: "h2", text: "Torre Sacyr / Sede PwC" },
@@ -194,7 +194,7 @@ window.AI_I18N = {
           { type: "h2", text: "Bases del diseño" },
           { type: "p", text: "El proceso requiere control simultáneo de temperatura (±1 °C), humedad (±5 % HR) y carga partícula en las salas de mezclado, envasado y almacén de producto terminado. La planta opera 24/7 con paradas planificadas trimestrales." },
           { type: "p", text: "La ingeniería se desarrolló íntegramente en modelo BIM federado entre tres disciplinas, lo que permitió detectar y resolver más de 1.400 interferencias antes de la fase de obra." },
-          { type: "image", src: "assets/hero_industriales.jpg", caption: "Nave de proceso — Beiersdorf Lechia, Poznań." },
+          { type: "image", src: "assets/bim_baku_hotel.jpg", caption: "Modelo BIM federado al detalle LOD 300 — coordinación entre disciplinas mecánica, eléctrica y arquitectura." },
           { type: "h2", text: "Puesta en marcha" },
           { type: "p", text: "El protocolo de commissioning se ejecutó en cuatro fases (factory acceptance, site acceptance, operational qualification, performance qualification) durante un total de 14 semanas. Todos los sistemas críticos pasaron la PQ en la primera iteración." },
         ] },
@@ -395,9 +395,9 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Data Centers",                 headline: "Critical infrastructure. Designed to never fail.", sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_cpd.jpg" },
+        { eyebrow: "Data Centers",                 headline: "Critical infrastructure. Designed to never fail.", sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_bbva_noche.jpg" },
         { eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          sub: "Cleanrooms, P2/P3 labs, GMP, FDA, ISPE.",                     img: "assets/hero_farma.jpg" },
-        { eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     sub: "From technical feasibility through commissioning.",          img: "assets/hero_industriales.jpg" },
+        { eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     sub: "From technical feasibility through commissioning.",          img: "assets/bg_industrial_10.jpg" },
       ],
       heroEyebrow: "Three verticals",
       heroTitle: "Engineering for the most demanding projects.",
@@ -475,8 +475,8 @@ window.AI_I18N = {
     },
 
     featured: [
-      { tag: "Data Center", name: "BBVA Tres Cantos DC II", loc: "Tier IV · Madrid",          img: "assets/hero_cpd.jpg" },
-      { tag: "Data Center", name: "BBVA Perú",              loc: "Tier III · Lima",            img: "assets/hero_cpd.jpg" },
+      { tag: "Data Center", name: "BBVA Tres Cantos DC II", loc: "Tier IV · Madrid",          img: "assets/hero_bbva_noche.jpg" },
+      { tag: "Data Center", name: "BBVA Perú",              loc: "Tier III · Lima",            img: "assets/hero_bbva_noche.jpg" },
       { tag: "Pharma",      name: "GSK — Project Eagle",    loc: "Tres Cantos, Madrid",        img: "assets/hero_farma.jpg" },
       { tag: "Manufacturing", name: "Beiersdorf Lechia Plant", loc: "Poznań, Poland",          img: "assets/hero_industriales.jpg" },
       { tag: "Offices",     name: "Sacyr Tower / PwC",      loc: "Foster & Partners · Madrid", img: "assets/hero_oficinas.jpg" },
@@ -489,13 +489,13 @@ window.AI_I18N = {
         n: "Nº 14", date: "March 2026", read: "5 min", tag: "Case study",
         title: "BBVA Tres Cantos: the first Tier IV-certified data center in Spain",
         excerpt: "Aguilera Ingenieros led the design and supervision of installations for Spanish banking's most advanced data center.",
-        img: "assets/hero_cpd.jpg",
+        img: "assets/hero_bbva_noche.jpg",
         body: [
           { type: "lede", text: "The BBVA Tres Cantos II data center received Uptime Institute Tier IV certification in March. It is the first banking data center in Spain to reach the highest fault-tolerance level for concurrent maintenance and construction without service interruption." },
           { type: "h2", text: "Project scope" },
           { type: "p", text: "The assignment covered the full design of mechanical, electrical and security installations: four 600 m² white-space halls with densities of up to 18 kW per rack, 2N redundancy on power and cooling, and an integrated building management system unifying more than 9,000 monitoring points." },
           { type: "p", text: "Aguilera Ingenieros accompanied the client from preliminary design through commissioning and final Uptime Institute audit, working alongside BBVA's internal teams and the property." },
-          { type: "image", src: "assets/hero_cpd.jpg", caption: "Technical room of Tres Cantos II data center. Madrid, February 2026." },
+          { type: "image", src: "assets/proj_aerial_dc.jpg", caption: "Aerial view of the technical campus — external works phase, 2025." },
           { type: "h2", text: "Why Tier IV matters" },
           { type: "p", text: "Tier IV requires simultaneous tolerance to a failure of any component and to the loss of a complete distribution path. In practical terms, the client can replace a transformer, a chiller or an electrical switchboard without halting any critical service." },
           { type: "quote", text: "The technical challenge isn't reaching Tier IV once. It's operating it for 25 years without losing that condition." },
@@ -526,7 +526,7 @@ window.AI_I18N = {
         n: "Nº 12", date: "September 2025", read: "6 min", tag: "Sustainability",
         title: "LEED Gold certification: Sacyr Tower and Banco Popular Abelias",
         excerpt: "Pioneering projects in Spain on energy efficiency and sustainability, certified by USGBC.",
-        img: "assets/hero_oficinas.jpg",
+        img: "assets/hero_dc_green.jpg",
         body: [
           { type: "lede", text: "Aguilera Ingenieros signed the installations design for the first two Madrid office buildings to receive LEED Gold certification from the U.S. Green Building Council. Five years on, both remain among the most efficient in their category." },
           { type: "h2", text: "Sacyr Tower / PwC headquarters" },
@@ -548,7 +548,7 @@ window.AI_I18N = {
           { type: "h2", text: "Design basis" },
           { type: "p", text: "The process requires simultaneous control of temperature (±1 °C), humidity (±5 % RH) and particle load across the mixing, filling and finished-product storage halls. The plant operates 24/7 with planned quarterly shutdowns." },
           { type: "p", text: "The engineering was developed entirely in a federated BIM model across three disciplines, which allowed more than 1,400 clashes to be detected and resolved before the construction phase." },
-          { type: "image", src: "assets/hero_industriales.jpg", caption: "Process hall — Beiersdorf Lechia, Poznań." },
+          { type: "image", src: "assets/bim_baku_hotel.jpg", caption: "Federated BIM model at LOD 300 detail — coordination across mechanical, electrical and architectural disciplines." },
           { type: "h2", text: "Commissioning" },
           { type: "p", text: "The commissioning protocol ran in four phases (factory acceptance, site acceptance, operational qualification, performance qualification) over a total of 14 weeks. All critical systems passed PQ on the first iteration." },
         ] },
@@ -721,8 +721,8 @@ window.AI_I18N = {
 // `cat` is keyed and resolved through catLabels at render time.
 window.AI_PROJECTS = [
   // CPD
-  { cat:"cpd", name:"BBVA Tres Cantos CPD I", loc:"Tier IV · Madrid",  img:"assets/hero_cpd.jpg" },
-  { cat:"cpd", name:"BBVA Tres Cantos CPD II",loc:"Tier IV · Madrid",  img:"assets/hero_cpd.jpg" },
+  { cat:"cpd", name:"BBVA Tres Cantos CPD I", loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
+  { cat:"cpd", name:"BBVA Tres Cantos CPD II",loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
   { cat:"cpd", name:"BBVA Perú",              loc:"Tier III · Lima",   img:"assets/hero_cpd.jpg" },
   { cat:"cpd", name:"Mapfre Tales de Mileto", loc:"Tier III · Madrid", img:"assets/hero_cpd.jpg" },
   // Farma

@@ -83,7 +83,7 @@ const PageQuienes = () => {
   const Q = t.quienes;
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_oficinas.jpg)`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_santander_noche.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{Q.eyebrow}</Eyebrow></Reveal>
@@ -172,7 +172,7 @@ const PageProyectos = () => {
   const items = cat === "todos" ? window.AI_PROJECTS : window.AI_PROJECTS.filter(p => p.cat === cat);
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_cpd.jpg)`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_7.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{t.proyectos.eyebrow}</Eyebrow></Reveal>
@@ -203,7 +203,7 @@ const PagePersonas = () => {
   const P = t.personas;
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_oficinas.jpg)`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_5.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{P.eyebrow}</Eyebrow></Reveal>
@@ -236,7 +236,7 @@ const PageTalento = ({ setRoute }) => {
   const T = t.talento;
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_farma.jpg)`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_13.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{T.eyebrow}</Eyebrow></Reveal>
@@ -316,7 +316,7 @@ const PageNewsletter = ({ setRoute }) => {
   const open = (id) => setRoute({route:"article", articleId:id});
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/hero_oficinas.jpg)`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_1.jpg)`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal>
