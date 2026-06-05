@@ -313,54 +313,6 @@ const PageContacto = () => {
 
 /* -------------------- Newsletter -------------------- */
 
-const NewsletterForm = () => {
-  const { t } = useLang();
-  const N = t.newsletter;
-  const L = N.labels;
-  const [sent, setSent] = React.useState(false);
-  const [err, setErr]   = React.useState({});
-
-  const submit = (e) => {
-    e.preventDefault();
-    const f = e.target;
-    const errs = {};
-    if (!f.name.value.trim()) errs.name = true;
-    if (!/^\S+@\S+\.\S+$/.test(f.email.value)) errs.email = true;
-    if (!f.consent.checked) errs.consent = true;
-    setErr(errs);
-    if (!Object.keys(errs).length) setSent(true);
-  };
-
-  if (sent) return (
-    <div className="form__success">
-      <div className="eyebrow">{N.successEyebrow}</div>
-      <h3 className="h3" style={{marginTop:8}}>{N.successTitle}</h3>
-      <p className="body" style={{marginTop:8,color:"rgba(245,245,243,.8)"}}>{N.successMsg}</p>
-    </div>
-  );
-
-  return (
-    <form className="form" onSubmit={submit}>
-      <div className="form__row">
-        <label className="form__field"><span>{L.name} *</span><input name="name" className={err.name ? "err" : ""} /></label>
-        <label className="form__field"><span>{L.email} *</span><input name="email" type="email" className={err.email ? "err" : ""} /></label>
-      </div>
-      <div className="form__row">
-        <label className="form__field"><span>{L.company}</span><input name="company" /></label>
-        <label className="form__field"><span>{L.role}</span><input name="role" /></label>
-      </div>
-      <label className="form__field"><span>{L.sector}</span>
-        <select name="sector">{N.sectors.map(s => <option key={s}>{s}</option>)}</select>
-      </label>
-      <label className={"form__consent " + (err.consent ? "err" : "")}>
-        <input type="checkbox" name="consent" />
-        <span>{L.consent}</span>
-      </label>
-      <button type="submit" className="btn btn-primary">{L.submit} <span className="arr">→</span></button>
-    </form>
-  );
-};
-
 const PageNewsletter = () => {
   const { t } = useLang();
   const N = t.newsletter;
@@ -377,36 +329,29 @@ const PageNewsletter = () => {
 
       <section className="section section--alt">
         <div className="container newsletter">
-          <div className="newsletter__form">
-            <Reveal><Eyebrow>{N.formEyebrow}</Eyebrow></Reveal>
-            <Reveal delay={80}><h2 className="h2" style={{marginTop:12,marginBottom:28}}>{N.title}</h2></Reveal>
-            <Reveal delay={160}><NewsletterForm /></Reveal>
-          </div>
+          <Reveal className="section__head"><Eyebrow>{N.archiveEyebrow}</Eyebrow></Reveal>
 
-          <aside className="newsletter__side">
-            <Reveal><Eyebrow>{N.archiveEyebrow}</Eyebrow></Reveal>
-            <ul className="newsletter__archive">
-              {N.archive.map((a, i) => (
-                <Reveal key={i} delay={80 + i * 80}>
-                  <li className="newsletter__issue">
-                    <div className="newsletter__issue-meta">
-                      <span className="newsletter__issue-n">{a.n}</span>
-                      <span className="newsletter__issue-date">{a.date}</span>
-                      <span className="newsletter__issue-read">{a.read}</span>
-                    </div>
-                    <a className="newsletter__issue-title">{a.title} <span className="arr">→</span></a>
-                  </li>
-                </Reveal>
-              ))}
-            </ul>
+          <ul className="newsletter__archive">
+            {N.archive.map((a, i) => (
+              <Reveal key={i} delay={80 + i * 80}>
+                <li className="newsletter__issue">
+                  <div className="newsletter__issue-meta">
+                    <span className="newsletter__issue-n">{a.n}</span>
+                    <span className="newsletter__issue-date">{a.date}</span>
+                    <span className="newsletter__issue-read">{a.read}</span>
+                  </div>
+                  <a className="newsletter__issue-title">{a.title} <span className="arr">→</span></a>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
 
-            <Reveal delay={400}>
-              <div className="newsletter__note">
-                <Eyebrow>{N.noteEyebrow}</Eyebrow>
-                <p className="body-sm" style={{marginTop:8,lineHeight:1.6}}>{N.noteBody}</p>
-              </div>
-            </Reveal>
-          </aside>
+          <Reveal delay={400}>
+            <div className="newsletter__note">
+              <Eyebrow>{N.noteEyebrow}</Eyebrow>
+              <p className="body-sm" style={{marginTop:8,lineHeight:1.6}}>{N.noteBody}</p>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>

@@ -236,16 +236,6 @@ window.AI_I18N = {
       eyebrow: "Noticias",
       title: "Aguilera Ingenieros · Boletín técnico.",
       sub: "Casos de estudio, notas técnicas y proyectos destacados. Publicación trimestral. Sin marketing, sin frecuencia indebida.",
-      formEyebrow: "Suscríbase",
-      labels: {
-        name: "Nombre", email: "Email", company: "Empresa", role: "Cargo o función",
-        sector: "Sector de interés", consent: "Acepto recibir el boletín y la política de privacidad",
-        submit: "Suscribirme",
-      },
-      sectors: ["Data Centers", "Farma & Bioseguridad", "Edificios singulares", "Sostenibilidad y eficiencia", "Otro"],
-      successEyebrow: "Confirmado",
-      successTitle: "Bienvenido al boletín.",
-      successMsg: "Le hemos enviado un correo de confirmación. Revise también su carpeta de promociones.",
       archiveEyebrow: "Ediciones recientes",
       archive: [
         { n: "Nº 14", date: "Marzo 2026",     title: "Tier IV en la práctica: lecciones de BBVA Tres Cantos II.", read: "5 min" },
@@ -253,7 +243,7 @@ window.AI_I18N = {
         { n: "Nº 12", date: "Septiembre 2025", title: "Plantas industriales de alta precisión: el caso Beiersdorf Lechia.", read: "6 min" },
       ],
       noteEyebrow: "Sobre el contenido",
-      noteBody: "Cada edición está escrita por nuestro equipo técnico. Sin contenido patrocinado. Datos verificados, fuentes citadas, conclusiones propias. Puede darse de baja en cualquier momento desde el pie de cualquier número.",
+      noteBody: "Cada edición está escrita por nuestro equipo técnico. Sin contenido patrocinado. Datos verificados, fuentes citadas, conclusiones propias.",
     },
 
     footer: {
@@ -516,16 +506,6 @@ window.AI_I18N = {
       eyebrow: "News",
       title: "Aguilera Ingenieros · Technical bulletin.",
       sub: "Case studies, engineering notes, and featured projects. Quarterly publication. No marketing, no spam.",
-      formEyebrow: "Subscribe",
-      labels: {
-        name: "Name", email: "Email", company: "Company", role: "Role",
-        sector: "Sector of interest", consent: "I agree to receive the bulletin and the privacy policy",
-        submit: "Subscribe",
-      },
-      sectors: ["Data Centers", "Pharma & Biosafety", "Singular buildings", "Sustainability & efficiency", "Other"],
-      successEyebrow: "Confirmed",
-      successTitle: "Welcome to the bulletin.",
-      successMsg: "We've sent you a confirmation email. Check your promotions folder if you don't see it.",
       archiveEyebrow: "Recent issues",
       archive: [
         { n: "Nº 14", date: "March 2026",     title: "Tier IV in practice: lessons from BBVA Tres Cantos II.", read: "5 min" },
@@ -533,7 +513,7 @@ window.AI_I18N = {
         { n: "Nº 12", date: "September 2025", title: "High-precision industrial plants: the Beiersdorf Lechia case.", read: "6 min" },
       ],
       noteEyebrow: "About the content",
-      noteBody: "Each issue is written by our technical team. No sponsored content. Verified data, cited sources, our own conclusions. You can unsubscribe at any time from the footer of any issue.",
+      noteBody: "Each issue is written by our technical team. No sponsored content. Verified data, cited sources, our own conclusions.",
     },
 
     footer: {
