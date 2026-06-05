@@ -221,13 +221,6 @@ const PagePersonas = () => {
           <Reveal><span className="pullquote">{P.quote}</span></Reveal>
         </div>
       </section>
-      <section className="section section--dark">
-        <div className="container">
-          <Reveal><Eyebrow onDark>{P.networkEyebrow}</Eyebrow></Reveal>
-          <Reveal delay={80}><h2 className="section__title section__title--light" style={{maxWidth:880}}>{P.networkTitle}</h2></Reveal>
-          <Reveal delay={160}><p className="body-lg" style={{color:"rgba(245,245,243,.75)",maxWidth:680,marginTop:16}}>{P.networkBody}</p></Reveal>
-        </div>
-      </section>
     </>
   );
 };

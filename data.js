@@ -81,7 +81,6 @@ window.AI_I18N = {
       stats: [
         { num: "+60",    desc: "años de experiencia en ingeniería de instalaciones" },
         { num: "+1.000", desc: "proyectos ejecutados en España e internacional" },
-        { num: "1989",   desc: "fundamos TopE, red europea de ingenierías con +1.500 profesionales" },
       ],
       featuredEyebrow: "Proyectos destacados",
       featuredTitle: "Selección de obras recientes",
@@ -199,7 +198,7 @@ window.AI_I18N = {
       ],
       pillarsEyebrow: "Tres pilares",
       pillars: [
-        { num: "01", t: "Trayectoria",    p: "Fundada en 1961. Más de mil proyectos ejecutados. Red internacional TopE desde 1989 con +1.500 profesionales en Europa y EE.UU." },
+        { num: "01", t: "Trayectoria",    p: "Fundada en 1961. Más de mil proyectos ejecutados en España e internacional." },
         { num: "02", t: "Misión",         p: "Ofrecer soluciones de ingeniería con alto valor añadido, innovación de vanguardia y sólidos principios éticos, estableciendo relaciones a largo plazo con nuestros clientes." },
         { num: "03", t: "Independencia",  p: "El 100% del capital pertenece a socios con dedicación exclusiva. Sin conflictos de interés. Sin compromisos externos." },
       ],
@@ -265,9 +264,6 @@ window.AI_I18N = {
       eyebrow: "Personas", title: "El equipo",
       teamEyebrow: "Socios y responsables",
       quote: "Más de 60 años de experiencia colectiva. Un equipo multidisciplinar de ingenieros, técnicos y gestores con presencia en España, Europa y Latinoamérica.",
-      networkEyebrow: "Red internacional",
-      networkTitle: "TopE — red europea de consultoría en ingeniería, fundada en 1989.",
-      networkBody: "+1.500 profesionales en Europa y EE.UU. Acceso a experiencia multi-disciplinar para proyectos internacionales.",
     },
 
     talento: {
@@ -276,7 +272,7 @@ window.AI_I18N = {
       pillarsEyebrow: "Por qué unirse",
       pillars: [
         { num: "01", t: "Proyectos de referencia", p: "Trabaja en los proyectos más complejos y exigentes del mercado español e internacional." },
-        { num: "02", t: "Desarrollo profesional",  p: "Formación continua y exposición internacional a través de la red TopE." },
+        { num: "02", t: "Desarrollo profesional",  p: "Formación continua y exposición a proyectos en España, Europa y América Latina." },
         { num: "03", t: "Cultura y valores",       p: "Independencia, integridad, excelencia. Una empresa con carácter." },
       ],
       positionsEyebrow: "Posiciones abiertas",
@@ -422,7 +418,6 @@ window.AI_I18N = {
       stats: [
         { num: "+60",    desc: "years of experience in engineering services" },
         { num: "+1,000", desc: "projects delivered in Spain and internationally" },
-        { num: "1989",   desc: "founded TopE, European engineering network with +1,500 professionals" },
       ],
       featuredEyebrow: "Featured projects",
       featuredTitle: "Selected recent work",
@@ -536,7 +531,7 @@ window.AI_I18N = {
       ],
       pillarsEyebrow: "Three pillars",
       pillars: [
-        { num: "01", t: "Track record", p: "Founded 1961. Over a thousand projects delivered. TopE international network since 1989, with +1,500 professionals across Europe and the US." },
+        { num: "01", t: "Track record", p: "Founded 1961. Over a thousand projects delivered in Spain and internationally." },
         { num: "02", t: "Mission",      p: "Offer high value-added engineering with leading innovation and sound ethical principles, building long-term relationships with our clients." },
         { num: "03", t: "Independence", p: "100% of the capital is held by partners with exclusive dedication. No conflicts of interest. No external commitments." },
       ],
@@ -602,9 +597,6 @@ window.AI_I18N = {
       eyebrow: "People", title: "The team",
       teamEyebrow: "Partners and leads",
       quote: "Over 60 years of collective experience. A multidisciplinary team of engineers, technicians and managers with presence in Spain, Europe and Latin America.",
-      networkEyebrow: "International network",
-      networkTitle: "TopE — European engineering consulting network, founded 1989.",
-      networkBody: "+1,500 professionals in Europe and the US. Access to multi-disciplinary expertise for international projects.",
     },
 
     talento: {
@@ -613,7 +605,7 @@ window.AI_I18N = {
       pillarsEyebrow: "Why join",
       pillars: [
         { num: "01", t: "Reference projects",   p: "Work on the most complex, demanding projects in the Spanish and international market." },
-        { num: "02", t: "Career development",   p: "Continuous training and international exposure through the TopE network." },
+        { num: "02", t: "Career development",   p: "Continuous training and international exposure across projects in Spain, Europe and Latin America." },
         { num: "03", t: "Culture and values",   p: "Independence, integrity, excellence. A firm with character." },
       ],
       positionsEyebrow: "Open positions",
