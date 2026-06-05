@@ -66,9 +66,12 @@ button{font:inherit;cursor:pointer}
 .hero__cta{display:flex;gap:12px;}
 .hero__arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(13,27,42,.3);color:#fff;border:1px solid rgba(255,255,255,.3);width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:all 200ms;}
 .hero__arrow:hover{background:rgba(43,82,204,.8);border-color:#005090;}
-.hero__arrow--l{left:28px;}
-.hero__arrow--r{right:28px;}
-@media (max-width:900px){.hero__arrow{display:none;}}
+/* Pin the arrows just outside the container edge so they keep a constant gap
+   from the headline text. Falls back to a 12px minimum when the viewport is
+   narrower than the container plus the gap. */
+.hero__arrow--l{left:max(12px, calc((100vw - var(--container)) / 2 - 96px));}
+.hero__arrow--r{right:max(12px, calc((100vw - var(--container)) / 2 - 96px));}
+@media (max-width:1200px){.hero__arrow{display:none;}}
 .hero__dots{position:absolute;bottom:28px;left:0;right:0;display:flex;justify-content:center;gap:10px;}
 .hero__dot{width:28px;height:2px;background:rgba(255,255,255,.35);border:0;transition:background 200ms;}
 .hero__dot.on{background:#fff;}
