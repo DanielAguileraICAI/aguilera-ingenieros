@@ -34,7 +34,7 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Centros de Proceso de Datos", headline: "Ingeniería para la columna vertebral de la IA y los datos.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
+        { eyebrow: "Centros de Proceso de Datos", headline: "Impulsando los data centers para la IA del futuro.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
         { eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", sub: "Salas blancas, laboratorios P2/P3, GMP, FDA, ISPE.",        img: "assets/hero_farma.jpg" },
         { eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",                 sub: "Desde la viabilidad técnica hasta la puesta en marcha.",     img: "assets/bg_industrial_4.jpg" },
       ],
