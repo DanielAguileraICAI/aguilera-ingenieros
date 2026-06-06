@@ -145,24 +145,17 @@ const ClientStrip = ({ eyebrowKey }) => {
         <div className="client-strip__track">
           {loop.map((c, i) => {
             // Per-logo overrides:
-            //  `scale`   — both the parent slot AND the img max dimensions grow
-            //              together; otherwise the img bleeds past the
-            //              fixed-height slot and gets clipped by the marquee.
+            //  `scale`   — published as the `--logo-scale` CSS custom property
+            //              on the slot. The CSS rule for the slot AND the img
+            //              both reference this variable in `calc(... * var())`,
+            //              so the box and the image grow together with no
+            //              specificity battles.
             //  `noBlend` — disable mix-blend-mode (multiply). Needed for logos
             //              with WHITE marks on a coloured shape (e.g. El Corte
-            //              Inglés' white text on green pennant) — multiply
+            //              Inglés' white text on a green pennant) — multiply
             //              would erase the white lettering.
-            const slotStyle = c.scale ? {
-              height:   Math.round(54  * c.scale) + "px",
-              minWidth: Math.round(140 * c.scale) + "px",
-            } : null;
-            const imgStyle = (c.scale || c.noBlend) ? {
-              ...(c.scale && {
-                maxWidth:  Math.round(160 * c.scale) + "px",
-                maxHeight: Math.round(54  * c.scale) + "px",
-              }),
-              ...(c.noBlend && { mixBlendMode: "normal" }),
-            } : null;
+            const slotStyle = c.scale ? { "--logo-scale": c.scale } : null;
+            const imgStyle  = c.noBlend ? { mixBlendMode: "normal" } : null;
             return (
               <div key={i} className="client-strip__item" title={c.name} style={slotStyle}>
                 {c.logo
