@@ -11,20 +11,25 @@ const PageHome = ({ setRoute }) => {
       {/* Client trust strip — desaturated logos, marquee */}
       <ClientStrip />
 
-      {/* Vision memo */}
+      {/* Vision memo — photo left, pullquote + stats stacked right */}
       <section className="section section--light section--memo">
         <div className="container memo">
-          <Reveal className="memo__l">
-            <span className="pullquote" dangerouslySetInnerHTML={{
-              __html: H.memo.pullquote.replace(/\{(\d+)\}/g, '<span class="accent">$1</span>')
-            }} />
+          <Reveal className="memo__photo">
+            <img src="assets/hero_santander_noche.jpg" alt="" loading="lazy" />
           </Reveal>
-          <div className="memo__r">
-            {H.stats.map((s,i) => (
-              <Reveal key={i} delay={i * 100}>
-                <Stat {...s} />
-              </Reveal>
-            ))}
+          <div className="memo__col">
+            <Reveal className="memo__l">
+              <span className="pullquote" dangerouslySetInnerHTML={{
+                __html: H.memo.pullquote.replace(/\{(\d+)\}/g, '<span class="accent">$1</span>')
+              }} />
+            </Reveal>
+            <div className="memo__r">
+              {H.stats.map((s,i) => (
+                <Reveal key={i} delay={i * 100}>
+                  <Stat {...s} />
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
         <div className="container">
