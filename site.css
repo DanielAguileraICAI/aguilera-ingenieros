@@ -758,7 +758,6 @@ button{font:inherit;cursor:pointer}
   width:max-content;
   animation:client-marquee 60s linear infinite;
 }
-.client-strip:hover .client-strip__track{animation-play-state:paused;}
 
 .client-strip__item{
   flex-shrink:0;
