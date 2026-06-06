@@ -301,6 +301,32 @@ window.AI_I18N = {
       noPosSub: "Envíanos tu candidatura espontánea.",
       contactCta: "Contactar",
       applyCta: "Enviar candidatura",
+
+      manifestoEyebrow: "Nuestro compromiso",
+      manifestoQuote: "Damos prioridad al desarrollo continuo, al crecimiento personal y profesional de nuestro equipo.",
+      manifestoCaption: "— Aguilera Ingenieros, en la pared de nuestra oficina.",
+
+      momentsEyebrow: "Cómo trabajamos",
+      momentsTitle: "Tres momentos del día a día.",
+      moments: [
+        { img: "assets/talento/people-cross-discipline.jpg", t: "Equipos multidisciplinares", p: "Ingenieros, arquitectos y técnicos sobre el mismo proyecto." },
+        { img: "assets/talento/people-women-plans.jpg",      t: "Sobre planos reales",        p: "El trabajo no termina en la pantalla. Lo revisamos sobre el papel." },
+        { img: "assets/talento/people-drawings.jpg",         t: "Generaciones que conviven",  p: "Décadas de experiencia compartidas entre socios y recién incorporados." },
+      ],
+
+      mentorEyebrow: "Mentoría",
+      mentorTitle: "Aprende de quien firmó el proyecto.",
+      mentorBody: "Los socios fundadores siguen activos en el día a día. Cada propuesta, cada revisión, cada visita a obra es una oportunidad para trabajar codo con codo con ingenieros que han firmado los proyectos más exigentes del sector.",
+      mentorImg: "assets/talento/people-laptop-mentor.jpg",
+
+      beyondEyebrow: "Más allá del proyecto",
+      beyondTitle: "Lo que pasa fuera de la mesa de trabajo.",
+      beyondShots: [
+        { img: "assets/talento/team-bernabeu.jpg",  caption: "Visita técnica al nuevo Santiago Bernabéu, 2026." },
+        { img: "assets/talento/team-induforum.jpg", caption: "Stand Aguilera Ingenieros en Induforum 2026." },
+      ],
+
+      heroImg: "assets/talento/team-group-photo.jpg",
     },
 
     positions: [
@@ -654,6 +680,32 @@ window.AI_I18N = {
       noPosSub: "Send us a spontaneous application.",
       contactCta: "Get in touch",
       applyCta: "Apply",
+
+      manifestoEyebrow: "Our commitment",
+      manifestoQuote: "We prioritise continuous development, personal and professional growth for our team.",
+      manifestoCaption: "— Aguilera Ingenieros, on the wall of our office.",
+
+      momentsEyebrow: "How we work",
+      momentsTitle: "Three moments from the day-to-day.",
+      moments: [
+        { img: "assets/talento/people-cross-discipline.jpg", t: "Multidisciplinary teams", p: "Engineers, architects and technicians on the same project." },
+        { img: "assets/talento/people-women-plans.jpg",      t: "On real drawings",        p: "The work doesn't end on the screen — we review it on paper." },
+        { img: "assets/talento/people-drawings.jpg",         t: "Generations side by side", p: "Decades of experience shared between partners and recent joiners." },
+      ],
+
+      mentorEyebrow: "Mentorship",
+      mentorTitle: "Learn from the engineers who signed the project.",
+      mentorBody: "Our founding partners are still active in the day-to-day. Every proposal, every review, every site visit is an opportunity to work shoulder to shoulder with engineers who have signed the most demanding projects in the sector.",
+      mentorImg: "assets/talento/people-laptop-mentor.jpg",
+
+      beyondEyebrow: "Beyond the project",
+      beyondTitle: "What happens away from the drawing board.",
+      beyondShots: [
+        { img: "assets/talento/team-bernabeu.jpg",  caption: "Technical visit to the new Santiago Bernabéu, 2026." },
+        { img: "assets/talento/team-induforum.jpg", caption: "Aguilera Ingenieros stand at Induforum 2026." },
+      ],
+
+      heroImg: "assets/talento/team-group-photo.jpg",
     },
 
     positions: [

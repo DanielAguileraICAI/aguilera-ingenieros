@@ -239,14 +239,30 @@ const PageTalento = ({ setRoute }) => {
   const T = t.talento;
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_13.jpg)`}}>
+      {/* Hero — full team group photo as background */}
+      <section className="page-hero page-hero--parallax page-hero--people" style={{backgroundImage:`url(${T.heroImg})`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{T.eyebrow}</Eyebrow></Reveal>
           <Reveal delay={100}><h1 className="display" style={{color:"#F5F5F3",maxWidth:900}}>{T.title}</h1></Reveal>
-          <Reveal delay={200}><p className="body-lg" style={{color:"rgba(245,245,243,.8)",marginTop:16,maxWidth:680}}>{T.sub}</p></Reveal>
+          <Reveal delay={200}><p className="body-lg" style={{color:"rgba(245,245,243,.85)",marginTop:16,maxWidth:680}}>{T.sub}</p></Reveal>
         </div>
       </section>
+
+      {/* Manifesto — dark band with the actual office-wall quote */}
+      <section className="section section--dark section--manifesto">
+        <div className="container manifesto">
+          <Reveal><Eyebrow onDark>{T.manifestoEyebrow}</Eyebrow></Reveal>
+          <Reveal delay={120}>
+            <p className="manifesto__quote">{T.manifestoQuote}</p>
+          </Reveal>
+          <Reveal delay={240}>
+            <p className="manifesto__caption">{T.manifestoCaption}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Why join — pillars */}
       <section className="section section--light">
         <div className="container">
           <Reveal className="section__head"><Eyebrow>{T.pillarsEyebrow}</Eyebrow></Reveal>
@@ -261,12 +277,67 @@ const PageTalento = ({ setRoute }) => {
           </div>
         </div>
       </section>
+
+      {/* How we work — three moments, three photos */}
       <section className="section section--alt">
+        <div className="container">
+          <Reveal className="section__head">
+            <Eyebrow>{T.momentsEyebrow}</Eyebrow>
+            <h2 className="section__title">{T.momentsTitle}</h2>
+          </Reveal>
+          <div className="moments">
+            {T.moments.map((m,i) => (
+              <Reveal key={i} delay={i * 100} className="moments__item">
+                <div className="moments__ph"><img src={m.img} alt="" loading="lazy" /></div>
+                <h3 className="moments__t">{m.t}</h3>
+                <p className="moments__p">{m.p}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mentorship — editorial 2-col */}
+      <section className="section section--light section--mentor">
+        <div className="mentor">
+          <Reveal className="mentor__ph">
+            <img src={T.mentorImg} alt="" loading="lazy" />
+          </Reveal>
+          <div className="mentor__col">
+            <Reveal><Eyebrow>{T.mentorEyebrow}</Eyebrow></Reveal>
+            <Reveal delay={80}><h2 className="section__title" style={{marginTop:12}}>{T.mentorTitle}</h2></Reveal>
+            <Reveal delay={160}><p className="body-lg" style={{marginTop:18,color:"var(--fg-mid)",maxWidth:540,lineHeight:1.55}}>{T.mentorBody}</p></Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Beyond the project — two-photo strip */}
+      <section className="section section--alt">
+        <div className="container">
+          <Reveal className="section__head">
+            <Eyebrow>{T.beyondEyebrow}</Eyebrow>
+            <h2 className="section__title">{T.beyondTitle}</h2>
+          </Reveal>
+          <div className="beyond">
+            {T.beyondShots.map((s,i) => (
+              <Reveal key={i} delay={i * 120} className="beyond__item">
+                <div className="beyond__ph"><img src={s.img} alt="" loading="lazy" /></div>
+                <p className="beyond__cap">{s.caption}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Open positions */}
+      <section className="section section--light">
         <div className="container">
           <Reveal className="section__head"><Eyebrow>{T.positionsEyebrow}</Eyebrow></Reveal>
           <Accordion items={t.positions} applyLabel={T.applyCta} />
         </div>
       </section>
+
+      {/* CTA */}
       <section className="section section--accent">
         <div className="container cta-band">
           <Reveal><h2 className="section__title section__title--light">{T.noPosTitle}</h2></Reveal>
