@@ -92,7 +92,6 @@ const TeamCard = ({ t }) => (
     <div className="tcard__meta">
       <div className="tcard__name">{t.name}</div>
       <div className="tcard__role">{t.role}</div>
-      <a className="tcard__li" aria-label="LinkedIn"><Icon.LinkedIn s={14} /></a>
     </div>
   </div>
 );
