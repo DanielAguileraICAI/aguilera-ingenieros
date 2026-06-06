@@ -91,33 +91,50 @@ button{font:inherit;cursor:pointer}
 .section__foot{margin-top:var(--sp-7);}
 @media (max-width:900px){.section{padding:64px 0;}}
 
-/* ---- Memo: photo on the left, pullquote + stats stacked on the right ---- */
-.memo{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-9);align-items:stretch;}
-.memo__photo{
-  position:relative;
-  /* Match the natural 3:2 of the Santander shot; the photo grows with the
-     right column and is cropped to fit the height of the text content. */
-  min-height:480px;
+/* ---- Memo: photo full-bleed on the left, everything else on the right ---- */
+.section--memo{
+  background:var(--bg);
+  padding:var(--sp-9) 0;
   overflow:hidden;
 }
+.memo{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:stretch;
+  min-height:640px;
+}
+.memo__photo{position:relative;overflow:hidden;}
 .memo__photo img{
   position:absolute;inset:0;
   width:100%;height:100%;object-fit:cover;display:block;
-  /* Slight Ken-Burns drift on idle — matches the editorial feel of the rest
-     of the site without being distracting. */
   transition:transform 1200ms var(--ease-out);
 }
 .memo__photo:hover img{transform:scale(1.03);}
-.memo__col{display:flex;flex-direction:column;gap:var(--sp-8);}
-.memo__l{padding-right:var(--sp-5);}
+
+/* Right column — internal padding aligns content with the container's right
+   edge. On wide viewports padding-right uses calc to land on the container
+   line; on narrow viewports it falls back to a sane minimum. */
+.memo__col{
+  display:flex;flex-direction:column;
+  gap:var(--sp-7);
+  justify-content:center;
+  padding:var(--sp-7) max(24px, calc((100vw - var(--container)) / 2 + 32px))
+          var(--sp-7) var(--sp-8);
+}
+.memo__l{padding-right:0;}
 .memo__r{display:flex;flex-direction:column;gap:var(--sp-6);}
 .stat-row{display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ai-hairline);padding-bottom:var(--sp-5);}
 .stat-row:last-child{border-bottom:0;}
-.memo__rule{margin-top:var(--sp-9);}
-.memo__foot{text-align:center;padding-top:var(--sp-6);font-size:14px;color:var(--fg-mid);}
+.memo__rule{margin-top:var(--sp-4);}
+.memo__foot{
+  margin:0;padding-top:var(--sp-4);
+  font-size:14px;color:var(--fg-mid);line-height:1.55;
+}
+
 @media (max-width:900px){
-  .memo{grid-template-columns:1fr;gap:48px;}
+  .memo{grid-template-columns:1fr;min-height:0;}
   .memo__photo{min-height:280px;}
+  .memo__col{padding:var(--sp-7) 24px;gap:var(--sp-6);}
 }
 
 /* ---- Horizontal scroll ---- */

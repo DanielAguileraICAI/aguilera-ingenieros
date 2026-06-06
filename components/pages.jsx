@@ -11,9 +11,11 @@ const PageHome = ({ setRoute }) => {
       {/* Client trust strip — desaturated logos, marquee */}
       <ClientStrip />
 
-      {/* Vision memo — photo left, pullquote + stats stacked right */}
-      <section className="section section--light section--memo">
-        <div className="container memo">
+      {/* Vision memo — photo full-bleed on the left, everything else stacked
+          on the right (pullquote + stats + rule + foot). No more container
+          constraint on the photo column. */}
+      <section className="section--memo">
+        <div className="memo">
           <Reveal className="memo__photo">
             <img src="assets/hero_santander_noche.jpg" alt="" loading="lazy" />
           </Reveal>
@@ -30,11 +32,9 @@ const PageHome = ({ setRoute }) => {
                 </Reveal>
               ))}
             </div>
+            <div className="rule memo__rule" />
+            <Reveal><p className="memo__foot">{H.memo.foot}</p></Reveal>
           </div>
-        </div>
-        <div className="container">
-          <div className="rule memo__rule" />
-          <Reveal><p className="memo__foot">{H.memo.foot}</p></Reveal>
         </div>
       </section>
 
