@@ -103,9 +103,11 @@ button{font:inherit;cursor:pointer}
 .memo{
   display:grid;
   grid-template-columns:1fr 1fr;
+  gap:0;
   align-items:stretch;
   min-height:720px;
 }
+.memo__photo{margin:0;padding:0;}
 .memo__photo{position:relative;overflow:hidden;}
 .memo__photo img{
   position:absolute;inset:0;

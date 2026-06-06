@@ -97,7 +97,6 @@ window.AI_I18N = {
       viewProjects: "Ver proyectos",
       memo: {
         pullquote: "Ingeniería de vanguardia desde {1961}. Más de 1.000 proyectos. Compromiso total con los objetivos de nuestros clientes.",
-        foot: "Independencia profesional y financiera — el 100% del capital pertenece a socios con dedicación exclusiva.",
       },
       stats: [
         { num: "+60",    desc: "años de experiencia en ingeniería de instalaciones" },
@@ -454,7 +453,6 @@ window.AI_I18N = {
       viewProjects: "View projects",
       memo: {
         pullquote: "Engineering at the leading edge since {1961}. More than 1,000 projects. Total commitment to our clients' objectives.",
-        foot: "Professional and financial independence — 100% of the capital is held by partners with exclusive dedication.",
       },
       stats: [
         { num: "+60",    desc: "years of experience in engineering services" },
