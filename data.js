@@ -284,7 +284,7 @@ window.AI_I18N = {
     personas: {
       eyebrow: "Personas", title: "El equipo",
       teamEyebrow: "Socios y responsables",
-      quote: "Más de 60 años de experiencia colectiva. Un equipo multidisciplinar de ingenieros, técnicos y gestores con presencia en España, Europa y Latinoamérica.",
+      quote: "Más de 60 años de experiencia colectiva. Un equipo multidisciplinar de ingenieros, técnicos y gestores con presencia internacional.",
     },
 
     talento: {
@@ -637,7 +637,7 @@ window.AI_I18N = {
     personas: {
       eyebrow: "People", title: "The team",
       teamEyebrow: "Partners and leads",
-      quote: "Over 60 years of collective experience. A multidisciplinary team of engineers, technicians and managers with presence in Spain, Europe and Latin America.",
+      quote: "Over 60 years of collective experience. A multidisciplinary team of engineers, technicians and managers with international presence.",
     },
 
     talento: {
