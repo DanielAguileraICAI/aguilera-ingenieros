@@ -144,13 +144,18 @@ const ClientStrip = ({ eyebrowKey }) => {
       <div className="client-strip__viewport">
         <div className="client-strip__track">
           {loop.map((c, i) => {
-            // Per-logo `scale` — chunky wordmarks (BBVA) read too big at
-            // default 160x54; logos with internal padding (PharmaMar) read
-            // too small. Override the img max dimensions only when scale is
-            // set; everything else (filter, blend mode, hover) is untouched.
-            const imgStyle = c.scale ? {
-              maxWidth:  Math.round(160 * c.scale) + "px",
-              maxHeight: Math.round(54  * c.scale) + "px",
+            // Per-logo overrides:
+            //  `scale`   — chunky wordmarks read too big, padded ones too small.
+            //  `noBlend` — disable the mix-blend-mode (multiply). Needed for
+            //              logos with WHITE marks on a coloured shape (e.g.
+            //              El Corte Inglés' white text on green pennant) —
+            //              multiply would erase the white lettering.
+            const imgStyle = (c.scale || c.noBlend) ? {
+              ...(c.scale && {
+                maxWidth:  Math.round(160 * c.scale) + "px",
+                maxHeight: Math.round(54  * c.scale) + "px",
+              }),
+              ...(c.noBlend && { mixBlendMode: "normal" }),
             } : null;
             return (
               <div key={i} className="client-strip__item" title={c.name}>
