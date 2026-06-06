@@ -224,7 +224,9 @@ button{font:inherit;cursor:pointer}
 .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
 @media (max-width:900px){.team-grid{grid-template-columns:repeat(2,1fr);}}
 .tcard{display:flex;flex-direction:column;gap:16px;}
-.tcard__photo{aspect-ratio:4/5;background:#0D1B2A;color:#F5F5F3;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:48px;font-weight:700;letter-spacing:.04em;}
+.tcard__photo{aspect-ratio:4/5;background:#0D1B2A;color:#F5F5F3;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:48px;font-weight:700;letter-spacing:.04em;overflow:hidden;}
+.tcard__photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 500ms var(--ease-out);}
+.tcard:hover .tcard__photo img{transform:scale(1.04);}
 .tcard__name{font-family:var(--font-display);font-weight:700;font-size:17px;}
 .tcard__role{font-size:13px;color:var(--fg-mid);margin:4px 0 10px;line-height:1.4;}
 .tcard__li{display:inline-flex;color:var(--fg-mid);width:30px;height:30px;border:1px solid var(--ai-hairline);align-items:center;justify-content:center;transition:all 150ms;}

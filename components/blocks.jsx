@@ -84,7 +84,11 @@ const FilterTabs = ({ items, active, onChange }) => (
 
 const TeamCard = ({ t }) => (
   <div className="tcard">
-    <div className="tcard__photo"><span>{t.name.split(" ").map(w => w[0]).join("").slice(0,2)}</span></div>
+    <div className="tcard__photo">
+      {t.photo
+        ? <img src={t.photo} alt={t.name} loading="lazy" />
+        : <span>{t.name.split(" ").map(w => w[0]).join("").slice(0,2)}</span>}
+    </div>
     <div className="tcard__meta">
       <div className="tcard__name">{t.name}</div>
       <div className="tcard__role">{t.role}</div>

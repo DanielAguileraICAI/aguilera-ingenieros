@@ -312,12 +312,13 @@ window.AI_I18N = {
     ],
 
     team: [
-      { name: "D. García",     role: "Director General" },
-      { name: "M. Fernández",  role: "Director Técnico — Data Centers" },
-      { name: "A. Soler",      role: "Responsable — Farma & Bioseguridad" },
-      { name: "J. Ruiz",       role: "Director — Fabricación" },
-      { name: "L. Cabrera",    role: "BIM Manager" },
-      { name: "P. Moreno",     role: "Gestión de Calidad & Sostenibilidad" },
+      { name: "Pedro Aguilera",       role: "Dr. Ingeniero Industrial", photo: "assets/team/pedro-aguilera.jpg" },
+      { name: "Camilo Corbí",         role: "Arquitecto",               photo: "assets/team/camilo-corbi.jpg" },
+      { name: "Pablo Aguilera",       role: "Ingeniero Industrial",     photo: "assets/team/pablo-aguilera.jpg" },
+      { name: "Joaquín Cerrato",      role: "Ingeniero Industrial",     photo: "assets/team/joaquin-cerrato.jpg" },
+      { name: "Almudena Aguilera",    role: "Abogada",                  photo: "assets/team/almudena-aguilera.jpg" },
+      { name: "Lucía Estébanez",      role: "Ingeniera Industrial",     photo: "assets/team/lucia-estebanez.jpg" },
+      { name: "Alberto García Ramos", role: "Ingeniero Industrial",     photo: "assets/team/alberto-garcia.jpg" },
     ],
 
     contacto: {
@@ -664,12 +665,13 @@ window.AI_I18N = {
     ],
 
     team: [
-      { name: "D. García",     role: "Managing Director" },
-      { name: "M. Fernández",  role: "Technical Director — Data Centers" },
-      { name: "A. Soler",      role: "Lead — Pharma & Biosafety" },
-      { name: "J. Ruiz",       role: "Director — Manufacturing" },
-      { name: "L. Cabrera",    role: "BIM Manager" },
-      { name: "P. Moreno",     role: "Quality & Sustainability Manager" },
+      { name: "Pedro Aguilera",       role: "Dr. Industrial Engineer", photo: "assets/team/pedro-aguilera.jpg" },
+      { name: "Camilo Corbí",         role: "Architect",               photo: "assets/team/camilo-corbi.jpg" },
+      { name: "Pablo Aguilera",       role: "Industrial Engineer",     photo: "assets/team/pablo-aguilera.jpg" },
+      { name: "Joaquín Cerrato",      role: "Industrial Engineer",     photo: "assets/team/joaquin-cerrato.jpg" },
+      { name: "Almudena Aguilera",    role: "Lawyer",                  photo: "assets/team/almudena-aguilera.jpg" },
+      { name: "Lucía Estébanez",      role: "Industrial Engineer",     photo: "assets/team/lucia-estebanez.jpg" },
+      { name: "Alberto García Ramos", role: "Industrial Engineer",     photo: "assets/team/alberto-garcia.jpg" },
     ],
 
     contacto: {
