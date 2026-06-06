@@ -32,8 +32,6 @@ const PageHome = ({ setRoute }) => {
                 </Reveal>
               ))}
             </div>
-            <div className="rule memo__rule" />
-            <Reveal><p className="memo__foot">{H.memo.foot}</p></Reveal>
           </div>
         </div>
       </section>
