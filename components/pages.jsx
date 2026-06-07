@@ -256,9 +256,6 @@ const PageTalento = ({ setRoute }) => {
           <Reveal delay={120}>
             <p className="manifesto__quote">{T.manifestoQuote}</p>
           </Reveal>
-          <Reveal delay={240}>
-            <p className="manifesto__caption">{T.manifestoCaption}</p>
-          </Reveal>
         </div>
       </section>
 

@@ -305,7 +305,6 @@ window.AI_I18N = {
 
       manifestoEyebrow: "Nuestro compromiso",
       manifestoQuote: "Damos prioridad al desarrollo continuo, al crecimiento personal y profesional de nuestro equipo.",
-      manifestoCaption: "— Aguilera Ingenieros, en la pared de nuestra oficina.",
 
       momentsEyebrow: "Cómo trabajamos",
       momentsTitle: "Tres momentos del día a día.",
@@ -685,7 +684,6 @@ window.AI_I18N = {
 
       manifestoEyebrow: "Our commitment",
       manifestoQuote: "We prioritise continuous development, personal and professional growth for our team.",
-      manifestoCaption: "— Aguilera Ingenieros, on the wall of our office.",
 
       momentsEyebrow: "How we work",
       momentsTitle: "Three moments from the day-to-day.",
