@@ -2,10 +2,24 @@ const HeroCarousel = ({ setRoute }) => {
   const { t } = useLang();
   const slides = t.home.heroSlides;
   const [i, setI] = React.useState(0);
+
+  // Autoplay — self-rescheduling 6s setTimeout that depends on `i`.
+  // Every time the slide changes (manual click, dot tap, or previous auto-
+  // advance), the cleanup cancels the pending advance and a fresh 6s timer
+  // is scheduled from now. So every slide always gets a full 6s of display
+  // time regardless of how the user arrived at it.
   React.useEffect(() => {
-    const tm = setInterval(() => setI(x => (x + 1) % slides.length), 6000);
-    return () => clearInterval(tm);
-  }, [slides.length]);
+    const tm = setTimeout(() => setI(x => (x + 1) % slides.length), 6000);
+    return () => clearTimeout(tm);
+  }, [i, slides.length]);
+
+  // All slide-change handlers use functional setI so they read from the
+  // latest committed state instead of capturing `i` in a render-time closure.
+  // (Previous arrow handlers used `(i - 1 + slides.length) % slides.length`
+  // which could go stale between paints when autoplay raced a manual click.)
+  const next = () => setI(x => (x + 1) % slides.length);
+  const prev = () => setI(x => (x - 1 + slides.length) % slides.length);
+
   return (
     <section className="hero">
       {slides.map((s, idx) => (
@@ -24,8 +38,8 @@ const HeroCarousel = ({ setRoute }) => {
           </div>
         </div>
       ))}
-      <button className="hero__arrow hero__arrow--l" onClick={() => setI((i - 1 + slides.length) % slides.length)} aria-label="Prev"><Icon.Chevron dir="left" s={22} c="#fff"/></button>
-      <button className="hero__arrow hero__arrow--r" onClick={() => setI((i + 1) % slides.length)} aria-label="Next"><Icon.Chevron s={22} c="#fff"/></button>
+      <button className="hero__arrow hero__arrow--l" onClick={prev} aria-label="Prev"><Icon.Chevron dir="left" s={22} c="#fff"/></button>
+      <button className="hero__arrow hero__arrow--r" onClick={next} aria-label="Next"><Icon.Chevron s={22} c="#fff"/></button>
       <div className="hero__dots">
         {slides.map((_, idx) => (
           <button key={idx} className={"hero__dot " + (idx === i ? "on" : "")} onClick={() => setI(idx)} aria-label={"Slide " + (idx+1)} />
