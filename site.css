@@ -329,9 +329,16 @@ button{font:inherit;cursor:pointer}
 .hero__img{transform:scale(1.02);transition:transform 8s linear, opacity 1000ms var(--ease-out);}
 .hero__slide.is-active .hero__img{transform:scale(1.08);}
 
-/* Page-hero parallax-style fade-in on background */
+/* Page-hero fade-in on background. Previously used background-attachment:
+   fixed for a parallax feel, but that anchors the photo to the VIEWPORT
+   while the hero element starts mid-scroll, so the initial paint shows
+   one crop and the first scroll snaps to another — looks like the framing
+   "recalculates". With background-attachment: scroll (the default) the
+   photo travels with the section, the bgZoom animation lands cleanly on
+   the final framing, and mobile/iOS — which never supported fixed
+   reliably anyway — gets the same behaviour. */
 .page-hero{
-  background-attachment:fixed;
+  background-attachment:scroll;
   background-position:center;
   background-size:cover;
   animation:bgZoom 1400ms var(--ease-out);
@@ -339,9 +346,6 @@ button{font:inherit;cursor:pointer}
 @keyframes bgZoom{
   from{transform:scale(1.04);opacity:0;}
   to  {transform:scale(1);opacity:1;}
-}
-@media (max-width: 900px){
-  .page-hero{background-attachment:scroll;}
 }
 
 /* Page transition — when the route swaps, fade the main content in */
