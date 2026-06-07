@@ -326,7 +326,7 @@ window.AI_I18N = {
         { img: "assets/talento/team-induforum.jpg", caption: "Stand Aguilera Ingenieros en Induforum 2026." },
       ],
 
-      heroImg: "assets/talento/team-group-photo.jpg",
+      heroImg: "assets/bg_industrial_2.jpg",
     },
 
     positions: [
@@ -705,7 +705,7 @@ window.AI_I18N = {
         { img: "assets/talento/team-induforum.jpg", caption: "Aguilera Ingenieros stand at Induforum 2026." },
       ],
 
-      heroImg: "assets/talento/team-group-photo.jpg",
+      heroImg: "assets/bg_industrial_2.jpg",
     },
 
     positions: [

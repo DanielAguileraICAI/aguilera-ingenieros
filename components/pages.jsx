@@ -240,7 +240,7 @@ const PageTalento = ({ setRoute }) => {
   return (
     <>
       {/* Hero — full team group photo as background */}
-      <section className="page-hero page-hero--parallax page-hero--people" style={{backgroundImage:`url(${T.heroImg})`}}>
+      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(${T.heroImg})`}}>
         <div className="page-hero__ov"/>
         <div className="container page-hero__inner">
           <Reveal><Eyebrow onDark>{T.eyebrow}</Eyebrow></Reveal>
