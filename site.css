@@ -180,16 +180,22 @@ button{font:inherit;cursor:pointer}
 @media (max-width:900px){.editorial{grid-template-columns:1fr;}.section-label{position:static;}}
 
 /* ---- Pillars ---- */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(245,245,243,.2);}
-.pillars--light{border-top-color:var(--ai-hairline);}
-.pillar{padding:var(--sp-7) var(--sp-6) var(--sp-6) 0;border-right:1px solid rgba(245,245,243,.15);}
-.pillar:last-child{border-right:0;}
-.pillars--light .pillar{border-right-color:var(--ai-hairline);color:var(--fg);}
-.pillar__num{font-family:var(--font-mono);font-size:12px;color:var(--accent);margin-bottom:24px;}
-.pillar__t{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0 0 12px;letter-spacing:-0.01em;}
-.pillar p{font-size:15px;line-height:1.6;font-weight:300;color:rgba(245,245,243,.75);margin:0;}
+/* Pillars — each column gets its own 3px brand-accent top border (same
+   pattern as ArticleCard). Whitespace separates the columns instead of
+   vertical dividers, which were cutting visually through the body copy
+   on the right-hand columns. */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-8);}
+.pillar{
+  padding-top:var(--sp-6);
+  border-top:var(--bd-accent-top);  /* 3px solid var(--ai-blue) */
+  display:flex;flex-direction:column;gap:12px;
+}
+.pillars--light .pillar{color:var(--fg);}
+.pillar__num{font-family:var(--font-mono);font-size:12px;color:var(--accent);margin:0 0 8px;letter-spacing:.04em;}
+.pillar__t{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0;letter-spacing:-0.01em;line-height:1.2;}
+.pillar p{font-size:15px;line-height:1.6;font-weight:300;color:rgba(245,245,243,.75);margin:0;max-width:32ch;}
 .pillars--light .pillar p{color:var(--fg-mid);}
-@media (max-width:900px){.pillars{grid-template-columns:1fr;}.pillar{border-right:0;border-bottom:1px solid rgba(245,245,243,.15);}}
+@media (max-width:900px){.pillars{grid-template-columns:1fr;gap:var(--sp-6);}}
 
 /* ---- Codes ---- */
 .codes{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-8);}
