@@ -169,7 +169,7 @@ const PageQuienes = () => {
   );
 };
 
-const PageProyectos = () => {
+const PageProyectos = ({ setRoute }) => {
   const { t } = useLang();
   const [cat, setCat] = React.useState("todos");
   const items = cat === "todos" ? window.AI_PROJECTS : window.AI_PROJECTS.filter(p => p.cat === cat);
@@ -182,7 +182,35 @@ const PageProyectos = () => {
           <Reveal delay={100}><h1 className="display" style={{color:"#F5F5F3"}}>{t.proyectos.title}</h1></Reveal>
         </div>
       </section>
+
+      {/* Sector tiles — six landing-page entry points, sit above the all-portfolio
+          filter grid. Click a tile to jump into a sector-specific landing page;
+          stay on this page to use the filter tabs across the whole portfolio. */}
       <section className="section section--light">
+        <div className="container">
+          <Reveal className="section__head"><Eyebrow>{t.proyectos.sectorsEyebrow}</Eyebrow></Reveal>
+          <div className="sector-grid">
+            {(t.sectors || []).map((s, i) => (
+              <Reveal key={s.id} delay={(i % 3) * 80}>
+                <a className="sector-tile"
+                   onClick={() => setRoute({route:"sector", sectorId: s.id})}>
+                  <div className="sector-tile__imgwrap">
+                    <img className="sector-tile__img" src={s.img} alt={s.label} loading="lazy" />
+                  </div>
+                  <div className="sector-tile__ov">
+                    <div className="sector-tile__row">
+                      <h3 className="sector-tile__title">{s.label}</h3>
+                      <span className="sector-tile__arrow">→</span>
+                    </div>
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--alt">
         <div className="container">
           <FilterTabs items={t.categories} active={cat} onChange={setCat} />
           <div className="proj-grid">
@@ -197,6 +225,405 @@ const PageProyectos = () => {
 
       {/* Client trust strip at the bottom of the projects grid */}
       <ClientStrip />
+    </>
+  );
+};
+
+/* PageSector — sector landing page. Reached via setRoute({route:"sector", sectorId}).
+ *
+ * Layout (adopted from the Aguilera Ingenieros Design System bundle, Claude
+ * Design handoff):
+ *   1. SectorHero — split panel. Left: eyebrow, h1, sub, 4-stat strip.
+ *      Right: framed media panel with engineering-grid background and corner
+ *      brackets. Holds the isometric line-drawing (cpd / farma / edif) or a
+ *      photo (fab / hos / sos) — the panel is reserved as a future video slot.
+ *   2. "Qué diseñamos" — 4 numbered discipline cards on a 2-col bordered grid.
+ *   3. "Capacidades técnicas" — dark section with a numbered spec list.
+ *   4. "Proyectos de referencia" — top 6 projects in this vertical + view-all.
+ *   5. "Certificaciones y estándares" — 4-cell bordered grid.
+ *   6. CTA accent band → contacto.
+ */
+/* SectorHeroPanel — the framed media panel on the right of every sector hero.
+ *
+ * Three flavours, picked in priority order:
+ *   1. video   (sector.video present) — full-bleed clip inside the frame. Two
+ *              shapes are supported:
+ *                video: { src, poster?, cap? }                  → single loop
+ *                video: { clips:[{src,cap?}, …], poster? }      → auto-cycling reel
+ *              In the reel shape, each clip plays end-to-end and the panel
+ *              advances on the `ended` event — so the rotation matches each
+ *              clip's natural duration without us hardcoding a timer.
+ *   2. drawing (sector.building present) — isometric line-drawing on the
+ *              engineered grid background; the panel reads as a technical
+ *              elevation.
+ *   3. photo   (fallback) — sector.img dropped in full-bleed with a dimming
+ *              overlay so the caption strip stays legible.
+ *
+ * The chrome (frame, corners, caption strip, video CTA) is identical across
+ * all three flavours so the visual language of every sector page stays in sync. */
+const SectorHeroPanel = ({ sector, common }) => {
+  const useVideo    = !!sector.video;
+  const useBuilding = !useVideo && !!sector.building;
+  const usePhoto    = !useVideo && !useBuilding;
+
+  const v = sector.video;
+  const b = sector.building;
+  // Normalise both video shapes into a uniform `clips[]` array of length ≥1.
+  // If `sector.video.src` is present we treat it as a single-clip reel; the
+  // playlist logic below loops automatically once it advances back to index 0.
+  const clips = useVideo
+    ? (Array.isArray(v.clips) && v.clips.length > 0
+        ? v.clips
+        : [{ src: v.src, cap: v.cap }])
+    : [];
+  const isReel = useVideo && clips.length > 1;
+  const [clipIdx, setClipIdx] = React.useState(0);
+  const videoRef = React.useRef(null);
+
+  // On clip change, kick the video to (re)load the new src and play. The
+  // browser won't autoplay across src swaps without this on Safari/iOS.
+  React.useEffect(() => {
+    if (!useVideo) return;
+    const el = videoRef.current;
+    if (!el) return;
+    // The <video> src is bound declaratively below so React will swap it for
+    // us; we just need to nudge the element to load and play afterwards.
+    el.load();
+    const p = el.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  }, [clipIdx, useVideo]);
+
+  const onEnded = () => {
+    if (!isReel) return;
+    setClipIdx((i) => (i + 1) % clips.length);
+  };
+
+  const currentClip = clips[clipIdx] || {};
+  const photoStyle = usePhoto ? { backgroundImage: `url(${sector.img})` } : null;
+  const variant    = useVideo ? "shero__media--video"
+                    : useBuilding ? "shero__media--drawing"
+                    : "shero__media--photo";
+  const cap = useVideo ? (currentClip.cap || sector.label.toUpperCase())
+            : useBuilding ? b.cap
+            : sector.label.toUpperCase();
+
+  return (
+    <Reveal delay={160} className="shero__right">
+      <div className={"shero__media " + variant}
+           data-video-slot={sector.cat}
+           style={photoStyle}>
+        {useVideo && (
+          /* muted + playsInline + autoPlay is the standard contract for a
+             silent loop browsers won't block. `loop` only applies in the
+             single-clip case; for a reel we let `ended` fire so we can advance
+             the index. `poster` paints instantly so the panel isn't blank
+             while the next clip buffers. */
+          <video ref={videoRef}
+                 className="shero__video"
+                 src={currentClip.src}
+                 poster={v.poster || sector.img}
+                 autoPlay
+                 muted
+                 playsInline
+                 preload="auto"
+                 loop={!isReel}
+                 onEnded={onEnded}
+                 aria-hidden="true" />
+        )}
+        {useBuilding && <div className="shero__grid-bg" />}
+        {useBuilding && (
+          <img className="shero__building"
+               src={b.src} alt=""
+               style={{aspectRatio: String(b.ratio)}} />
+        )}
+        {/* Tick row — one notch per clip in a reel; the active clip's notch
+            is bright. Sits inside the panel near the bottom so it reads as
+            "you are on shot N of M" without dominating the frame. */}
+        {isReel && (
+          <div className="shero__reel-ticks" aria-hidden="true">
+            {clips.map((_, i) => (
+              <span key={i} className={"shero__reel-tick " + (i === clipIdx ? "is-on" : "")} />
+            ))}
+          </div>
+        )}
+        <div className="shero__media-foot">
+          <span className="shero__media-cap">{cap}</span>
+          <span className="shero__media-video">
+            <span className="shero__play">
+              <svg width="11" height="13" viewBox="0 0 11 13" fill="currentColor"><path d="M0 0l11 6.5L0 13z"/></svg>
+            </span>
+            {common.videoLabel}
+          </span>
+        </div>
+        <div className="shero__corner shero__corner--tl" />
+        <div className="shero__corner shero__corner--tr" />
+        <div className="shero__corner shero__corner--bl" />
+        <div className="shero__corner shero__corner--br" />
+      </div>
+    </Reveal>
+  );
+};
+
+/* SectorStageHero — full-bleed 100vh video hero in the Foster + Partners
+ * cadence. Used when sector.heroVariant === "stage" (Data Centers).
+ *
+ * Layout:
+ *   - Background <video> at object-fit:cover, autoplaying through sector.video.clips
+ *   - Top-to-bottom darkening gradient for legibility under the nav + over the copy
+ *   - Bottom-left copy column: Eyebrow + h1 + sub
+ *   - Bottom-centre dot strip: one small filled dot per clip; the active dot is
+ *     surrounded by a thin SVG ring whose stroke-dashoffset fills clockwise as
+ *     the clip plays. The fill is driven by requestAnimationFrame mutating the
+ *     circle's style.strokeDashoffset directly — no React re-render per frame.
+ *
+ * Clicking a dot jumps to that clip; the rAF loop resets and the new clip's
+ * ring starts from empty. The `ended` event advances index automatically. */
+const SectorStageHero = ({ sector, common, setRoute }) => {
+  const v = sector.video || {};
+  const clips = Array.isArray(v.clips) && v.clips.length > 0
+    ? v.clips
+    : (v.src ? [{ src: v.src, cap: v.cap }] : []);
+  const [clipIdx, setClipIdx] = React.useState(0);
+  const videoRef = React.useRef(null);
+  const ringRef  = React.useRef(null);
+  const RADIUS = 9;
+  const RING_C = 2 * Math.PI * RADIUS;   // ~56.55 — full-circle stroke length
+
+  // Load + play the current clip when clipIdx changes, and drive the progress
+  // ring via rAF. Mutating the SVG circle's style directly avoids 60 React
+  // re-renders per second; the only state change is on `ended` (clip swap).
+  React.useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    vid.load();
+    const p = vid.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+    // Reset ring to empty at the start of the new clip.
+    if (ringRef.current) ringRef.current.style.strokeDashoffset = String(RING_C);
+    let raf;
+    const tick = () => {
+      const v2 = videoRef.current;
+      const r  = ringRef.current;
+      if (v2 && r && v2.duration > 0) {
+        const pct = Math.min(1, Math.max(0, v2.currentTime / v2.duration));
+        r.style.strokeDashoffset = String(RING_C * (1 - pct));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [clipIdx, RING_C]);
+
+  const onEnded = () => {
+    if (clips.length <= 1) return;
+    setClipIdx((i) => (i + 1) % clips.length);
+  };
+
+  const currentClip = clips[clipIdx] || {};
+  return (
+    <section className="shero shero--stage" aria-label={sector.label}>
+      <video ref={videoRef}
+             className="shero__bg-video"
+             src={currentClip.src}
+             poster={v.poster || sector.img}
+             autoPlay
+             muted
+             playsInline
+             preload="auto"
+             loop={clips.length <= 1}
+             onEnded={onEnded}
+             aria-hidden="true" />
+      {/* Top-to-bottom darkening pass: heavier at top (so the nav + corner brackets
+          read) and at the bottom (so the copy stays legible regardless of footage). */}
+      <div className="shero__bg-overlay" />
+
+      <div className="container shero__stage-inner">
+        <div className="shero__stage-content">
+          {/* Stage hero copy stays tight on purpose — just an eyebrow and a
+              short headline. Sector descriptions live below the hero, not on
+              top of the footage. The `sub` field on the sector is preserved
+              for the framed hero variants (other sectors) but not rendered
+              here, so we can shorten without touching the schema. */}
+          <Reveal><Eyebrow onDark>{sector.eyebrow || sector.label}</Eyebrow></Reveal>
+          <Reveal delay={90}><h1 className="shero__stage-h1">{sector.h1 || sector.label}</h1></Reveal>
+        </div>
+      </div>
+
+      {/* Dot strip — one per clip in the reel. The active dot wears the
+          progress-ring SVG; the others are static filled dots. */}
+      {clips.length > 1 && (
+        <div className="shero__stage-dots" role="tablist" aria-label="Reel clips">
+          {clips.map((_, i) => {
+            const isActive = i === clipIdx;
+            return (
+              <button key={i}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={"shero__stage-dot " + (isActive ? "is-on" : "")}
+                      onClick={() => setClipIdx(i)}
+                      aria-label={"Clip " + (i + 1) + " de " + clips.length}>
+                <span className="shero__stage-dot-core" />
+                {isActive && (
+                  <svg className="shero__stage-dot-ring" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                    <circle ref={ringRef}
+                            cx="14" cy="14" r={RADIUS}
+                            fill="none"
+                            stroke="#FFFFFF"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeDasharray={RING_C}
+                            strokeDashoffset={RING_C}
+                            style={{transform: "rotate(-90deg)", transformOrigin: "50% 50%"}} />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+};
+
+const PageSector = ({ sectorId, setRoute }) => {
+  const { t } = useLang();
+  const sector = (t.sectors || []).find(s => s.id === sectorId);
+  const common = t.sectorCommon || {};
+  if (!sector) {
+    return (
+      <section className="section section--light">
+        <div className="container">
+          <p>—</p>
+          <a className="back-link" onClick={() => setRoute("proyectos")}>← {t.proyectos.backToProyectos}</a>
+        </div>
+      </section>
+    );
+  }
+  // The vertical's projects come from the new projCats array; fall back to
+  // sector.cat if older data is in play. Top 6 by current order in AI_PROJECTS.
+  const cats = sector.projCats || [sector.cat];
+  const items = window.AI_PROJECTS.filter(p => cats.includes(p.cat));
+  const featured = items.slice(0, 6);
+
+  return (
+    <>
+      {/* ── 1. Hero ───────────────────────────────────────────────────
+          Default: split panel (copy left, framed media right).
+          heroVariant === "stage": full-bleed 100vh video stage with
+          progress-ring dots (Foster + Partners cadence). */}
+      {sector.heroVariant === "stage" ? (
+        <SectorStageHero sector={sector} common={common} setRoute={setRoute} />
+      ) : (
+        <section className="shero">
+          <div className="shero__inner container">
+            <div className="shero__left">
+              <Reveal><Eyebrow onDark>{sector.eyebrow || t.proyectos.sectorsEyebrow}</Eyebrow></Reveal>
+              <Reveal delay={90}><h1 className="shero__h1">{sector.h1 || sector.label}</h1></Reveal>
+              <Reveal delay={180}><p className="shero__sub">{sector.sub || sector.intro}</p></Reveal>
+              {sector.stats && sector.stats.length > 0 && (
+                <Reveal delay={260}>
+                  <div className="shero__stats">
+                    {sector.stats.map((s, i) => (
+                      <div key={i} className="shero__stat">
+                        <div className="shero__stat-v">{s.v}</div>
+                        <div className="shero__stat-k">{s.k}</div>
+                      </div>
+                    ))}
+                  </div>
+                </Reveal>
+              )}
+            </div>
+            <SectorHeroPanel sector={sector} common={common} />
+          </div>
+        </section>
+      )}
+
+
+      {/* ── 2. What we engineer — disciplines ──────────────────────── */}
+      {sector.engineer && sector.engineer.length > 0 && (
+        <section className="section section--light">
+          <div className="container">
+            <Reveal className="section__head">
+              <Eyebrow>{sector.engineerTitle}</Eyebrow>
+              {sector.engineerSub && <h2 className="section__title">{sector.engineerSub}</h2>}
+            </Reveal>
+            <div className="eng-grid">
+              {sector.engineer.map((e, i) => (
+                <Reveal key={i} delay={i * 80} className="eng-card">
+                  <div className="eng-card__n">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="eng-card__t">{e.t}</h3>
+                  <p className="eng-card__d">{e.d}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── 3. Technical capabilities — spec list on dark ──────────── */}
+      {sector.caps && sector.caps.length > 0 && (
+        <section className="section section--dark">
+          <div className="container caps">
+            <Reveal className="caps__head">
+              <Eyebrow onDark>{sector.capTitle}</Eyebrow>
+            </Reveal>
+            <ul className="caps__list">
+              {sector.caps.map((c, i) => (
+                <Reveal key={i} delay={i * 60} as="li" className="caps__item">
+                  <span className="caps__n">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="caps__t">{c}</span>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* ── 4. Reference projects ─────────────────────────────────── */}
+      <section className="section section--alt">
+        <div className="container">
+          <Reveal className="section__head">
+            <Eyebrow>{sector.projTitle || t.proyectos.title}</Eyebrow>
+          </Reveal>
+          <div className="proj-grid">
+            {featured.map((p, i) => (
+              <Reveal key={p.name + i} delay={(i % 3) * 70}>
+                <ProjectCard p={p} onClick={() => setRoute("proyectos")} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="section__foot">
+            <ArrowCTA onClick={() => setRoute("proyectos")}>{common.viewAll || t.proyectos.backToProyectos}</ArrowCTA>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── 5. Certifications ──────────────────────────────────────── */}
+      {sector.certs && sector.certs.length > 0 && (
+        <section className="section section--light">
+          <div className="container">
+            <Reveal className="section__head"><Eyebrow>{sector.certTitle}</Eyebrow></Reveal>
+            <div className="cert-grid">
+              {sector.certs.map((c, i) => (
+                <Reveal key={i} delay={i * 60} className="cert">
+                  <div className="cert__label">{c.label}</div>
+                  <div className="cert__sub">{c.sub}</div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── 6. CTA accent band ─────────────────────────────────────── */}
+      <section className="section section--accent">
+        <div className="container cta-band">
+          <Reveal><h2 className="section__title section__title--light">{common.ctaTitle}</h2></Reveal>
+          <Reveal delay={80}><p className="body-lg" style={{color:"rgba(255,255,255,.88)"}}>{common.ctaSub}</p></Reveal>
+          <Reveal delay={160}><ArrowCTA outline dark onClick={() => setRoute("contacto")}>{common.ctaBtn}</ArrowCTA></Reveal>
+        </div>
+      </section>
     </>
   );
 };
@@ -505,4 +932,4 @@ const PageArticle = ({ articleId, setRoute }) => {
   );
 };
 
-Object.assign(window, { PageHome, PageQuienes, PageProyectos, PagePersonas, PageTalento, PageNewsletter, PageArticle, PageContacto });
+Object.assign(window, { PageHome, PageQuienes, PageProyectos, PageSector, PagePersonas, PageTalento, PageNewsletter, PageArticle, PageContacto });

@@ -20,6 +20,14 @@ const HeroCarousel = ({ setRoute }) => {
   const next = () => setI(x => (x + 1) % slides.length);
   const prev = () => setI(x => (x - 1 + slides.length) % slides.length);
 
+  /* CTA target — if the active slide carries a `sectorId`, the "View projects"
+     button drops into that sector landing page; otherwise it falls back to the
+     all-portfolio /proyectos route. Avoids surfacing the all-portfolio page
+     when the slide already says "Data Centers". */
+  const goSlide = (slide) => {
+    if (slide && slide.sectorId) setRoute({route: "sector", sectorId: slide.sectorId});
+    else setRoute("proyectos");
+  };
   return (
     <section className="hero">
       {slides.map((s, idx) => (
@@ -30,9 +38,11 @@ const HeroCarousel = ({ setRoute }) => {
             <div className={"hero__content " + (idx === i ? "is-shown" : "")}>
               <Eyebrow onDark>{s.eyebrow}</Eyebrow>
               <h1 className="hero__headline">{s.headline}</h1>
-              <p className="hero__sub">{s.sub}</p>
+              {/* No sub paragraph — the home carousel matches the stage hero's
+                  tight layout (eyebrow + headline + CTA only). Long descriptive
+                  copy lived here previously and pulled focus off the imagery. */}
               <div className="hero__cta">
-                <ArrowCTA outline dark onClick={() => setRoute("proyectos")}>{t.home.viewProjects}</ArrowCTA>
+                <ArrowCTA outline dark onClick={() => goSlide(s)}>{t.home.viewProjects}</ArrowCTA>
               </div>
             </div>
           </div>

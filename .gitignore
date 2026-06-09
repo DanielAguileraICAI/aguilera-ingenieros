@@ -1,3 +1,8 @@
 .DS_Store
 node_modules/
 *.log
+
+# Video pool — only ship the 4 active hero reels; the 25 source cuts
+# from FORO UPM 2023 stay local (~450 MB, no LFS yet)
+assets/videos/*.mp4
+!assets/videos/dc_reel_*.mp4

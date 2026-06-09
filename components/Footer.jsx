@@ -23,7 +23,13 @@ const Footer = ({ setRoute }) => {
         </div>
         <div className="ai-footer__col">
           <div className="ai-footer__head">{t.footer.headSectors}</div>
-          {t.footer.sectors.map((s,i) => <a key={i}>{s}</a>)}
+          {(t.sectors || []).map((s, i) => (
+            <a key={s.id}
+               style={{cursor:"pointer"}}
+               onClick={() => { setRoute({route:"sector", sectorId: s.id}); window.scrollTo({top:0, behavior:"smooth"}); }}>
+              {s.label}
+            </a>
+          ))}
         </div>
         <div className="ai-footer__col">
           <div className="ai-footer__head">{t.footer.headContact}</div>

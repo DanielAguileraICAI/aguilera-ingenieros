@@ -26,20 +26,32 @@
 const App = () => {
   const [route, setRouteState] = React.useState(() => localStorage.getItem("ai_route") || "home");
   const [articleId, setArticleId] = React.useState(() => localStorage.getItem("ai_article") || null);
+  const [sectorId, setSectorId] = React.useState(() => localStorage.getItem("ai_sector") || null);
   React.useEffect(() => { localStorage.setItem("ai_route", route); }, [route]);
   React.useEffect(() => {
     if (articleId) localStorage.setItem("ai_article", articleId);
     else localStorage.removeItem("ai_article");
   }, [articleId]);
+  React.useEffect(() => {
+    if (sectorId) localStorage.setItem("ai_sector", sectorId);
+    else localStorage.removeItem("ai_sector");
+  }, [sectorId]);
 
-  /* setRoute accepts either a plain id ("home") or {route, articleId}.
-     "article" requires the second form. Anything else clears the article. */
+  /* setRoute accepts either a plain id ("home") or {route, articleId} or
+     {route:"sector", sectorId}. "article" requires the article form; "sector"
+     requires the sector form. Anything else clears both detail ids. */
   const setRoute = (next) => {
     if (typeof next === "object" && next && next.route === "article") {
       setArticleId(next.articleId);
+      setSectorId(null);
       setRouteState("article");
+    } else if (typeof next === "object" && next && next.route === "sector") {
+      setSectorId(next.sectorId);
+      setArticleId(null);
+      setRouteState("sector");
     } else {
       setArticleId(null);
+      setSectorId(null);
       setRouteState(next);
     }
     window.scrollTo({top: 0, behavior: "smooth"});
@@ -49,15 +61,17 @@ const App = () => {
   if (route === "home") page = <PageHome setRoute={setRoute} />;
   else if (route === "quienes") page = <PageQuienes setRoute={setRoute} />;
   else if (route === "proyectos") page = <PageProyectos setRoute={setRoute} />;
+  else if (route === "sector") page = <PageSector sectorId={sectorId} setRoute={setRoute} />;
   else if (route === "personas") page = <PagePersonas setRoute={setRoute} />;
   else if (route === "talento") page = <PageTalento setRoute={setRoute} />;
   else if (route === "newsletter") page = <PageNewsletter setRoute={setRoute} />;
   else if (route === "article") page = <PageArticle articleId={articleId} setRoute={setRoute} />;
   else if (route === "contacto") page = <PageContacto setRoute={setRoute} />;
+  const navRoute = (route === "article") ? "newsletter" : (route === "sector" ? "proyectos" : route);
   return (
     <div data-screen-label={route}>
-      <Nav route={route === "article" ? "newsletter" : route} setRoute={setRoute} />
-      <main key={route + (articleId || "")} className="page-shell">{page}</main>
+      <Nav route={navRoute} setRoute={setRoute} />
+      <main key={route + (articleId || "") + (sectorId || "")} className="page-shell">{page}</main>
       {route !== "contacto" && <Footer setRoute={setRoute} />}
       <CookieBar />
     </div>

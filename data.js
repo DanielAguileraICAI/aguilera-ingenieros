@@ -33,11 +33,15 @@ window.AI_I18N = {
     ],
 
     home: {
+      /* Home carousel — adopts the stage-hero typography (smaller headline,
+         no sub line, brand-aligned eyebrow). Each slide carries the matching
+         `sectorId` so the "View projects" CTA routes straight to the sector
+         landing page instead of the all-portfolio fallback. */
       heroSlides: [
-        { eyebrow: "Centros de Proceso de Datos", headline: "Impulsando los data centers para la IA del futuro.", sub: "Tier III y Tier IV. Redundancia total. Eficiencia energética.", img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
-        { eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", sub: "Salas blancas, laboratorios P2/P3, GMP, FDA, ISPE.",        img: "assets/bg_industrial_7.jpg" },
-        { eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",                 sub: "Desde la viabilidad técnica hasta la puesta en marcha.",     img: "assets/bg_industrial_4.jpg" },
-        { eyebrow: "Edificios singulares",          headline: "Arquitectura singular. Ingeniería sin compromisos.",   sub: "Auditorios, museos y sedes corporativas firmadas por los grandes estudios.", img: "assets/hero_edificios_singulares.jpg" },
+        { sectorId: "data-centers",          eyebrow: "Centros de Proceso de Datos", headline: "La ingeniería detrás de la IA y los datos.",       img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
+        { sectorId: "farma-bio",             eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", img: "assets/bg_industrial_7.jpg" },
+        { sectorId: "fabricacion-avanzada",  eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",               img: "assets/bg_industrial_4.jpg" },
+        { sectorId: "edificios-singulares",  eyebrow: "Edificios singulares",        headline: "Arquitectura singular. Ingeniería sin compromisos.",  img: "assets/hero_edificios_singulares.jpg" },
       ],
       heroEyebrow: "Tres verticales",
       heroTitle: "Ingeniería para los proyectos más exigentes.",
@@ -119,7 +123,7 @@ window.AI_I18N = {
       { tag: "Farma",       name: "GSK — Proyecto Eagle", loc: "Tres Cantos, Madrid",  img: "assets/hero_farma.jpg" },
       { tag: "Fabricación", name: "Planta Beiersdorf Lechia", loc: "Poznań, Polonia",  img: "assets/hero_industriales.jpg" },
       { tag: "Oficinas",    name: "Torre Sacyr / PwC", loc: "Foster & Partners · Madrid", img: "assets/hero_oficinas.jpg" },
-      { tag: "Sostenibilidad", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid", img: "assets/hero_oficinas.jpg" },
+      { tag: "Clima y Sostenibilidad", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid", img: "assets/hero_oficinas.jpg" },
     ],
 
     /* Unified news source — feeds the home "Latest news & insights" cards
@@ -166,7 +170,7 @@ window.AI_I18N = {
         ] },
 
       { id: "12-leed-gold-sacyr-abelias",
-        n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Sostenibilidad",
+        n: "Nº 12", date: "Septiembre 2025", read: "6 min", tag: "Clima y Sostenibilidad",
         title: "Certificación LEED Gold: Torre Sacyr y Banco Popular Abelias",
         excerpt: "Proyectos pioneros en España en eficiencia energética y sostenibilidad certificada por el USGBC.",
         img: "assets/hero_dc_green.jpg",
@@ -265,22 +269,310 @@ window.AI_I18N = {
       { id: "cpd",    label: "Data Centers" },
       { id: "farma",  label: "Farma & Bioseguridad" },
       { id: "fab",    label: "Fabricación avanzada" },
-      { id: "ofi",    label: "Oficinas" },
-      { id: "hot",    label: "Hoteles" },
-      { id: "cc",     label: "Centros comerciales" },
-      { id: "tra",    label: "Transporte" },
+      { id: "edif",   label: "Edificios singulares" },
       { id: "hos",    label: "Hospitales" },
-      { id: "sos",    label: "Sostenibilidad" },
-      { id: "mus",    label: "Museos & Auditorios" },
-      { id: "bim",    label: "BIM" },
+      { id: "sos",    label: "Clima y Sostenibilidad" },
     ],
     catLabels: {
-      cpd: "Data Center", farma: "Farma", fab: "Fabricación", ofi: "Oficinas",
-      hot: "Hoteles", cc: "Centros Comerciales", tra: "Transporte",
-      hos: "Hospitales", sos: "Sostenibilidad", mus: "Museos", bim: "BIM",
+      cpd: "Data Center", farma: "Farma & Bioseguridad", fab: "Fabricación avanzada",
+      edif: "Edificios singulares", hos: "Hospitales", sos: "Clima y Sostenibilidad",
     },
 
-    proyectos: { eyebrow: "Portfolio", title: "Proyectos" },
+    /* Per-sector landing pages live at routes like {route:'sector',
+       sectorId:'data-centers'}. The slug field is the URL/state id;
+       it differs from the short `cat` key used internally to keep the
+       project array compact. */
+    /* SECTORS — adopted from the Claude Design bundle (Aguilera Ingenieros Design
+       System). Each sector renders a 5-section landing page:
+         hero (split — copy left, building drawing or photo panel right)
+         "Qué diseñamos"   (numbered discipline cards)
+         "Capacidades técnicas"  (spec list on dark)
+         "Proyectos de referencia"  (top 6 + view-all CTA)
+         "Certificaciones y estándares"  (4-cell grid)
+         CTA accent band → contacto
+       The three sectors already featured on the home verticals (cpd/farma/edif)
+       carry an isometric line-drawing in the hero panel; the rest (fab/hos/sos)
+       fall back to a photo panel of the same dimensions. */
+    sectors: [
+      {
+        id: "data-centers", cat: "cpd",
+        label: "Data Centers",
+        img: "assets/hero_bbva_noche.jpg",
+        building: { src: "assets/dc_isometric.png", ratio: 1.5, cap: "DATA CENTER · TIER IV · MADRID" },
+        /* heroVariant — flips the sector hero from the framed media panel
+           (default, used by farma/edif/hos/fab/sos) to a full-bleed video
+           stage in the Foster + Partners style. The stage variant fills
+           100vh, drops the eyebrow + h1 + sub at the bottom-left, and
+           surfaces progress-ring dots at the bottom-centre — one per clip
+           in the reel, with the active dot's outer ring filling clockwise
+           as the clip plays. */
+        heroVariant: "stage",
+        /* Hero panel video — when present, replaces the line-drawing in the
+           framed panel. Two shapes are supported:
+             video: { src, poster?, cap? }                   — single looping clip
+             video: { clips: [{src, cap?}, …], poster? }     — auto-cycling reel
+           The panel advances to the next clip on the `ended` event of each
+           one, so timing is exactly the clip's natural duration. Looping back
+           to clip 0 from the last clip stitches the reel into an infinite loop. */
+        video: {
+          poster: "assets/hero_bbva_noche.jpg",
+          clips: [
+            { src: "assets/videos/dc_reel_01_exterior.mp4", cap: "DATA CENTER · EXTERIOR" },
+            { src: "assets/videos/dc_reel_02_approach.mp4", cap: "DATA CENTER · ACCESO" },
+            { src: "assets/videos/dc_reel_03_overview.mp4", cap: "DATA CENTER · VISTA GENERAL" },
+            { src: "assets/videos/dc_reel_04_interior.mp4", cap: "SALA TÉCNICA · BBVA" },
+          ],
+        },
+        eyebrow: "Centros de Proceso de Datos",
+        h1: "La ingeniería detrás de la IA y los datos.",
+        sub: "Diseñamos las instalaciones de los centros de datos más exigentes de la banca, las telecomunicaciones y la administración pública. Disponibilidad continua, redundancia total y eficiencia energética certificada.",
+        stats: [
+          { k: "Certificación", v: "Tier I – IV" },
+          { k: "Proyectos CPD", v: "+200" },
+          { k: "Referencias",   v: "BBVA · Mapfre" },
+          { k: "PUE objetivo",  v: "≤ 1.35" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Ingeniería integral de instalaciones para infraestructura de misión crítica.",
+        engineer: [
+          { t: "Climatización de precisión", d: "Refrigeración por agua helada, free-cooling y contención de pasillo frío/caliente para densidades de hasta 30 kW/rack." },
+          { t: "Electricidad y respaldo",    d: "Distribución redundante N+1 / 2N, grupos electrógenos, SAI y sistemas de conmutación automática." },
+          { t: "Protección contra incendios", d: "Detección temprana por aspiración (VESDA) y extinción por gas inerte sin daño a equipos." },
+          { t: "Monitorización y control",   d: "DCIM, BMS y sistemas SCADA integrados para gestión y trazabilidad 24/7." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "Refrigeración por agua helada — N+1",
+          "Tier IV · TIA-942 · ATD certified",
+          "PUE objetivo ≤ 1.35",
+          "Densidad hasta 30 kW por rack",
+          "Continuidad 2N en sistemas eléctricos",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["cpd"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "Uptime Tier IV",  sub: "Fault tolerant" },
+          { label: "Uptime Tier III", sub: "Concurrently maintainable" },
+          { label: "ATD",             sub: "Accredited Tier Designer" },
+          { label: "TIA-942",         sub: "Infraestructura de telecomunicaciones" },
+        ],
+      },
+      {
+        id: "farma-bio", cat: "farma",
+        label: "Farma & Bioseguridad",
+        img: "assets/hero_farma.jpg",
+        building: { src: "assets/farma_isometric.png", ratio: 1.5, cap: "LABORATORIO P3 · GMP · CLEANROOM" },
+        eyebrow: "Farma & Bioseguridad",
+        h1: "Ingeniería de instalaciones para entornos regulados.",
+        sub: "Salas blancas, laboratorios de bioseguridad y plantas de producción farmacéutica diseñadas según normativa internacional. Control absoluto del aire, la presión y la contaminación cruzada.",
+        stats: [
+          { k: "Clases ISO",   v: "5 · 6 · 7 · 8" },
+          { k: "Bioseguridad", v: "P2 · P3" },
+          { k: "Normativa",    v: "GMP · FDA · ISPE" },
+          { k: "Referencias",  v: "GSK · MSD" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Instalaciones para producción estéril, investigación y bioseguridad.",
+        engineer: [
+          { t: "Tratamiento de aire",    d: "Unidades AHU con aire 100% exterior, filtración HEPA H14 / ULPA U15 y control de humedad y temperatura por suite." },
+          { t: "Cascada de presión",     d: "Diferenciales de presión controlados (+15 a +30 Pa) y esclusas para evitar contaminación cruzada." },
+          { t: "Salas blancas",          d: "Diseño de envolvente, suelos técnicos y techos registrables para clasificación ISO 5–8 y entornos GMP." },
+          { t: "Bioseguridad P2 / P3",   d: "Laboratorios de contención, autoclaves de doble puerta y sistemas de extracción dedicados." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "AHU — tratamiento de aire 100% exterior",
+          "Filtros HEPA H14 · ULPA U15",
+          "Cascada de presión +15Pa → +30Pa",
+          "Salas blancas ISO 5 – 8",
+          "Laboratorios de bioseguridad P2 y P3",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["farma"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "GMP",       sub: "Good Manufacturing Practice" },
+          { label: "FDA",       sub: "U.S. Food & Drug Admin." },
+          { label: "ISPE",      sub: "Baseline guides" },
+          { label: "ISO 14644", sub: "Salas blancas" },
+        ],
+      },
+      {
+        id: "fabricacion-avanzada", cat: "fab",
+        label: "Fabricación avanzada",
+        img: "assets/hero_industriales.jpg",
+        eyebrow: "Fabricación avanzada",
+        h1: "Plantas industriales de alta precisión.",
+        sub: "Microelectrónica, cosmética, energía y nuevas industrias. Diseño integral desde la viabilidad técnica hasta la puesta en marcha, con BIM coordinado y asistencia técnica continuada.",
+        stats: [
+          { k: "Disciplinas",  v: "MEP · proceso · BIM" },
+          { k: "Referencias",  v: "Beiersdorf · Vestas" },
+          { k: "Internacional",v: "ES · UE · LATAM" },
+          { k: "Modelo",       v: "BIM LOD 400" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Instalaciones y servicios industriales para plantas de fabricación avanzada.",
+        engineer: [
+          { t: "Servicios de planta (MEP)", d: "Climatización industrial, electricidad media y baja tensión, fontanería y saneamiento, integrados desde el modelo BIM." },
+          { t: "Procesos y utilidades",     d: "Aire comprimido, vapor, agua descalcificada, gases técnicos y sistemas de extracción de proceso." },
+          { t: "Eficiencia energética",     d: "Recuperación de calor, cogeneración, paneles solares y monitorización del consumo para reducir OPEX." },
+          { t: "Coordinación BIM",          d: "Modelo federado LOD 400, detección de interferencias y cuantificación para licitación y obra." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "BIM coordinado · LOD 400",
+          "ATEX · zonas clasificadas",
+          "Procesos limpios para microelectrónica",
+          "Eficiencia energética industrial",
+          "Asistencia técnica en obra (DEO)",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["fab"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "ISO 9001",  sub: "Calidad" },
+          { label: "ISO 14001", sub: "Medio ambiente" },
+          { label: "ISO 45001", sub: "Seguridad y salud" },
+          { label: "ATEX",      sub: "Atmósferas explosivas" },
+        ],
+      },
+      {
+        id: "edificios-singulares", cat: "edif",
+        label: "Edificios singulares",
+        img: "assets/hero_edificios_singulares.jpg",
+        building: { src: "assets/auditorio_tenerife.png", ratio: 1.19, cap: "AUDITORIO DE TENERIFE · CALATRAVA" },
+        eyebrow: "Edificios singulares",
+        h1: "Torres, sedes y edificios firmados.",
+        sub: "Las instalaciones detrás de algunos de los edificios más reconocibles de España. Trabajamos con los principales estudios de arquitectura internacionales en proyectos firmados por Foster, Calatrava o SOM.",
+        stats: [
+          { k: "Tipologías",     v: "Torres · Sedes" },
+          { k: "Sostenibilidad", v: "LEED · BREEAM" },
+          { k: "Arquitectos",    v: "Foster · Calatrava" },
+          { k: "Referencias",    v: "+1.000 proyectos" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Ingeniería de instalaciones para edificación singular y de gran altura.",
+        engineer: [
+          { t: "Climatización eficiente",        d: "Sistemas VRV con recuperación de calor, suelos radiantes y vigas frías para máxima eficiencia." },
+          { t: "Envolvente y fachada",           d: "Doble fachada ventilada, control solar y simulación energética para certificación LEED / BREEAM." },
+          { t: "Electricidad e iluminación",     d: "Iluminación KNX, gestión DALI y distribución eléctrica para edificios en altura." },
+          { t: "Gestión integral del edificio",  d: "BMS integrado, control de accesos y sistemas de seguridad y comunicaciones." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "Doble fachada ventilada de alta eficiencia",
+          "VRV con recuperación de calor",
+          "Iluminación KNX · BMS integrado",
+          "Certificación LEED · BREEAM",
+          "Simulación energética y CFD",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["edif"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "LEED",      sub: "USGBC" },
+          { label: "BREEAM",    sub: "Building research" },
+          { label: "ISO 9001",  sub: "Calidad" },
+          { label: "ISO 14001", sub: "Medio ambiente" },
+        ],
+      },
+      {
+        id: "hospitales", cat: "hos",
+        label: "Hospitales",
+        img: "assets/hero_farma.jpg",
+        eyebrow: "Hospitales",
+        h1: "Entornos críticos 24/7, sin margen.",
+        sub: "Hospitales y clínicas diseñados para un servicio continuo: quirófanos, UCIs, áreas de aislamiento e imagen médica. Instalaciones redundantes, gases medicinales y BMS integrado.",
+        stats: [
+          { k: "Especialidades", v: "Quirófanos · UCI" },
+          { k: "Disponibilidad", v: "24/7" },
+          { k: "Referencias",    v: "Vigo · Quirónsalud" },
+          { k: "Normativa",      v: "UNE 100713" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Ingeniería sanitaria para el entorno crítico de un hospital activo.",
+        engineer: [
+          { t: "Quirófanos y críticos",   d: "Salas con flujo laminar, presión positiva, redundancia eléctrica IT y gases medicinales según UNE-EN ISO 7396." },
+          { t: "UCI y aislamiento",       d: "Habitaciones de presión negativa, filtración HEPA y SAI dedicado para soporte vital ininterrumpido." },
+          { t: "Imagen médica",           d: "Salas RM/TC con blindajes específicos, refrigeración para He líquido y control electromagnético." },
+          { t: "Servicios generales",     d: "Esterilización, lavandería, gases técnicos, cocinas, residuos y vapor con esquemas de mantenimiento concurrente." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "Quirófanos tipo A · flujo laminar",
+          "Aislamiento N — presión negativa · HEPA",
+          "Esquemas IT médicos · SAI dedicado",
+          "Gases medicinales — UNE-EN ISO 7396",
+          "BMS integrado y mantenimiento concurrente",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["hos"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "UNE 100713",   sub: "Climatización en hospitales" },
+          { label: "ISO 7396",     sub: "Gases medicinales" },
+          { label: "ISO 14644",    sub: "Salas limpias" },
+          { label: "RD 614/2001",  sub: "Riesgo eléctrico" },
+        ],
+      },
+      {
+        id: "sostenibilidad", cat: "sos",
+        label: "Clima y Sostenibilidad",
+        img: "assets/hero_dc_green.jpg",
+        eyebrow: "Clima y Sostenibilidad",
+        h1: "Sostenibilidad medida, no declarada.",
+        sub: "Eficiencia energética, recuperación de calor, paneles solares, movilidad eléctrica y certificación LEED / BREEAM. La sostenibilidad como una decisión de ingeniería sometida a métrica anual.",
+        stats: [
+          { k: "Certificación", v: "LEED Gold · BREEAM" },
+          { k: "Recuperación",  v: "VRV · placas" },
+          { k: "Movilidad",     v: "Cargadores AC/DC" },
+          { k: "Energía",       v: "Solar · geotermia" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Estrategias técnicas para reducir el consumo real del edificio durante toda su vida útil.",
+        engineer: [
+          { t: "Eficiencia energética",     d: "Optimización de la envolvente, recuperación de calor en climatización y monitorización del consumo en operación." },
+          { t: "Energías renovables",       d: "Fotovoltaica de autoconsumo, geotermia, aerotermia y producción térmica solar para ACS." },
+          { t: "Certificación LEED / BREEAM", d: "Acompañamiento desde el diseño hasta la certificación final, con simulación energética y CFD." },
+          { t: "Movilidad eléctrica",       d: "Distribución eléctrica para flotas EV, cargadores AC/DC y gestión inteligente de la potencia contratada." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "Simulación energética dinámica",
+          "Fotovoltaica de autoconsumo",
+          "Recuperación de calor en climatización",
+          "Cargadores EV — AC 22 kW y DC 50 kW",
+          "Monitorización y reporting ESG",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["sos"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "LEED Gold", sub: "USGBC" },
+          { label: "BREEAM",    sub: "Building research" },
+          { label: "ISO 50001", sub: "Gestión de la energía" },
+          { label: "EDGE",      sub: "IFC · World Bank" },
+        ],
+      },
+    ],
+
+    sectorCommon: {
+      videoLabel: "Vídeo del sector",
+      videoNote: "Espacio reservado para vídeo",
+      viewAll: "Ver portfolio completo",
+      ctaTitle: "¿Tiene un proyecto en este sector?",
+      ctaSub: "Hablemos de cómo podemos ayudarle.",
+      ctaBtn: "Contactar",
+    },
+
+    proyectos: {
+      eyebrow: "Portfolio", title: "Proyectos",
+      sectorsEyebrow: "Sectores",
+      viewSector: "Ver proyectos del sector",
+      backToProyectos: "Volver a Proyectos",
+      navAll: "Portfolio",
+    },
 
     personas: {
       eyebrow: "Personas", title: "El equipo",
@@ -364,7 +656,7 @@ window.AI_I18N = {
     footer: {
       meta: "Madrid · Desde 1961",
       headNav: "Navegación", headSectors: "Sectores", headContact: "Contacto",
-      sectors: ["Data Centers", "Farma & Bioseguridad", "Fabricación avanzada", "Oficinas", "Hospitales", "Sostenibilidad"],
+      sectors: ["Data Centers", "Farma & Bioseguridad", "Fabricación avanzada", "Edificios singulares", "Hospitales", "Clima y Sostenibilidad"],
       legalLeft: "© 2026 Aguilera Ingenieros S.A. — Todos los derechos reservados",
       legalRight: "Política de Cookies · Aviso Legal",
     },
@@ -417,10 +709,10 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { eyebrow: "Data Centers",                 headline: "Engineering the backbone of AI and data.",         sub: "Tier III and Tier IV. Full redundancy. Energy-efficient.",   img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
-        { eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          sub: "Cleanrooms, P2/P3 labs, GMP, FDA, ISPE.",                     img: "assets/bg_industrial_7.jpg" },
-        { eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     sub: "From technical feasibility through commissioning.",          img: "assets/bg_industrial_4.jpg" },
-        { eyebrow: "Singular buildings",            headline: "Iconic architecture. Engineered without compromise.",  sub: "Auditoriums, museums and corporate HQs signed by the leading international studios.", img: "assets/hero_edificios_singulares.jpg" },
+        { sectorId: "data-centers",          eyebrow: "Data Centers",                 headline: "Engineering the backbone of AI and data.",         img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
+        { sectorId: "farma-bio",             eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          img: "assets/bg_industrial_7.jpg" },
+        { sectorId: "fabricacion-avanzada",  eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     img: "assets/bg_industrial_4.jpg" },
+        { sectorId: "edificios-singulares",  eyebrow: "Singular buildings",           headline: "Iconic architecture. Engineered without compromise.",  img: "assets/hero_edificios_singulares.jpg" },
       ],
       heroEyebrow: "Three verticals",
       heroTitle: "Engineering for the most demanding projects.",
@@ -502,7 +794,7 @@ window.AI_I18N = {
       { tag: "Pharma",      name: "GSK — Project Eagle",    loc: "Tres Cantos, Madrid",        img: "assets/hero_farma.jpg" },
       { tag: "Manufacturing", name: "Beiersdorf Lechia Plant", loc: "Poznań, Poland",          img: "assets/hero_industriales.jpg" },
       { tag: "Offices",     name: "Sacyr Tower / PwC",      loc: "Foster & Partners · Madrid", img: "assets/hero_oficinas.jpg" },
-      { tag: "Sustainability", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid",       img: "assets/hero_oficinas.jpg" },
+      { tag: "Climate & Sustainability", name: "Banco Popular Abelias", loc: "LEED Gold · Madrid",       img: "assets/hero_oficinas.jpg" },
     ],
 
     /* Unified news source — see ES block above for the schema. */
@@ -545,7 +837,7 @@ window.AI_I18N = {
         ] },
 
       { id: "12-leed-gold-sacyr-abelias",
-        n: "Nº 12", date: "September 2025", read: "6 min", tag: "Sustainability",
+        n: "Nº 12", date: "September 2025", read: "6 min", tag: "Climate & Sustainability",
         title: "LEED Gold certification: Sacyr Tower and Banco Popular Abelias",
         excerpt: "Pioneering projects in Spain on energy efficiency and sustainability, certified by USGBC.",
         img: "assets/hero_dc_green.jpg",
@@ -644,22 +936,283 @@ window.AI_I18N = {
       { id: "cpd",    label: "Data Centers" },
       { id: "farma",  label: "Pharma & Biosafety" },
       { id: "fab",    label: "Advanced Manufacturing" },
-      { id: "ofi",    label: "Offices" },
-      { id: "hot",    label: "Hotels" },
-      { id: "cc",     label: "Retail" },
-      { id: "tra",    label: "Transport" },
+      { id: "edif",   label: "Singular Buildings" },
       { id: "hos",    label: "Hospitals" },
-      { id: "sos",    label: "Sustainability" },
-      { id: "mus",    label: "Museums & Auditoriums" },
-      { id: "bim",    label: "BIM" },
+      { id: "sos",    label: "Climate & Sustainability" },
     ],
     catLabels: {
-      cpd: "Data Center", farma: "Pharma", fab: "Manufacturing", ofi: "Offices",
-      hot: "Hotels", cc: "Retail", tra: "Transport",
-      hos: "Hospitals", sos: "Sustainability", mus: "Museums", bim: "BIM",
+      cpd: "Data Center", farma: "Pharma & Biosafety", fab: "Advanced Manufacturing",
+      edif: "Singular Buildings", hos: "Hospitals", sos: "Climate & Sustainability",
     },
 
-    proyectos: { eyebrow: "Portfolio", title: "Projects" },
+    /* SECTORS — parallel to ES. See the comment above the Spanish block for
+       the section-by-section structure rendered by PageSector. */
+    sectors: [
+      {
+        id: "data-centers", cat: "cpd",
+        label: "Data Centers",
+        img: "assets/hero_bbva_noche.jpg",
+        building: { src: "assets/dc_isometric.png", ratio: 1.5, cap: "DATA CENTER · TIER IV · MADRID" },
+        heroVariant: "stage",
+        video: {
+          poster: "assets/hero_bbva_noche.jpg",
+          clips: [
+            { src: "assets/videos/dc_reel_01_exterior.mp4", cap: "DATA CENTER · EXTERIOR" },
+            { src: "assets/videos/dc_reel_02_approach.mp4", cap: "DATA CENTER · APPROACH" },
+            { src: "assets/videos/dc_reel_03_overview.mp4", cap: "DATA CENTER · OVERVIEW" },
+            { src: "assets/videos/dc_reel_04_interior.mp4", cap: "TECHNICAL ROOM · BBVA" },
+          ],
+        },
+        eyebrow: "Data Centers",
+        h1: "Engineering the backbone of AI and data.",
+        sub: "We engineer the installations of the most demanding data centers in banking, telecommunications and government. Continuous availability, full redundancy and certified energy efficiency.",
+        stats: [
+          { k: "Certification", v: "Tier I – IV" },
+          { k: "DC projects",   v: "+200" },
+          { k: "References",    v: "BBVA · Mapfre" },
+          { k: "Target PUE",    v: "≤ 1.35" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "End-to-end building-services engineering for mission-critical infrastructure.",
+        engineer: [
+          { t: "Precision cooling",   d: "Chilled-water cooling, free-cooling and hot/cold aisle containment for densities up to 30 kW/rack." },
+          { t: "Power & backup",      d: "Redundant N+1 / 2N distribution, generators, UPS and automatic transfer systems." },
+          { t: "Fire protection",     d: "Early aspirating smoke detection (VESDA) and inert-gas suppression with no equipment damage." },
+          { t: "Monitoring & control",d: "Integrated DCIM, BMS and SCADA systems for 24/7 management and traceability." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Chilled-water cooling — N+1",
+          "Tier IV · TIA-942 · ATD certified",
+          "Target PUE ≤ 1.35",
+          "Density up to 30 kW per rack",
+          "2N continuity on electrical systems",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["cpd"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "Uptime Tier IV",  sub: "Fault tolerant" },
+          { label: "Uptime Tier III", sub: "Concurrently maintainable" },
+          { label: "ATD",             sub: "Accredited Tier Designer" },
+          { label: "TIA-942",         sub: "Telecom infrastructure" },
+        ],
+      },
+      {
+        id: "farma-bio", cat: "farma",
+        label: "Pharma & Biosafety",
+        img: "assets/hero_farma.jpg",
+        building: { src: "assets/farma_isometric.png", ratio: 1.5, cap: "P3 LAB · GMP · CLEANROOM" },
+        eyebrow: "Pharma & Biosafety",
+        h1: "Engineering for regulated environments.",
+        sub: "Cleanrooms, biosafety laboratories and pharmaceutical production plants designed to international standards. Absolute control of air, pressure and cross-contamination.",
+        stats: [
+          { k: "ISO classes", v: "5 · 6 · 7 · 8" },
+          { k: "Biosafety",   v: "P2 · P3" },
+          { k: "Standards",   v: "GMP · FDA · ISPE" },
+          { k: "References",  v: "GSK · MSD" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Installations for sterile production, research and biosafety.",
+        engineer: [
+          { t: "Air handling",      d: "AHU units with 100% outdoor air, HEPA H14 / ULPA U15 filtration and per-suite humidity and temperature control." },
+          { t: "Pressure cascade",  d: "Controlled pressure differentials (+15 to +30 Pa) and airlocks to prevent cross-contamination." },
+          { t: "Cleanrooms",        d: "Envelope design, technical floors and accessible ceilings for ISO 5–8 classification and GMP environments." },
+          { t: "Biosafety P2 / P3", d: "Containment laboratories, double-door autoclaves and dedicated extraction systems." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "AHU — 100% outdoor air treatment",
+          "HEPA H14 · ULPA U15 filtration",
+          "Pressure cascade +15Pa → +30Pa",
+          "ISO 5 – 8 cleanrooms",
+          "P2 and P3 biosafety laboratories",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["farma"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "GMP",       sub: "Good Manufacturing Practice" },
+          { label: "FDA",       sub: "U.S. Food & Drug Admin." },
+          { label: "ISPE",      sub: "Baseline guides" },
+          { label: "ISO 14644", sub: "Cleanrooms" },
+        ],
+      },
+      {
+        id: "fabricacion-avanzada", cat: "fab",
+        label: "Advanced Manufacturing",
+        img: "assets/hero_industriales.jpg",
+        eyebrow: "Advanced Manufacturing",
+        h1: "High-precision industrial plants.",
+        sub: "Microelectronics, cosmetics, energy and new industries. End-to-end design from technical feasibility through commissioning, with coordinated BIM and ongoing technical assistance.",
+        stats: [
+          { k: "Disciplines", v: "MEP · process · BIM" },
+          { k: "References",  v: "Beiersdorf · Vestas" },
+          { k: "Geography",   v: "ES · EU · LATAM" },
+          { k: "Model",       v: "BIM LOD 400" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Services and utilities for advanced manufacturing plants.",
+        engineer: [
+          { t: "Plant services (MEP)",  d: "Industrial HVAC, MV/LV power, plumbing and drainage — integrated from the BIM model." },
+          { t: "Process utilities",     d: "Compressed air, steam, demineralised water, technical gases and process extraction systems." },
+          { t: "Energy efficiency",     d: "Heat recovery, cogeneration, PV and consumption monitoring to reduce OPEX." },
+          { t: "BIM coordination",      d: "Federated LOD 400 model, clash detection and quantity take-off for tender and execution." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Coordinated BIM · LOD 400",
+          "ATEX · classified zones",
+          "Clean processes for microelectronics",
+          "Industrial energy efficiency",
+          "On-site technical assistance",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["fab"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "ISO 9001",  sub: "Quality" },
+          { label: "ISO 14001", sub: "Environment" },
+          { label: "ISO 45001", sub: "Health & safety" },
+          { label: "ATEX",      sub: "Explosive atmospheres" },
+        ],
+      },
+      {
+        id: "edificios-singulares", cat: "edif",
+        label: "Singular Buildings",
+        img: "assets/hero_edificios_singulares.jpg",
+        building: { src: "assets/auditorio_tenerife.png", ratio: 1.19, cap: "AUDITORIO DE TENERIFE · CALATRAVA" },
+        eyebrow: "Singular Buildings",
+        h1: "Towers, headquarters and signature buildings.",
+        sub: "The installations behind some of Spain's most recognisable buildings. We work with leading international architecture studios on projects signed by Foster, Calatrava and SOM.",
+        stats: [
+          { k: "Typologies",     v: "Towers · HQ" },
+          { k: "Sustainability", v: "LEED · BREEAM" },
+          { k: "Architects",     v: "Foster · Calatrava" },
+          { k: "References",     v: "+1,000 projects" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Building-services engineering for singular and high-rise construction.",
+        engineer: [
+          { t: "Efficient HVAC",                d: "VRV systems with heat recovery, radiant floors and chilled beams for maximum efficiency." },
+          { t: "Envelope & facade",             d: "Double ventilated facade, solar control and energy simulation for LEED / BREEAM certification." },
+          { t: "Power & lighting",              d: "KNX lighting, DALI management and electrical distribution for high-rise buildings." },
+          { t: "Integrated building management",d: "Integrated BMS, access control and security and communications systems." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Double ventilated facade, high-efficiency",
+          "VRV with heat recovery",
+          "KNX lighting · integrated BMS",
+          "LEED · BREEAM certification",
+          "Energy simulation and CFD",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["edif"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "LEED",      sub: "USGBC" },
+          { label: "BREEAM",    sub: "Building research" },
+          { label: "ISO 9001",  sub: "Quality" },
+          { label: "ISO 14001", sub: "Environment" },
+        ],
+      },
+      {
+        id: "hospitales", cat: "hos",
+        label: "Hospitals",
+        img: "assets/hero_farma.jpg",
+        eyebrow: "Hospitals",
+        h1: "Critical 24/7 environments, no margin for error.",
+        sub: "Hospitals and clinics engineered for continuous service: operating rooms, ICUs, isolation areas and medical imaging. Redundant installations, medical gases and integrated BMS.",
+        stats: [
+          { k: "Specialties",  v: "OR · ICU" },
+          { k: "Availability", v: "24/7" },
+          { k: "References",   v: "Vigo · Quirónsalud" },
+          { k: "Standards",    v: "UNE 100713" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Healthcare engineering for the critical environment of a live hospital.",
+        engineer: [
+          { t: "Operating rooms & critical care", d: "Laminar-flow rooms, positive pressure, IT medical electrical redundancy and medical gases per UNE-EN ISO 7396." },
+          { t: "ICU & isolation",                 d: "Negative-pressure rooms, HEPA filtration and dedicated UPS for uninterrupted life-support." },
+          { t: "Medical imaging",                 d: "MRI/CT suites with specific shielding, liquid helium cooling and electromagnetic control." },
+          { t: "General services",                d: "Sterilisation, laundry, technical gases, kitchens, waste and steam with concurrent-maintenance schemes." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Type-A operating rooms · laminar flow",
+          "Negative-pressure isolation · HEPA",
+          "Medical IT electrical schemes · dedicated UPS",
+          "Medical gases — UNE-EN ISO 7396",
+          "Integrated BMS · concurrent maintenance",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["hos"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "UNE 100713",  sub: "Hospital HVAC" },
+          { label: "ISO 7396",    sub: "Medical gases" },
+          { label: "ISO 14644",   sub: "Cleanrooms" },
+          { label: "RD 614/2001", sub: "Electrical risk" },
+        ],
+      },
+      {
+        id: "sostenibilidad", cat: "sos",
+        label: "Climate & Sustainability",
+        img: "assets/hero_dc_green.jpg",
+        eyebrow: "Climate & Sustainability",
+        h1: "Sustainability measured, not declared.",
+        sub: "Energy efficiency, heat recovery, PV, electric mobility and LEED / BREEAM certification. Sustainability as an engineering decision held to annual metrics.",
+        stats: [
+          { k: "Certification", v: "LEED Gold · BREEAM" },
+          { k: "Recovery",      v: "VRV · plates" },
+          { k: "EV",            v: "AC / DC chargers" },
+          { k: "Energy",        v: "Solar · geothermal" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Technical strategies to cut the building's real consumption across its whole life-cycle.",
+        engineer: [
+          { t: "Energy efficiency",        d: "Envelope optimisation, heat recovery in HVAC and operational consumption monitoring." },
+          { t: "Renewable energy",         d: "Self-consumption PV, geothermal, aerothermal and solar thermal for DHW." },
+          { t: "LEED / BREEAM certification", d: "Support from design through final certification, with energy simulation and CFD." },
+          { t: "Electric mobility",        d: "Electrical distribution for EV fleets, AC/DC chargers and smart load management of contracted power." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Dynamic energy simulation",
+          "Self-consumption PV",
+          "Heat recovery in HVAC",
+          "EV chargers — AC 22 kW and DC 50 kW",
+          "ESG monitoring and reporting",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["sos"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "LEED Gold", sub: "USGBC" },
+          { label: "BREEAM",    sub: "Building research" },
+          { label: "ISO 50001", sub: "Energy management" },
+          { label: "EDGE",      sub: "IFC · World Bank" },
+        ],
+      },
+    ],
+
+    sectorCommon: {
+      videoLabel: "Sector film",
+      videoNote: "Video placeholder",
+      viewAll: "View full portfolio",
+      ctaTitle: "Have a project in this sector?",
+      ctaSub: "Let's talk about how we can help.",
+      ctaBtn: "Get in touch",
+    },
+
+    proyectos: {
+      eyebrow: "Portfolio", title: "Projects",
+      sectorsEyebrow: "Sectors",
+      viewSector: "View sector projects",
+      backToProyectos: "Back to Projects",
+      navAll: "Portfolio",
+    },
 
     personas: {
       eyebrow: "People", title: "The team",
@@ -743,7 +1296,7 @@ window.AI_I18N = {
     footer: {
       meta: "Madrid · Since 1961",
       headNav: "Navigation", headSectors: "Sectors", headContact: "Contact",
-      sectors: ["Data Centers", "Pharma & Biosafety", "Advanced Manufacturing", "Offices", "Hospitals", "Sustainability"],
+      sectors: ["Data Centers", "Pharma & Biosafety", "Advanced Manufacturing", "Singular Buildings", "Hospitals", "Climate & Sustainability"],
       legalLeft: "© 2026 Aguilera Ingenieros S.A. — All rights reserved",
       legalRight: "Cookie Policy · Legal Notice",
     },
@@ -768,54 +1321,51 @@ window.AI_I18N = {
 // Project catalogue is language-agnostic for `name` (proper nouns) + `loc`.
 // `cat` is keyed and resolved through catLabels at render time.
 window.AI_PROJECTS = [
-  // CPD
+  // Data Centers
   { cat:"cpd", name:"BBVA Tres Cantos CPD I", loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
   { cat:"cpd", name:"BBVA Tres Cantos CPD II",loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
   { cat:"cpd", name:"BBVA Perú",              loc:"Tier III · Lima",   img:"assets/hero_cpd.jpg" },
   { cat:"cpd", name:"Mapfre Tales de Mileto", loc:"Tier III · Madrid", img:"assets/hero_cpd.jpg" },
-  // Farma
+
+  // Farma & Bio
   { cat:"farma", name:"GSK — Proyecto Eagle",       loc:"Tres Cantos, Madrid", img:"assets/hero_farma.jpg" },
   { cat:"farma", name:"MSD — Laboratorio de Calidad", loc:"Madrid",            img:"assets/hero_farma.jpg" },
   { cat:"farma", name:"Biomagune — Laboratorio I+D", loc:"San Sebastián",      img:"assets/hero_farma.jpg" },
-  // Fabricación
+
+  // Fabricación avanzada
   { cat:"fab", name:"Planta Beiersdorf Lechia", loc:"Poznań, Polonia",         img:"assets/hero_industriales.jpg" },
   { cat:"fab", name:"Planta BDF Nivea",         loc:"Tres Cantos, Madrid",     img:"assets/hero_industriales.jpg" },
   { cat:"fab", name:"Vestas Nacelles",          loc:"Villadangos, León",       img:"assets/hero_industriales.jpg" },
   { cat:"fab", name:"Vestas Blades",            loc:"Daimiel, Ciudad Real",    img:"assets/hero_industriales.jpg" },
   { cat:"fab", name:"Flex do Brasil",           loc:"Limeira, São Paulo",      img:"assets/hero_industriales.jpg" },
-  // Oficinas
-  { cat:"ofi", name:"Torre Sacyr / Sede PwC",     loc:"Foster & Partners · Madrid", img:"assets/hero_oficinas.jpg" },
-  { cat:"ofi", name:"Torre Foster — Fitout Bankia", loc:"Foster & Partners · Madrid", img:"assets/hero_oficinas.jpg" },
-  { cat:"ofi", name:"Banco Popular C/ Abelias",   loc:"Arq. Ayala · Madrid",        img:"assets/hero_oficinas.jpg" },
-  { cat:"ofi", name:"Caja Vital",                 loc:"Arq. J. Mozas · Vitoria",    img:"assets/hero_oficinas.jpg" },
-  { cat:"ofi", name:"Delegación de Hacienda",     loc:"Arq. BSV · Zaragoza",        img:"assets/hero_oficinas.jpg" },
-  { cat:"ofi", name:"Edificio Hines Pórtico",     loc:"SOM & R. de la Hoz · Madrid", img:"assets/hero_oficinas.jpg" },
-  // Hoteles
-  { cat:"hot", name:"Abama Country Club 5* GL", loc:"Guía de Isora, Tenerife", img:"assets/hero_oficinas.jpg" },
-  { cat:"hot", name:"Sheraton La Caleta 5*",    loc:"Adeje, Tenerife",         img:"assets/hero_oficinas.jpg" },
-  { cat:"hot", name:"Hotel Kempinski Bahía 5* GL", loc:"Estepona, Málaga",     img:"assets/hero_oficinas.jpg" },
-  { cat:"hot", name:"Eurostars Madrid Tower 5*", loc:"Madrid",                 img:"assets/hero_oficinas.jpg" },
-  // Centros comerciales
-  { cat:"cc", name:"H2Ocio Rivas",       loc:"Chapman Taylor · Madrid",   img:"assets/hero_oficinas.jpg" },
-  { cat:"cc", name:"El Corte Inglés",    loc:"Eibar y Albacete",          img:"assets/hero_oficinas.jpg" },
-  { cat:"cc", name:"Marks & Spencer",    loc:"Madrid · Sevilla · Bilbao", img:"assets/hero_oficinas.jpg" },
-  // Transporte
-  { cat:"tra", name:"Aeropuerto de Sondica", loc:"Calatrava · Bilbao",  img:"assets/hero_oficinas.jpg" },
-  { cat:"tra", name:"Gare do Oriente",       loc:"Calatrava · Lisboa",  img:"assets/hero_oficinas.jpg" },
-  { cat:"tra", name:"Autoridad Portuaria de Bilbao", loc:"Arq. R. Losada", img:"assets/hero_oficinas.jpg" },
+
+  // Edificios singulares — absorbs oficinas + hoteles + retail + transporte + museos / auditorios
+  { cat:"edif", name:"Torre Sacyr / Sede PwC",     loc:"Foster & Partners · Madrid",   img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Torre Foster — Fitout Bankia", loc:"Foster & Partners · Madrid", img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Banco Popular C/ Abelias",   loc:"Arq. Ayala · Madrid",          img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Caja Vital",                 loc:"Arq. J. Mozas · Vitoria",      img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Delegación de Hacienda",     loc:"Arq. BSV · Zaragoza",          img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Edificio Hines Pórtico",     loc:"SOM & R. de la Hoz · Madrid",  img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Abama Country Club 5* GL",   loc:"Guía de Isora, Tenerife",      img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Sheraton La Caleta 5*",      loc:"Adeje, Tenerife",              img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Hotel Kempinski Bahía 5* GL", loc:"Estepona, Málaga",            img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Eurostars Madrid Tower 5*",  loc:"Madrid",                       img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"H2Ocio Rivas",               loc:"Chapman Taylor · Madrid",      img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"El Corte Inglés",            loc:"Eibar y Albacete",             img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Marks & Spencer",            loc:"Madrid · Sevilla · Bilbao",    img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Aeropuerto de Sondica",      loc:"Calatrava · Bilbao",           img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Gare do Oriente",            loc:"Calatrava · Lisboa",           img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Autoridad Portuaria de Bilbao", loc:"Arq. R. Losada",            img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Ciudad de las Artes y las Ciencias", loc:"Calatrava · Valencia", img:"assets/hero_edificios_singulares.jpg" },
+  { cat:"edif", name:"Auditorio de Tenerife",      loc:"Calatrava · Tenerife",         img:"assets/auditorio_tenerife.png" },
+
   // Hospitales
-  { cat:"hos", name:"Hospital de Vigo",        loc:"Valode & Pistre",       img:"assets/hero_farma.jpg" },
-  { cat:"hos", name:"Clínica Quirón Erandio",  loc:"Vizcaya",               img:"assets/hero_farma.jpg" },
-  { cat:"hos", name:"Hospital Fremap Majadahonda", loc:"M. de Lorenzo · Madrid", img:"assets/hero_farma.jpg" },
+  { cat:"hos", name:"Hospital de Vigo",            loc:"Valode & Pistre",              img:"assets/hero_farma.jpg" },
+  { cat:"hos", name:"Clínica Quirón Erandio",      loc:"Vizcaya",                      img:"assets/hero_farma.jpg" },
+  { cat:"hos", name:"Hospital Fremap Majadahonda", loc:"M. de Lorenzo · Madrid",       img:"assets/hero_farma.jpg" },
+
   // Sostenibilidad
-  { cat:"sos", name:"Banco Popular Abelias",   loc:"LEED Gold · Madrid",        img:"assets/hero_oficinas.jpg" },
-  { cat:"sos", name:"Edificio Hines Tripark",  loc:"LEED · Las Rozas, Madrid",  img:"assets/hero_oficinas.jpg" },
-  { cat:"sos", name:"Torre Sacyr / PwC",       loc:"LEED · Madrid",             img:"assets/hero_oficinas.jpg" },
-  // Museos
-  { cat:"mus", name:"Ciudad de las Artes y las Ciencias", loc:"Calatrava · Valencia", img:"assets/hero_oficinas.jpg" },
-  { cat:"mus", name:"Auditorio de Tenerife",   loc:"Calatrava · Tenerife",       img:"assets/hero_oficinas.jpg" },
-  // BIM
-  { cat:"bim", name:"Building Information Modeling", loc:"Modelo BIM · Madrid", img:"assets/hero_bim.jpg" },
-  { cat:"bim", name:"BIM — Planta industrial", loc:"Modelo BIM",                img:"assets/hero_bim.jpg" },
-  { cat:"bim", name:"BIM — Edificio en altura", loc:"Modelo BIM",               img:"assets/hero_bim.jpg" },
+  { cat:"sos", name:"Banco Popular Abelias",       loc:"LEED Gold · Madrid",           img:"assets/hero_dc_green.jpg" },
+  { cat:"sos", name:"Edificio Hines Tripark",      loc:"LEED · Las Rozas, Madrid",     img:"assets/hero_dc_green.jpg" },
+  { cat:"sos", name:"Torre Sacyr / PwC",           loc:"LEED · Madrid",                img:"assets/hero_dc_green.jpg" },
 ];
