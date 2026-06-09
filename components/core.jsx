@@ -93,4 +93,19 @@ const Icon = {
   MapPin:   ({ s=16, c="currentColor" }) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.5"><path d="M12 22s8-8 8-13a8 8 0 10-16 0c0 5 8 13 8 13z"/><circle cx="12" cy="9" r="3"/></svg>,
 };
 
-Object.assign(window, { BrandMark, Logo, Eyebrow, ArrowCTA, LangToggle, Stat, SectionLabel, Icon });
+/* Stable, URL-safe id for a project, derived from its name. Used by
+   ProjectCard (to navigate) and PageProject (to look one up) so both sides
+   agree without having to hand-author an id on every AI_PROJECTS entry. */
+const projSlug = (name) => String(name || "")
+  .toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+/* Resolve a project by slug across the enriched AI_PROJECTS list first, then
+   the home `featured` list as a fallback. Returns the entry (with whatever
+   detail fields it carries) or null. */
+const findProject = (projectId, featured) => {
+  const all = (window.AI_PROJECTS || []).concat(featured || []);
+  return all.find(p => projSlug(p.name) === projectId) || null;
+};
+
+Object.assign(window, { BrandMark, Logo, Eyebrow, ArrowCTA, LangToggle, Stat, SectionLabel, Icon, projSlug, findProject });

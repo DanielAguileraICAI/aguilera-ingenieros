@@ -9,7 +9,7 @@
  * the Proyectos entry is followed inline by an indented list of the same
  * sectors — no hover affordance, so we surface them statically.
  */
-const Nav = ({ route, setRoute }) => {
+const Nav = ({ route, realRoute, sectorId, setRoute }) => {
   const { t } = useLang();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -90,7 +90,29 @@ const Nav = ({ route, setRoute }) => {
 
   return (
     <>
-      <nav className={"ai-nav " + (scrolled || route !== "home" ? "ai-nav--solid" : "")}>
+      {/* Transparent-at-top decision:
+            - home / proyectos / personas / newsletter / contacto qualify —
+              all open with a full-bleed dark hero (image, video stage, or
+              dark section) that gives the nav the contrast it needs.
+            - sector landings qualify ONLY when the active sector has
+              heroVariant === "stage" (Data Centers, Singular Buildings).
+              Sectors with framed split heros (Farma / Hos / Fab / Sos)
+              keep the nav solid since their hero panel doesn't reach the
+              top edge of the viewport.
+            - everything else (about, careers, article) stays solid. */}
+      <nav className={
+        "ai-nav " +
+        (() => {
+          if (scrolled) return "ai-nav--solid";
+          const TRANSPARENT_AT_TOP = ["home", "proyectos", "personas", "talento", "newsletter", "contacto"];
+          if (TRANSPARENT_AT_TOP.includes(realRoute)) return "";
+          if (realRoute === "sector" && sectorId) {
+            const active = (t.sectors || []).find(s => s.id === sectorId);
+            if (active && (active.heroVariant === "stage" || active.heroVariant === "deck")) return "";
+          }
+          return "ai-nav--solid";
+        })()
+      }>
         <div className="ai-nav__inner">
           <a className="ai-nav__logo" onClick={() => go("home")}>
             <Logo dark={true} size={34} />
