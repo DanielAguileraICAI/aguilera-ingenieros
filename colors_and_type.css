@@ -163,21 +163,24 @@ body {
   background:  var(--bg);
 }
 
-/* Headings — display family, tracked slightly tight */
+/* Headings — display family, tracked slightly tight.
+   Editorial weight: medium (500) by default. Heavier weights were pulling
+   focus away from the imagery and feeling stocky; medium reads as confident
+   without being shouty (Foster + Partners cadence). */
 h1, .h1, h2, .h2, h3, .h3, .display, .hero {
   font-family: var(--font-display);
   color: inherit;
   letter-spacing: var(--tr-display);
   line-height: var(--lh-heading);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-medium);
   margin: 0;
   text-wrap: balance;
 }
-.hero     { font-size: var(--fs-hero);    line-height: var(--lh-tight); font-weight: var(--fw-bold); }
-.display  { font-size: var(--fs-display); line-height: var(--lh-tight); font-weight: var(--fw-bold); }
+.hero     { font-size: var(--fs-hero);    line-height: var(--lh-tight); font-weight: var(--fw-medium); }
+.display  { font-size: var(--fs-display); line-height: var(--lh-tight); font-weight: var(--fw-medium); }
 h1, .h1   { font-size: var(--fs-h1); }
 h2, .h2   { font-size: var(--fs-h2); }
-h3, .h3   { font-size: var(--fs-h3); font-weight: var(--fw-semibold); }
+h3, .h3   { font-size: var(--fs-h3); font-weight: var(--fw-medium); }
 
 /* Eyebrow / tag label — uppercase, wide tracking */
 .eyebrow, .label {
@@ -200,7 +203,7 @@ h3, .h3   { font-size: var(--fs-h3); font-weight: var(--fw-semibold); }
 .pullquote {
   font-family: var(--font-display);
   font-size: var(--fs-quote);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-medium);
   line-height: 1.2;
   letter-spacing: var(--tr-display);
   color: var(--fg);

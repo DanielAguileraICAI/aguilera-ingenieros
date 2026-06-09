@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aguilera Ingenieros</title>
-<link rel="icon" type="image/png" href="assets/logo_isotype.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
 <link rel="stylesheet" href="colors_and_type.css">
 <link rel="stylesheet" href="site.css">
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -27,6 +27,7 @@ const App = () => {
   const [route, setRouteState] = React.useState(() => localStorage.getItem("ai_route") || "home");
   const [articleId, setArticleId] = React.useState(() => localStorage.getItem("ai_article") || null);
   const [sectorId, setSectorId] = React.useState(() => localStorage.getItem("ai_sector") || null);
+  const [projectId, setProjectId] = React.useState(() => localStorage.getItem("ai_project") || null);
   React.useEffect(() => { localStorage.setItem("ai_route", route); }, [route]);
   React.useEffect(() => {
     if (articleId) localStorage.setItem("ai_article", articleId);
@@ -36,22 +37,34 @@ const App = () => {
     if (sectorId) localStorage.setItem("ai_sector", sectorId);
     else localStorage.removeItem("ai_sector");
   }, [sectorId]);
+  React.useEffect(() => {
+    if (projectId) localStorage.setItem("ai_project", projectId);
+    else localStorage.removeItem("ai_project");
+  }, [projectId]);
 
-  /* setRoute accepts either a plain id ("home") or {route, articleId} or
-     {route:"sector", sectorId}. "article" requires the article form; "sector"
-     requires the sector form. Anything else clears both detail ids. */
+  /* setRoute accepts a plain id ("home") or {route, articleId} /
+     {route:"sector", sectorId} / {route:"project", projectId}. Each object
+     form sets its own detail id and clears the others. */
   const setRoute = (next) => {
     if (typeof next === "object" && next && next.route === "article") {
       setArticleId(next.articleId);
       setSectorId(null);
+      setProjectId(null);
       setRouteState("article");
     } else if (typeof next === "object" && next && next.route === "sector") {
       setSectorId(next.sectorId);
       setArticleId(null);
+      setProjectId(null);
       setRouteState("sector");
+    } else if (typeof next === "object" && next && next.route === "project") {
+      setProjectId(next.projectId);
+      setArticleId(null);
+      setSectorId(null);
+      setRouteState("project");
     } else {
       setArticleId(null);
       setSectorId(null);
+      setProjectId(null);
       setRouteState(next);
     }
     window.scrollTo({top: 0, behavior: "smooth"});
@@ -62,16 +75,23 @@ const App = () => {
   else if (route === "quienes") page = <PageQuienes setRoute={setRoute} />;
   else if (route === "proyectos") page = <PageProyectos setRoute={setRoute} />;
   else if (route === "sector") page = <PageSector sectorId={sectorId} setRoute={setRoute} />;
+  else if (route === "project") page = <PageProject projectId={projectId} setRoute={setRoute} />;
   else if (route === "personas") page = <PagePersonas setRoute={setRoute} />;
   else if (route === "talento") page = <PageTalento setRoute={setRoute} />;
   else if (route === "newsletter") page = <PageNewsletter setRoute={setRoute} />;
   else if (route === "article") page = <PageArticle articleId={articleId} setRoute={setRoute} />;
   else if (route === "contacto") page = <PageContacto setRoute={setRoute} />;
-  const navRoute = (route === "article") ? "newsletter" : (route === "sector" ? "proyectos" : route);
+  const navRoute = (route === "article") ? "newsletter" : ((route === "sector" || route === "project") ? "proyectos" : route);
   return (
     <div data-screen-label={route}>
-      <Nav route={navRoute} setRoute={setRoute} />
-      <main key={route + (articleId || "") + (sectorId || "")} className="page-shell">{page}</main>
+      {/* Pass navRoute (highlighting), realRoute (transparency on home /
+          proyectos), AND sectorId so Nav can look up the active sector's
+          heroVariant — stage-hero sectors get transparent treatment because
+          their full-bleed dark video gives the nav the contrast it needs.
+          Framed-hero sectors (split layout, dark navy under the nav anyway)
+          stay solid for consistency. */}
+      <Nav route={navRoute} realRoute={route} sectorId={sectorId} setRoute={setRoute} />
+      <main key={route + (articleId || "") + (sectorId || "") + (projectId || "")} className="page-shell">{page}</main>
       {route !== "contacto" && <Footer setRoute={setRoute} />}
       <CookieBar />
     </div>

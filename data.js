@@ -3,6 +3,7 @@
 window.AI_I18N = {
   es: {
     nav: [
+      { id: "home",       label: "Inicio" },
       { id: "quienes",    label: "Quiénes somos" },
       { id: "proyectos",  label: "Proyectos" },
       { id: "personas",   label: "Personas" },
@@ -33,15 +34,18 @@ window.AI_I18N = {
     ],
 
     home: {
-      /* Home carousel — adopts the stage-hero typography (smaller headline,
-         no sub line, brand-aligned eyebrow). Each slide carries the matching
-         `sectorId` so the "View projects" CTA routes straight to the sector
-         landing page instead of the all-portfolio fallback. */
+      /* Home carousel — full-bleed video reels (one per vertical), each a
+         concatenation of multiple source cuts to keep the visual moving.
+         The `img` field is preserved as the video `poster` so the still
+         paints instantly before the clip buffers. Autoplay duration is
+         driven by each video's natural length (~21–39s) via the `ended`
+         event — no fixed timer. The dot ring fills via rAF reading
+         video.currentTime / video.duration. */
       heroSlides: [
-        { sectorId: "data-centers",          eyebrow: "Centros de Proceso de Datos", headline: "La ingeniería detrás de la IA y los datos.",       img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
-        { sectorId: "farma-bio",             eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", img: "assets/bg_industrial_7.jpg" },
-        { sectorId: "fabricacion-avanzada",  eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",               img: "assets/bg_industrial_4.jpg" },
-        { sectorId: "edificios-singulares",  eyebrow: "Edificios singulares",        headline: "Arquitectura singular. Ingeniería sin compromisos.",  img: "assets/hero_edificios_singulares.jpg" },
+        { sectorId: "data-centers",          eyebrow: "Centros de Proceso de Datos", headline: "La ingeniería detrás de la IA y los datos.",       img: "assets/hero_bbva_noche.jpg", video: "assets/videos/home_clip_1_data_centers.mp4",  objectPosition: "center 0%" },
+        { sectorId: "edificios-singulares",  eyebrow: "Edificios singulares",        headline: "Edificios singulares,\ningeniería sin compromisos.",  img: "assets/hero_edificios_singulares.jpg", video: "assets/videos/home_clip_3_buildings.mp4" },
+        { sectorId: "farma-bio",             eyebrow: "Farma & Bioseguridad",        headline: "Ingeniería de instalaciones para entornos regulados.", img: "assets/bg_industrial_7.jpg", video: "assets/videos/home_clip_2_pharma.mp4?v=3" },
+        { sectorId: "fabricacion-avanzada",  eyebrow: "Fabricación de alta precisión", headline: "Plantas industriales de vanguardia.",               img: "assets/bg_industrial_4.jpg", video: "assets/videos/home_clip_4_manufacturing.mp4" },
       ],
       heroEyebrow: "Tres verticales",
       heroTitle: "Ingeniería para los proyectos más exigentes.",
@@ -254,6 +258,9 @@ window.AI_I18N = {
         "Proyectos integrales de Laboratorios, Salas Blancas y Centros de I+D",
         "Proyectos integrales de Plantas Industriales",
         "Proyectos de implantación, adecuación, reforma y rehabilitación",
+        "Proyectos de infraestructura y urbanización",
+        "Proyectos de ingeniería de detalle y de coordinación",
+        "Gestión de proyectos en entorno colaborativo (BIM)",
         "Gestión de concursos de licitación de obras",
         "Dirección de obra y dirección facultativa",
         "Ingeniería y supervisión a pie de obra",
@@ -264,12 +271,31 @@ window.AI_I18N = {
       ],
     },
 
+    /* Labels for the project-detail page (PageProject). The values shown come
+       from each AI_PROJECTS entry; these are just the field captions. */
+    projectDetail: {
+      back: "Volver",
+      overview: "Ficha técnica",
+      client: "Cliente",
+      year: "Año",
+      surface: "Superficie",
+      architect: "Arquitectura",
+      investment: "Inversión",
+      cert: "Certificación",
+      location: "Ubicación",
+      scopeTitle: "Alcance de nuestro trabajo",
+      relatedTitle: "Otros proyectos del sector",
+      ctaTitle: "¿Tiene un proyecto similar?",
+      ctaSub: "Hablemos de cómo podemos ayudarle.",
+      ctaBtn: "Contactar",
+    },
+
     categories: [
       { id: "todos",  label: "Todos" },
       { id: "cpd",    label: "Data Centers" },
       { id: "farma",  label: "Farma & Bioseguridad" },
-      { id: "fab",    label: "Fabricación avanzada" },
       { id: "edif",   label: "Edificios singulares" },
+      { id: "fab",    label: "Fabricación avanzada" },
       { id: "hos",    label: "Hospitales" },
       { id: "sos",    label: "Clima y Sostenibilidad" },
     ],
@@ -307,6 +333,11 @@ window.AI_I18N = {
            in the reel, with the active dot's outer ring filling clockwise
            as the clip plays. */
         heroVariant: "stage",
+        /* heroHint — tiny "Discover our …" label + downward arrow that
+           sits below the dots and scrolls past the stage hero into the
+           sector content. Mirrors the Proyectos page's "Ver sectores"
+           pattern, sized smaller and quieter. */
+        heroHint: "Descubre nuestros data centers",
         /* Hero panel video — when present, replaces the line-drawing in the
            framed panel. Two shapes are supported:
              video: { src, poster?, cap? }                   — single looping clip
@@ -317,10 +348,10 @@ window.AI_I18N = {
         video: {
           poster: "assets/hero_bbva_noche.jpg",
           clips: [
-            { src: "assets/videos/dc_reel_01_exterior.mp4", cap: "DATA CENTER · EXTERIOR" },
-            { src: "assets/videos/dc_reel_02_approach.mp4", cap: "DATA CENTER · ACCESO" },
-            { src: "assets/videos/dc_reel_03_overview.mp4", cap: "DATA CENTER · VISTA GENERAL" },
-            { src: "assets/videos/dc_reel_04_interior.mp4", cap: "SALA TÉCNICA · BBVA" },
+            { src: "assets/videos/dc_reel_01_exterior.mp4?v=2", cap: "DATA CENTER · EXTERIOR" },
+            { src: "assets/videos/dc_reel_02_approach.mp4?v=2", cap: "DATA CENTER · ACCESO" },
+            { src: "assets/videos/dc_reel_03_overview.mp4?v=2", cap: "DATA CENTER · VISTA GENERAL" },
+            { src: "assets/videos/dc_reel_04_interior.mp4?v=2", cap: "SALA TÉCNICA · BBVA" },
           ],
         },
         eyebrow: "Centros de Proceso de Datos",
@@ -363,6 +394,20 @@ window.AI_I18N = {
         label: "Farma & Bioseguridad",
         img: "assets/hero_farma.jpg",
         building: { src: "assets/farma_isometric.png", ratio: 1.5, cap: "LABORATORIO P3 · GMP · CLEANROOM" },
+        heroVariant: "stage",
+        heroHint: "Descubre nuestros proyectos farmacéuticos",
+        /* 5-clip reel — same composition as home pharma. Master cuts (lab
+           interiors) use BOT crop; farma_fuera cuts (exteriors) use TOP. */
+        video: {
+          poster: "assets/hero_farma.jpg",
+          clips: [
+            { src: "assets/videos/pharma_reel_01_lab.mp4",      cap: "LABORATORIO · BIM" },
+            { src: "assets/videos/pharma_reel_02_facade.mp4",   cap: "PLANTA · FACHADA" },
+            { src: "assets/videos/pharma_reel_03_aerial.mp4",   cap: "PLANTA · VISTA AÉREA" },
+            { src: "assets/videos/pharma_reel_04_corridor.mp4", cap: "LABORATORIO · CORREDOR" },
+            { src: "assets/videos/pharma_reel_05_approach.mp4", cap: "PLANTA · APROXIMACIÓN" },
+          ],
+        },
         eyebrow: "Farma & Bioseguridad",
         h1: "Ingeniería de instalaciones para entornos regulados.",
         sub: "Salas blancas, laboratorios de bioseguridad y plantas de producción farmacéutica diseñadas según normativa internacional. Control absoluto del aire, la presión y la contaminación cruzada.",
@@ -399,49 +444,26 @@ window.AI_I18N = {
         ],
       },
       {
-        id: "fabricacion-avanzada", cat: "fab",
-        label: "Fabricación avanzada",
-        img: "assets/hero_industriales.jpg",
-        eyebrow: "Fabricación avanzada",
-        h1: "Plantas industriales de alta precisión.",
-        sub: "Microelectrónica, cosmética, energía y nuevas industrias. Diseño integral desde la viabilidad técnica hasta la puesta en marcha, con BIM coordinado y asistencia técnica continuada.",
-        stats: [
-          { k: "Disciplinas",  v: "MEP · proceso · BIM" },
-          { k: "Referencias",  v: "Beiersdorf · Vestas" },
-          { k: "Internacional",v: "ES · UE · LATAM" },
-          { k: "Modelo",       v: "BIM LOD 400" },
-        ],
-        engineerTitle: "Qué diseñamos",
-        engineerSub: "Instalaciones y servicios industriales para plantas de fabricación avanzada.",
-        engineer: [
-          { t: "Servicios de planta (MEP)", d: "Climatización industrial, electricidad media y baja tensión, fontanería y saneamiento, integrados desde el modelo BIM." },
-          { t: "Procesos y utilidades",     d: "Aire comprimido, vapor, agua descalcificada, gases técnicos y sistemas de extracción de proceso." },
-          { t: "Eficiencia energética",     d: "Recuperación de calor, cogeneración, paneles solares y monitorización del consumo para reducir OPEX." },
-          { t: "Coordinación BIM",          d: "Modelo federado LOD 400, detección de interferencias y cuantificación para licitación y obra." },
-        ],
-        capTitle: "Capacidades técnicas",
-        caps: [
-          "BIM coordinado · LOD 400",
-          "ATEX · zonas clasificadas",
-          "Procesos limpios para microelectrónica",
-          "Eficiencia energética industrial",
-          "Asistencia técnica en obra (DEO)",
-        ],
-        projTitle: "Proyectos de referencia",
-        projCats: ["fab"],
-        certTitle: "Certificaciones y estándares",
-        certs: [
-          { label: "ISO 9001",  sub: "Calidad" },
-          { label: "ISO 14001", sub: "Medio ambiente" },
-          { label: "ISO 45001", sub: "Seguridad y salud" },
-          { label: "ATEX",      sub: "Atmósferas explosivas" },
-        ],
-      },
-      {
         id: "edificios-singulares", cat: "edif",
         label: "Edificios singulares",
         img: "assets/hero_edificios_singulares.jpg",
         building: { src: "assets/auditorio_tenerife.png", ratio: 1.19, cap: "AUDITORIO DE TENERIFE · CALATRAVA" },
+        heroVariant: "stage",
+        heroHint: "Descubre nuestros edificios",
+        /* 6-clip reel of BB tower (Sáenz de Oiza) footage. Right 22% crop
+           on every clip removes the project info block that lived on the
+           right side of the source renders. */
+        video: {
+          poster: "assets/hero_edificios_singulares.jpg",
+          clips: [
+            { src: "assets/videos/edif_reel_03_facade.mp4",   cap: "TORRE BB · FACHADA" },
+            { src: "assets/videos/edif_reel_02_corner.mp4",   cap: "TORRE BB · ESQUINA" },
+            { src: "assets/videos/edif_reel_01_aerial.mp4",   cap: "TORRE BB · VISTA AÉREA" },
+            { src: "assets/videos/edif_reel_04_approach.mp4", cap: "TORRE BB · APROXIMACIÓN" },
+            { src: "assets/videos/edif_reel_05_interior.mp4", cap: "TORRE BB · INTERIOR" },
+            { src: "assets/videos/edif_reel_06_volume.mp4",   cap: "TORRE BB · VOLUMEN" },
+          ],
+        },
         eyebrow: "Edificios singulares",
         h1: "Torres, sedes y edificios firmados.",
         sub: "Las instalaciones detrás de algunos de los edificios más reconocibles de España. Trabajamos con los principales estudios de arquitectura internacionales en proyectos firmados por Foster, Calatrava o SOM.",
@@ -478,9 +500,75 @@ window.AI_I18N = {
         ],
       },
       {
+        id: "fabricacion-avanzada", cat: "fab",
+        label: "Fabricación avanzada",
+        img: "assets/hero_industriales.jpg",
+        heroVariant: "stage",
+        heroHint: "Descubre nuestras plantas industriales",
+        /* 4-clip reel from the same sources as the home manufacturing reel.
+           TOP 12% crop on each removes the AGUILERA + partner mark that
+           lives in the top-right of every fabricas render. */
+        video: {
+          poster: "assets/hero_industriales.jpg",
+          clips: [
+            { src: "assets/videos/fab_reel_01_plant.mp4",    cap: "PLANTA · VISTA AÉREA" },
+            { src: "assets/videos/fab_reel_02_overview.mp4", cap: "PLANTA · CONJUNTO" },
+            { src: "assets/videos/fab_reel_03_detail.mp4",   cap: "PROCESO · DETALLE" },
+            { src: "assets/videos/fab_reel_04_systems.mp4",  cap: "INSTALACIONES · CORRIDOR" },
+          ],
+        },
+        eyebrow: "Fabricación avanzada",
+        h1: "Plantas industriales de alta precisión.",
+        sub: "Microelectrónica, cosmética, energía y nuevas industrias. Diseño integral desde la viabilidad técnica hasta la puesta en marcha, con BIM coordinado y asistencia técnica continuada.",
+        stats: [
+          { k: "Disciplinas",  v: "MEP · proceso · BIM" },
+          { k: "Referencias",  v: "Beiersdorf · Vestas" },
+          { k: "Internacional",v: "ES · UE · LATAM" },
+          { k: "Modelo",       v: "BIM LOD 400" },
+        ],
+        engineerTitle: "Qué diseñamos",
+        engineerSub: "Instalaciones y servicios industriales para plantas de fabricación avanzada.",
+        engineer: [
+          { t: "Servicios de planta (MEP)", d: "Climatización industrial, electricidad media y baja tensión, fontanería y saneamiento, integrados desde el modelo BIM." },
+          { t: "Procesos y utilidades",     d: "Aire comprimido, vapor, agua descalcificada, gases técnicos y sistemas de extracción de proceso." },
+          { t: "Eficiencia energética",     d: "Recuperación de calor, cogeneración, paneles solares y monitorización del consumo para reducir OPEX." },
+          { t: "Coordinación BIM",          d: "Modelo federado LOD 400, detección de interferencias y cuantificación para licitación y obra." },
+        ],
+        capTitle: "Capacidades técnicas",
+        caps: [
+          "BIM coordinado · LOD 400",
+          "ATEX · zonas clasificadas",
+          "Procesos limpios para microelectrónica",
+          "Eficiencia energética industrial",
+          "Asistencia técnica en obra (DEO)",
+        ],
+        projTitle: "Proyectos de referencia",
+        projCats: ["fab"],
+        certTitle: "Certificaciones y estándares",
+        certs: [
+          { label: "ISO 9001",  sub: "Calidad" },
+          { label: "ISO 14001", sub: "Medio ambiente" },
+          { label: "ISO 45001", sub: "Seguridad y salud" },
+          { label: "ATEX",      sub: "Atmósferas explosivas" },
+        ],
+      },
+      {
         id: "hospitales", cat: "hos",
         label: "Hospitales",
+        heroTitle: "Descubre nuestros hospitales",
         img: "assets/hero_farma.jpg",
+        heroVariant: "deck",
+        /* 3 rectangular clips (1200×900, 4:3) from the master hospital
+           sequence. Logos at the bottom of the source frame are excluded
+           by the tighter height crop. Clip 01 is the long 12s opener
+           (08:05-08:17); clips 02/03 follow the BIM beats. */
+        video: {
+          clips: [
+            { src: "assets/videos/hos_reel_01_sq.mp4?v=4", cap: "PASILLO · QUIRÓFANO" },
+            { src: "assets/videos/hos_reel_02_sq.mp4?v=4", cap: "BIM · CONJUNTO" },
+            { src: "assets/videos/hos_reel_03_sq.mp4?v=4", cap: "PLANTA · INSTALACIONES" },
+          ],
+        },
         eyebrow: "Hospitales",
         h1: "Entornos críticos 24/7, sin margen.",
         sub: "Hospitales y clínicas diseñados para un servicio continuo: quirófanos, UCIs, áreas de aislamiento e imagen médica. Instalaciones redundantes, gases medicinales y BMS integrado.",
@@ -519,7 +607,22 @@ window.AI_I18N = {
       {
         id: "sostenibilidad", cat: "sos",
         label: "Clima y Sostenibilidad",
+        heroTitle: "Impulsando un mundo más sostenible",
         img: "assets/hero_dc_green.jpg",
+        heroVariant: "deck",
+        /* 3 clips at 1200x900 (4:3), matching the hospitales template.
+           Order opens on the field shot for a human entry point, then
+           moves into the BIM render, then the aerial:
+           01 = Aisa drone-pilot field shot (13s),
+           02 = the sector tile clip (BIM rooftop + solar array, 4s),
+           03 = Loeches aerial drone over the photovoltaic field (12s). */
+        video: {
+          clips: [
+            { src: "assets/videos/sos_reel_01_sq.mp4?v=2", cap: "AISA · CAMPO" },
+            { src: "assets/videos/sos_reel_02_sq.mp4?v=2", cap: "BIM · FOTOVOLTAICA" },
+            { src: "assets/videos/sos_reel_03_sq.mp4?v=2", cap: "LOECHES · AÉREO" },
+          ],
+        },
         eyebrow: "Clima y Sostenibilidad",
         h1: "Sostenibilidad medida, no declarada.",
         sub: "Eficiencia energética, recuperación de calor, paneles solares, movilidad eléctrica y certificación LEED / BREEAM. La sostenibilidad como una decisión de ingeniería sometida a métrica anual.",
@@ -572,12 +675,25 @@ window.AI_I18N = {
       viewSector: "Ver proyectos del sector",
       backToProyectos: "Volver a Proyectos",
       navAll: "Portfolio",
+      archiveEyebrow: "Todos los proyectos",
+      /* Top-of-page hero — 4 photo slides cycling through the verticals
+         (without labelling them; the sector tiles below do the naming).
+         A constant "Proyectos" overlay carries the page title. */
+      heroSlides: [
+        { img: "assets/proj_hero_bbva_noche.jpg", objectPosition: "center top" },
+        { img: "assets/bg_industrial_7.jpg", objectPosition: "center top" },
+        { img: "assets/hero_edificios_singulares.jpg", objectPosition: "center top" },
+        { img: "assets/proj_hero_bs_noche.jpg", objectPosition: "center top" },
+      ],
+      scrollHint: "Ver sectores",
     },
 
     personas: {
       eyebrow: "Personas", title: "El equipo",
       teamEyebrow: "Socios y responsables",
-      quote: "Más de 60 años de experiencia colectiva. Un equipo multidisciplinar de ingenieros, técnicos y gestores con presencia internacional.",
+      quote: "Más de 60 años de experiencia colectiva. Un equipo multidisciplinar de ingenieros, técnicos y gestores.",
+      heroImg: "assets/bg_industrial_4.jpg",
+      scrollHint: "Conoce al equipo",
     },
 
     talento: {
@@ -680,6 +796,7 @@ window.AI_I18N = {
   // -------------------- ENGLISH --------------------
   en: {
     nav: [
+      { id: "home",       label: "Home" },
       { id: "quienes",    label: "About" },
       { id: "proyectos",  label: "Projects" },
       { id: "personas",   label: "People" },
@@ -709,10 +826,10 @@ window.AI_I18N = {
 
     home: {
       heroSlides: [
-        { sectorId: "data-centers",          eyebrow: "Data Centers",                 headline: "Engineering the backbone of AI and data.",         img: "assets/hero_bbva_noche.jpg", objectPosition: "center 0%" },
-        { sectorId: "farma-bio",             eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          img: "assets/bg_industrial_7.jpg" },
-        { sectorId: "fabricacion-avanzada",  eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     img: "assets/bg_industrial_4.jpg" },
-        { sectorId: "edificios-singulares",  eyebrow: "Singular buildings",           headline: "Iconic architecture. Engineered without compromise.",  img: "assets/hero_edificios_singulares.jpg" },
+        { sectorId: "data-centers",          eyebrow: "Data Centers",                 headline: "Engineering the backbone of AI and data.",         img: "assets/hero_bbva_noche.jpg", video: "assets/videos/home_clip_1_data_centers.mp4",  objectPosition: "center 0%" },
+        { sectorId: "edificios-singulares",  eyebrow: "Singular buildings",           headline: "Iconic buildings,\nengineered without compromise.",  img: "assets/hero_edificios_singulares.jpg", video: "assets/videos/home_clip_3_buildings.mp4" },
+        { sectorId: "farma-bio",             eyebrow: "Pharma & Biosafety",           headline: "Engineering for regulated environments.",          img: "assets/bg_industrial_7.jpg", video: "assets/videos/home_clip_2_pharma.mp4?v=3" },
+        { sectorId: "fabricacion-avanzada",  eyebrow: "High-precision manufacturing", headline: "Industrial plants, engineered to a standard.",     img: "assets/bg_industrial_4.jpg", video: "assets/videos/home_clip_4_manufacturing.mp4" },
       ],
       heroEyebrow: "Three verticals",
       heroTitle: "Engineering for the most demanding projects.",
@@ -921,6 +1038,9 @@ window.AI_I18N = {
         "Full laboratory, cleanroom and R&D centre projects",
         "Full industrial plant projects",
         "Fit-out, retrofit and refurbishment projects",
+        "Infrastructure and urbanisation projects",
+        "Detailed-design and coordination engineering",
+        "Collaborative project delivery (BIM)",
         "Tender management",
         "Construction management and site supervision",
         "On-site engineering and supervision",
@@ -931,12 +1051,29 @@ window.AI_I18N = {
       ],
     },
 
+    projectDetail: {
+      back: "Back",
+      overview: "Project facts",
+      client: "Client",
+      year: "Year",
+      surface: "Floor area",
+      architect: "Architecture",
+      investment: "Investment",
+      cert: "Certification",
+      location: "Location",
+      scopeTitle: "Scope of our work",
+      relatedTitle: "More projects in this sector",
+      ctaTitle: "Have a similar project?",
+      ctaSub: "Let's talk about how we can help.",
+      ctaBtn: "Get in touch",
+    },
+
     categories: [
       { id: "todos",  label: "All" },
       { id: "cpd",    label: "Data Centers" },
       { id: "farma",  label: "Pharma & Biosafety" },
-      { id: "fab",    label: "Advanced Manufacturing" },
       { id: "edif",   label: "Singular Buildings" },
+      { id: "fab",    label: "Advanced Manufacturing" },
       { id: "hos",    label: "Hospitals" },
       { id: "sos",    label: "Climate & Sustainability" },
     ],
@@ -954,13 +1091,14 @@ window.AI_I18N = {
         img: "assets/hero_bbva_noche.jpg",
         building: { src: "assets/dc_isometric.png", ratio: 1.5, cap: "DATA CENTER · TIER IV · MADRID" },
         heroVariant: "stage",
+        heroHint: "Discover our data centers",
         video: {
           poster: "assets/hero_bbva_noche.jpg",
           clips: [
-            { src: "assets/videos/dc_reel_01_exterior.mp4", cap: "DATA CENTER · EXTERIOR" },
-            { src: "assets/videos/dc_reel_02_approach.mp4", cap: "DATA CENTER · APPROACH" },
-            { src: "assets/videos/dc_reel_03_overview.mp4", cap: "DATA CENTER · OVERVIEW" },
-            { src: "assets/videos/dc_reel_04_interior.mp4", cap: "TECHNICAL ROOM · BBVA" },
+            { src: "assets/videos/dc_reel_01_exterior.mp4?v=2", cap: "DATA CENTER · EXTERIOR" },
+            { src: "assets/videos/dc_reel_02_approach.mp4?v=2", cap: "DATA CENTER · APPROACH" },
+            { src: "assets/videos/dc_reel_03_overview.mp4?v=2", cap: "DATA CENTER · OVERVIEW" },
+            { src: "assets/videos/dc_reel_04_interior.mp4?v=2", cap: "TECHNICAL ROOM · BBVA" },
           ],
         },
         eyebrow: "Data Centers",
@@ -1003,6 +1141,18 @@ window.AI_I18N = {
         label: "Pharma & Biosafety",
         img: "assets/hero_farma.jpg",
         building: { src: "assets/farma_isometric.png", ratio: 1.5, cap: "P3 LAB · GMP · CLEANROOM" },
+        heroVariant: "stage",
+        heroHint: "Discover our pharmaceutical projects",
+        video: {
+          poster: "assets/hero_farma.jpg",
+          clips: [
+            { src: "assets/videos/pharma_reel_01_lab.mp4",      cap: "LAB · BIM" },
+            { src: "assets/videos/pharma_reel_02_facade.mp4",   cap: "PLANT · FACADE" },
+            { src: "assets/videos/pharma_reel_03_aerial.mp4",   cap: "PLANT · AERIAL" },
+            { src: "assets/videos/pharma_reel_04_corridor.mp4", cap: "LAB · CORRIDOR" },
+            { src: "assets/videos/pharma_reel_05_approach.mp4", cap: "PLANT · APPROACH" },
+          ],
+        },
         eyebrow: "Pharma & Biosafety",
         h1: "Engineering for regulated environments.",
         sub: "Cleanrooms, biosafety laboratories and pharmaceutical production plants designed to international standards. Absolute control of air, pressure and cross-contamination.",
@@ -1039,49 +1189,23 @@ window.AI_I18N = {
         ],
       },
       {
-        id: "fabricacion-avanzada", cat: "fab",
-        label: "Advanced Manufacturing",
-        img: "assets/hero_industriales.jpg",
-        eyebrow: "Advanced Manufacturing",
-        h1: "High-precision industrial plants.",
-        sub: "Microelectronics, cosmetics, energy and new industries. End-to-end design from technical feasibility through commissioning, with coordinated BIM and ongoing technical assistance.",
-        stats: [
-          { k: "Disciplines", v: "MEP · process · BIM" },
-          { k: "References",  v: "Beiersdorf · Vestas" },
-          { k: "Geography",   v: "ES · EU · LATAM" },
-          { k: "Model",       v: "BIM LOD 400" },
-        ],
-        engineerTitle: "What we engineer",
-        engineerSub: "Services and utilities for advanced manufacturing plants.",
-        engineer: [
-          { t: "Plant services (MEP)",  d: "Industrial HVAC, MV/LV power, plumbing and drainage — integrated from the BIM model." },
-          { t: "Process utilities",     d: "Compressed air, steam, demineralised water, technical gases and process extraction systems." },
-          { t: "Energy efficiency",     d: "Heat recovery, cogeneration, PV and consumption monitoring to reduce OPEX." },
-          { t: "BIM coordination",      d: "Federated LOD 400 model, clash detection and quantity take-off for tender and execution." },
-        ],
-        capTitle: "Technical capabilities",
-        caps: [
-          "Coordinated BIM · LOD 400",
-          "ATEX · classified zones",
-          "Clean processes for microelectronics",
-          "Industrial energy efficiency",
-          "On-site technical assistance",
-        ],
-        projTitle: "Reference projects",
-        projCats: ["fab"],
-        certTitle: "Certifications & standards",
-        certs: [
-          { label: "ISO 9001",  sub: "Quality" },
-          { label: "ISO 14001", sub: "Environment" },
-          { label: "ISO 45001", sub: "Health & safety" },
-          { label: "ATEX",      sub: "Explosive atmospheres" },
-        ],
-      },
-      {
         id: "edificios-singulares", cat: "edif",
         label: "Singular Buildings",
         img: "assets/hero_edificios_singulares.jpg",
         building: { src: "assets/auditorio_tenerife.png", ratio: 1.19, cap: "AUDITORIO DE TENERIFE · CALATRAVA" },
+        heroVariant: "stage",
+        heroHint: "Discover our buildings",
+        video: {
+          poster: "assets/hero_edificios_singulares.jpg",
+          clips: [
+            { src: "assets/videos/edif_reel_03_facade.mp4",   cap: "BB TOWER · FACADE" },
+            { src: "assets/videos/edif_reel_02_corner.mp4",   cap: "BB TOWER · CORNER" },
+            { src: "assets/videos/edif_reel_01_aerial.mp4",   cap: "BB TOWER · AERIAL" },
+            { src: "assets/videos/edif_reel_04_approach.mp4", cap: "BB TOWER · APPROACH" },
+            { src: "assets/videos/edif_reel_05_interior.mp4", cap: "BB TOWER · INTERIOR" },
+            { src: "assets/videos/edif_reel_06_volume.mp4",   cap: "BB TOWER · VOLUME" },
+          ],
+        },
         eyebrow: "Singular Buildings",
         h1: "Towers, headquarters and signature buildings.",
         sub: "The installations behind some of Spain's most recognisable buildings. We work with leading international architecture studios on projects signed by Foster, Calatrava and SOM.",
@@ -1118,9 +1242,68 @@ window.AI_I18N = {
         ],
       },
       {
+        id: "fabricacion-avanzada", cat: "fab",
+        label: "Advanced Manufacturing",
+        img: "assets/hero_industriales.jpg",
+        heroVariant: "stage",
+        heroHint: "Discover our industrial plants",
+        video: {
+          poster: "assets/hero_industriales.jpg",
+          clips: [
+            { src: "assets/videos/fab_reel_01_plant.mp4",    cap: "PLANT · AERIAL" },
+            { src: "assets/videos/fab_reel_02_overview.mp4", cap: "PLANT · OVERVIEW" },
+            { src: "assets/videos/fab_reel_03_detail.mp4",   cap: "PROCESS · DETAIL" },
+            { src: "assets/videos/fab_reel_04_systems.mp4",  cap: "SYSTEMS · CORRIDOR" },
+          ],
+        },
+        eyebrow: "Advanced Manufacturing",
+        h1: "High-precision industrial plants.",
+        sub: "Microelectronics, cosmetics, energy and new industries. End-to-end design from technical feasibility through commissioning, with coordinated BIM and ongoing technical assistance.",
+        stats: [
+          { k: "Disciplines", v: "MEP · process · BIM" },
+          { k: "References",  v: "Beiersdorf · Vestas" },
+          { k: "Geography",   v: "ES · EU · LATAM" },
+          { k: "Model",       v: "BIM LOD 400" },
+        ],
+        engineerTitle: "What we engineer",
+        engineerSub: "Services and utilities for advanced manufacturing plants.",
+        engineer: [
+          { t: "Plant services (MEP)",  d: "Industrial HVAC, MV/LV power, plumbing and drainage — integrated from the BIM model." },
+          { t: "Process utilities",     d: "Compressed air, steam, demineralised water, technical gases and process extraction systems." },
+          { t: "Energy efficiency",     d: "Heat recovery, cogeneration, PV and consumption monitoring to reduce OPEX." },
+          { t: "BIM coordination",      d: "Federated LOD 400 model, clash detection and quantity take-off for tender and execution." },
+        ],
+        capTitle: "Technical capabilities",
+        caps: [
+          "Coordinated BIM · LOD 400",
+          "ATEX · classified zones",
+          "Clean processes for microelectronics",
+          "Industrial energy efficiency",
+          "On-site technical assistance",
+        ],
+        projTitle: "Reference projects",
+        projCats: ["fab"],
+        certTitle: "Certifications & standards",
+        certs: [
+          { label: "ISO 9001",  sub: "Quality" },
+          { label: "ISO 14001", sub: "Environment" },
+          { label: "ISO 45001", sub: "Health & safety" },
+          { label: "ATEX",      sub: "Explosive atmospheres" },
+        ],
+      },
+      {
         id: "hospitales", cat: "hos",
         label: "Hospitals",
+        heroTitle: "Discover our hospitals",
         img: "assets/hero_farma.jpg",
+        heroVariant: "deck",
+        video: {
+          clips: [
+            { src: "assets/videos/hos_reel_01_sq.mp4?v=4", cap: "CORRIDOR · OR" },
+            { src: "assets/videos/hos_reel_02_sq.mp4?v=4", cap: "BIM · OVERVIEW" },
+            { src: "assets/videos/hos_reel_03_sq.mp4?v=4", cap: "WARD · MEP" },
+          ],
+        },
         eyebrow: "Hospitals",
         h1: "Critical 24/7 environments, no margin for error.",
         sub: "Hospitals and clinics engineered for continuous service: operating rooms, ICUs, isolation areas and medical imaging. Redundant installations, medical gases and integrated BMS.",
@@ -1159,7 +1342,16 @@ window.AI_I18N = {
       {
         id: "sostenibilidad", cat: "sos",
         label: "Climate & Sustainability",
+        heroTitle: "Powering a more sustainable world",
         img: "assets/hero_dc_green.jpg",
+        heroVariant: "deck",
+        video: {
+          clips: [
+            { src: "assets/videos/sos_reel_01_sq.mp4?v=2", cap: "AISA · FIELD" },
+            { src: "assets/videos/sos_reel_02_sq.mp4?v=2", cap: "BIM · SOLAR" },
+            { src: "assets/videos/sos_reel_03_sq.mp4?v=2", cap: "LOECHES · AERIAL" },
+          ],
+        },
         eyebrow: "Climate & Sustainability",
         h1: "Sustainability measured, not declared.",
         sub: "Energy efficiency, heat recovery, PV, electric mobility and LEED / BREEAM certification. Sustainability as an engineering decision held to annual metrics.",
@@ -1212,12 +1404,22 @@ window.AI_I18N = {
       viewSector: "View sector projects",
       backToProyectos: "Back to Projects",
       navAll: "Portfolio",
+      archiveEyebrow: "All projects",
+      heroSlides: [
+        { img: "assets/proj_hero_bbva_noche.jpg", objectPosition: "center top" },
+        { img: "assets/bg_industrial_7.jpg", objectPosition: "center top" },
+        { img: "assets/hero_edificios_singulares.jpg", objectPosition: "center top" },
+        { img: "assets/proj_hero_bs_noche.jpg", objectPosition: "center top" },
+      ],
+      scrollHint: "Explore sectors",
     },
 
     personas: {
       eyebrow: "People", title: "The team",
       teamEyebrow: "Partners and leads",
-      quote: "Over 60 years of collective experience. A multidisciplinary team of engineers, technicians and managers with international presence.",
+      quote: "Over 60 years of collective experience. A multidisciplinary team of engineers, technicians and managers.",
+      heroImg: "assets/bg_industrial_4.jpg",
+      scrollHint: "Meet the team",
     },
 
     talento: {
@@ -1320,11 +1522,20 @@ window.AI_I18N = {
 
 // Project catalogue is language-agnostic for `name` (proper nouns) + `loc`.
 // `cat` is keyed and resolved through catLabels at render time.
+// Reference projects shown on each sector page. cat/name/loc/img drive the
+// card today; client/year/surface/architect/investment/cert/scope are
+// structured fields recovered from the live-site project pages
+// (see scraped-site/) — used as the data source of truth and ready for a
+// future project-detail view. `scope` stays in Spanish (the service we
+// delivered) and should be translated when a detail view ships.
 window.AI_PROJECTS = [
   // Data Centers
-  { cat:"cpd", name:"BBVA Tres Cantos CPD I", loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
-  { cat:"cpd", name:"BBVA Tres Cantos CPD II",loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg" },
-  { cat:"cpd", name:"BBVA Perú",              loc:"Tier III · Lima",   img:"assets/hero_cpd.jpg" },
+  { cat:"cpd", name:"BBVA Tres Cantos CPD I", loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg",
+    client:"BBVA", year:"2012–2015", cert:"Uptime Tier IV · LEED Gold", scope:"Diseño integral de las instalaciones del CPD de misión crítica" },
+  { cat:"cpd", name:"BBVA Tres Cantos CPD II",loc:"Tier IV · Madrid",  img:"assets/hero_bbva_noche.jpg",
+    client:"BBVA", cert:"Uptime Tier IV", scope:"Diseño integral de las instalaciones del CPD de misión crítica" },
+  { cat:"cpd", name:"BBVA Perú",              loc:"Tier III · Lima",   img:"assets/hero_cpd.jpg",
+    client:"BBVA", cert:"Uptime Institute (CPD Perú)" },
   { cat:"cpd", name:"Mapfre Tales de Mileto", loc:"Tier III · Madrid", img:"assets/hero_cpd.jpg" },
 
   // Farma & Bio
@@ -1333,39 +1544,67 @@ window.AI_PROJECTS = [
   { cat:"farma", name:"Biomagune — Laboratorio I+D", loc:"San Sebastián",      img:"assets/hero_farma.jpg" },
 
   // Fabricación avanzada
-  { cat:"fab", name:"Planta Beiersdorf Lechia", loc:"Poznań, Polonia",         img:"assets/hero_industriales.jpg" },
+  { cat:"fab", name:"Planta Beiersdorf Lechia", loc:"Poznań, Polonia",         img:"assets/hero_industriales.jpg",
+    client:"Beiersdorf (BDF)", year:"1998–2009 · Plan Director 2017", surface:"40.000 m²", investment:">30 M€",
+    scope:"Diseño de la fábrica, dirección de obra y asistencia técnica" },
   { cat:"fab", name:"Planta BDF Nivea",         loc:"Tres Cantos, Madrid",     img:"assets/hero_industriales.jpg" },
-  { cat:"fab", name:"Vestas Nacelles",          loc:"Villadangos, León",       img:"assets/hero_industriales.jpg" },
-  { cat:"fab", name:"Vestas Blades",            loc:"Daimiel, Ciudad Real",    img:"assets/hero_industriales.jpg" },
+  { cat:"fab", name:"Vestas Nacelles",          loc:"Villadangos, León",       img:"assets/hero_industriales.jpg",
+    investment:"40 M€", scope:"Gestión integral de proyecto y obra; diseño de las instalaciones de proceso" },
+  { cat:"fab", name:"Vestas Blades",            loc:"Daimiel, Ciudad Real",    img:"assets/hero_industriales.jpg",
+    surface:"200.000 m²", investment:">30 M€", scope:"Diseño y dirección de obra de las instalaciones electromecánicas" },
   { cat:"fab", name:"Flex do Brasil",           loc:"Limeira, São Paulo",      img:"assets/hero_industriales.jpg" },
 
   // Edificios singulares — absorbs oficinas + hoteles + retail + transporte + museos / auditorios
-  { cat:"edif", name:"Torre Sacyr / Sede PwC",     loc:"Foster & Partners · Madrid",   img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Torre Foster — Fitout Bankia", loc:"Foster & Partners · Madrid", img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Torre Sacyr / Sede PwC",     loc:"Foster & Partners · Madrid",   img:"assets/hero_oficinas.jpg",
+    client:"CBRE", cert:"LEED Oro", investment:"1,8 M€ (instalaciones)", scope:"Diseño de instalaciones y dirección de obra del fit-out de oficinas de PwC" },
+  { cat:"edif", name:"Torre Foster — Fitout Bankia", loc:"Foster & Partners · Madrid", img:"assets/hero_oficinas.jpg",
+    year:"2003–2009", surface:"90.000 m²", scope:"Proyecto y dirección de obra de las instalaciones electromecánicas" },
   { cat:"edif", name:"Banco Popular C/ Abelias",   loc:"Arq. Ayala · Madrid",          img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Caja Vital",                 loc:"Arq. J. Mozas · Vitoria",      img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Caja Vital",                 loc:"Arq. J. Mozas · Vitoria",      img:"assets/hero_oficinas.jpg",
+    client:"Caja Vital", architect:"Javier Mozas · Eduardo Aguirre", surface:"6.000 m²", investment:">8 M€",
+    scope:"Diseño y dirección de obra de las instalaciones electromecánicas" },
   { cat:"edif", name:"Delegación de Hacienda",     loc:"Arq. BSV · Zaragoza",          img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Edificio Hines Pórtico",     loc:"SOM & R. de la Hoz · Madrid",  img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Abama Country Club 5* GL",   loc:"Guía de Isora, Tenerife",      img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Sheraton La Caleta 5*",      loc:"Adeje, Tenerife",              img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Hotel Kempinski Bahía 5* GL", loc:"Estepona, Málaga",            img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Eurostars Madrid Tower 5*",  loc:"Madrid",                       img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"H2Ocio Rivas",               loc:"Chapman Taylor · Madrid",      img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"El Corte Inglés",            loc:"Eibar y Albacete",             img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Edificio Hines Pórtico",     loc:"SOM & R. de la Hoz · Madrid",  img:"assets/hero_oficinas.jpg",
+    client:"Hines · Monthisa", architect:"Rafael de la Hoz · SOM", surface:"20.000 m²", investment:"10 M€",
+    scope:"Diseño y dirección de obra de las instalaciones electromecánicas" },
+  { cat:"edif", name:"Abama Country Club 5* GL",   loc:"Guía de Isora, Tenerife",      img:"assets/hero_oficinas.jpg",
+    client:"Tropical Hoteles", surface:"160 ha (resort)", investment:">300 M€ · >60 M€ instalaciones",
+    scope:"Proyecto y dirección de obra de las instalaciones electromecánicas y urbanización" },
+  { cat:"edif", name:"Sheraton La Caleta 5*",      loc:"Adeje, Tenerife",              img:"assets/hero_oficinas.jpg",
+    client:"DISA", year:"2003–2005", surface:"60.000 m²", scope:"Diseño y dirección de obra de las instalaciones electromecánicas" },
+  { cat:"edif", name:"Hotel Kempinski Bahía 5* GL", loc:"Estepona, Málaga",            img:"assets/hero_oficinas.jpg",
+    client:"Kempinski", architect:"Melvin Villarroel", surface:"45.000 m² (resort)", investment:">8 M€ (instalaciones)",
+    scope:"Diseño y dirección de obra de las instalaciones electromecánicas" },
+  { cat:"edif", name:"Eurostars Madrid Tower 5*",  loc:"Pº de la Castellana, Madrid",  img:"assets/hero_oficinas.jpg",
+    client:"Testa", year:"2004–2007", investment:">32 M€ (instalaciones)" },
+  { cat:"edif", name:"H2Ocio Rivas",               loc:"Chapman Taylor · Rivas, Madrid", img:"assets/hero_oficinas.jpg",
+    architect:"Chapman Taylor", surface:"52.000 m²", investment:">140 M€", scope:"Diseño de instalaciones y dirección de obra" },
+  { cat:"edif", name:"El Corte Inglés",            loc:"Eibar y Albacete",             img:"assets/hero_oficinas.jpg",
+    client:"El Corte Inglés", surface:"60.000 m²", investment:">5 M€", scope:"Instalaciones de climatización" },
   { cat:"edif", name:"Marks & Spencer",            loc:"Madrid · Sevilla · Bilbao",    img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Aeropuerto de Sondica",      loc:"Calatrava · Bilbao",           img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Gare do Oriente",            loc:"Calatrava · Lisboa",           img:"assets/hero_oficinas.jpg" },
+  { cat:"edif", name:"Aeropuerto de Sondica",      loc:"Calatrava · Bilbao",           img:"assets/hero_oficinas.jpg",
+    surface:"18.000 m²", investment:"25 M€", scope:"Diseño de las instalaciones electromecánicas · asistencia técnica en obra" },
+  { cat:"edif", name:"Gare do Oriente",            loc:"Calatrava · Lisboa",           img:"assets/hero_oficinas.jpg",
+    year:"1996–1998", investment:"10 M€", scope:"Proyecto de ejecución de las instalaciones electromecánicas" },
   { cat:"edif", name:"Autoridad Portuaria de Bilbao", loc:"Arq. R. Losada",            img:"assets/hero_oficinas.jpg" },
-  { cat:"edif", name:"Ciudad de las Artes y las Ciencias", loc:"Calatrava · Valencia", img:"assets/hero_edificios_singulares.jpg" },
-  { cat:"edif", name:"Auditorio de Tenerife",      loc:"Calatrava · Tenerife",         img:"assets/auditorio_tenerife.png" },
+  { cat:"edif", name:"Ciudad de las Artes y las Ciencias", loc:"Calatrava · Valencia", img:"assets/hero_edificios_singulares.jpg",
+    architect:"Santiago Calatrava", surface:"37.000 m²", scope:"Proyecto básico" },
+  { cat:"edif", name:"Auditorio de Tenerife",      loc:"Calatrava · Tenerife",         img:"assets/auditorio_tenerife.png",
+    client:"Cabildo Insular de Tenerife", architect:"Santiago Calatrava", surface:"6.471 m²", investment:"110 M€" },
 
   // Hospitales
-  { cat:"hos", name:"Hospital de Vigo",            loc:"Valode & Pistre",              img:"assets/hero_farma.jpg" },
-  { cat:"hos", name:"Clínica Quirón Erandio",      loc:"Vizcaya",                      img:"assets/hero_farma.jpg" },
-  { cat:"hos", name:"Hospital Fremap Majadahonda", loc:"M. de Lorenzo · Madrid",       img:"assets/hero_farma.jpg" },
+  { cat:"hos", name:"Hospital de Vigo",            loc:"Valode & Pistre · Vigo",       img:"assets/hero_farma.jpg",
+    client:"SERGAS", surface:"170.000 m²", cert:"BREEAM", scope:"Proyecto básico de instalaciones electromecánicas" },
+  { cat:"hos", name:"Clínica Quirón Erandio",      loc:"Erandio, Bizkaia",             img:"assets/hero_farma.jpg",
+    surface:"20.500 m²", investment:">14 M€", scope:"Proyecto de instalaciones y dirección de obra" },
+  { cat:"hos", name:"Hospital Fremap Majadahonda", loc:"M. de Lorenzo · Madrid",       img:"assets/hero_farma.jpg",
+    investment:">30 M€", scope:"Proyecto de instalaciones y dirección de obra" },
 
   // Sostenibilidad
-  { cat:"sos", name:"Banco Popular Abelias",       loc:"LEED Gold · Madrid",           img:"assets/hero_dc_green.jpg" },
-  { cat:"sos", name:"Edificio Hines Tripark",      loc:"LEED · Las Rozas, Madrid",     img:"assets/hero_dc_green.jpg" },
-  { cat:"sos", name:"Torre Sacyr / PwC",           loc:"LEED · Madrid",                img:"assets/hero_dc_green.jpg" },
+  { cat:"sos", name:"Banco Popular Abelias",       loc:"LEED Gold · Madrid",           img:"assets/hero_dc_green.jpg",
+    cert:"LEED Gold (2011)", scope:"Data center sostenible · certificación LEED Gold" },
+  { cat:"sos", name:"Edificio Hines Tripark",      loc:"LEED · Las Rozas, Madrid",     img:"assets/hero_dc_green.jpg",
+    client:"Hines", architect:"Gabriel Allende", year:"2007–2009", surface:"72.000 m²", investment:">15 M€" },
+  { cat:"sos", name:"Torre Sacyr / PwC",           loc:"LEED · Madrid",                img:"assets/hero_dc_green.jpg",
+    client:"CBRE", cert:"LEED Oro", scope:"Fit-out de oficinas de PwC · dirección de obra" },
 ];

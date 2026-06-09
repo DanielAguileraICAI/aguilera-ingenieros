@@ -2,7 +2,21 @@
 node_modules/
 *.log
 
-# Video pool — only ship the 4 active hero reels; the 25 source cuts
-# from FORO UPM 2023 stay local (~450 MB, no LFS yet)
+# Video pool — only ship the active hero reels (Data Centers sector +
+# home carousel). The 25 source cuts from FORO UPM 2023 stay local
+# (~450 MB, no LFS yet) — they're the editing pool we cut these from.
 assets/videos/*.mp4
 !assets/videos/dc_reel_*.mp4
+!assets/videos/edif_reel_*.mp4
+!assets/videos/fab_reel_*.mp4
+!assets/videos/home_clip_*.mp4
+!assets/videos/hos_reel_*.mp4
+!assets/videos/pharma_reel_*.mp4
+!assets/videos/proj_tile_*.mp4
+!assets/videos/sos_reel_*.mp4
+# Tile poster stills (first frame of each proj_tile_*.mp4) — ship these.
+!assets/videos/proj_tile_*.jpg
+
+# Local-only working dirs — not part of the deployed site.
+.claude/
+scraped-site/

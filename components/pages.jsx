@@ -46,7 +46,7 @@ const PageHome = ({ setRoute }) => {
           <div className="h-scroll">
             {t.featured.map((p,i) => (
               <Reveal key={i} delay={i * 80} className="h-scroll__item">
-                <ProjectCard p={p} onClick={() => setRoute("proyectos")} />
+                <ProjectCard p={p} setRoute={setRoute} />
               </Reveal>
             ))}
           </div>
@@ -169,54 +169,213 @@ const PageQuienes = () => {
   );
 };
 
+/* Per-sector hover-preview clip. Each tile mounts its <video> paused on the
+   poster image; mouseenter rewinds to frame 0 and starts playback, mouseleave
+   pauses + rewinds. The clips are silent (no audio track) so play() never
+   blocks on autoplay policy. */
+const TILE_VIDEO_BY_ID = {
+  "data-centers":          "assets/videos/proj_tile_dc.mp4",
+  "farma-bio":             "assets/videos/proj_tile_farma.mp4",
+  "fabricacion-avanzada":  "assets/videos/proj_tile_fab.mp4",
+  "edificios-singulares":  "assets/videos/proj_tile_edif.mp4",
+  "hospitales":            "assets/videos/proj_tile_hos.mp4",
+  "sostenibilidad":        "assets/videos/proj_tile_sos.mp4",
+};
+/* Per-tile poster = first frame of the tile's preview clip (extracted via
+   ffmpeg). Using the actual frame instead of the sector's legacy hero image
+   means the static poster and the playing video share the same scene/style,
+   so the hover transition feels continuous instead of swapping to a totally
+   different photograph. Falls back to sector.img if no poster exists. */
+const TILE_POSTER_BY_ID = {
+  "data-centers":          "assets/videos/proj_tile_dc.jpg",
+  "farma-bio":             "assets/videos/proj_tile_farma.jpg",
+  "fabricacion-avanzada":  "assets/videos/proj_tile_fab.jpg",
+  "edificios-singulares":  "assets/videos/proj_tile_edif.jpg",
+  "hospitales":            "assets/videos/proj_tile_hos.jpg",
+  "sostenibilidad":        "assets/videos/proj_tile_sos.jpg",
+};
+
+const SectorTile = ({ sector, setRoute, isWide }) => {
+  const videoRef = React.useRef(null);
+  const src    = TILE_VIDEO_BY_ID[sector.id];
+  const poster = TILE_POSTER_BY_ID[sector.id] || sector.img;
+  /* `<video poster>` doesn't render reliably across browsers when preload=
+     "metadata" — Chrome and Safari often paint a black box until the first
+     frame is decoded, which means the user briefly sees nothing on tiles
+     they haven't hovered yet. We render an <img> underneath as the always-
+     visible base and fade the <video> in on top only while it's playing.
+     On mouseleave the video fades back out, returning the poster img — so
+     the tile is never empty regardless of preload state. */
+  const [playing, setPlaying] = React.useState(false);
+  const playFromStart = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.currentTime = 0;
+    setPlaying(true);
+    const p = v.play();
+    if (p && typeof p.catch === "function") p.catch(() => setPlaying(false));
+  };
+  const rewindPause = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    try { v.currentTime = 0; } catch (_) { /* iOS quirk: ignore */ }
+    setPlaying(false);
+  };
+  return (
+    <a className={"sector-stage__tile"
+                  + (isWide ? " sector-stage__tile--wide" : "")
+                  + (playing ? " is-playing" : "")}
+       onClick={() => setRoute({route:"sector", sectorId: sector.id})}
+       onMouseEnter={playFromStart}
+       onMouseLeave={rewindPause}
+       onFocus={playFromStart}
+       onBlur={rewindPause}
+       tabIndex={0}
+       aria-label={sector.label}>
+      <img className="sector-stage__poster" src={poster} alt="" loading="lazy" />
+      {src && (
+        <video ref={videoRef}
+               className="sector-stage__video"
+               src={src}
+               muted playsInline loop preload="metadata"
+               aria-hidden="true" />
+      )}
+      <div className="sector-stage__overlay" />
+      <div className="sector-stage__label">{sector.label}</div>
+    </a>
+  );
+};
+
+/* ProyectosHero — 100vh image carousel at the top of /proyectos.
+ *
+ * Four photos cycle every 6s (auto), the page title "Projects" sits as a
+ * constant minimalist overlay (no per-slide labels — the verticals are
+ * named further down by the sector tiles, so the hero stays purely
+ * atmospheric). A circular dot strip shows position 1/4, 2/4, etc., with a
+ * thin progress ring driven by a CSS keyframe over the slide duration
+ * (videos drive their own duration in the home carousel — here it's a
+ * fixed 6s per slide). A small "↓" + label at the bottom-centre hints
+ * that the sector grid lives below, so users know to scroll. */
+const ProyectosHero = () => {
+  const { t } = useLang();
+  const slides = (t.proyectos && t.proyectos.heroSlides) || [];
+  const [i, setI] = React.useState(0);
+  // Autoplay — self-rescheduling 6s setTimeout. Each slide change cancels
+  // any pending advance and schedules a fresh 6s timer, so manual dot
+  // clicks restart the cycle from now.
+  React.useEffect(() => {
+    if (slides.length <= 1) return;
+    const tm = setTimeout(() => setI(x => (x + 1) % slides.length), 6000);
+    return () => clearTimeout(tm);
+  }, [i, slides.length]);
+  // Scroll hint click → smooth-scroll to the sector grid below.
+  const scrollToSectors = () => {
+    const el = document.querySelector(".sector-stage");
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+  };
+  return (
+    <section className="proj-hero" aria-label={t.proyectos.title}>
+      {slides.map((s, idx) => (
+        <div key={idx} className={"proj-hero__slide " + (idx === i ? "is-active" : "")}>
+          <img className="proj-hero__img"
+               src={s.img}
+               alt=""
+               loading={idx === 0 ? "eager" : "lazy"}
+               style={s.objectPosition ? {objectPosition: s.objectPosition} : null} />
+        </div>
+      ))}
+      <div className="proj-hero__overlay" />
+      <div className="container proj-hero__inner">
+        <h1 className="proj-hero__title">{t.proyectos.title}</h1>
+      </div>
+      {/* Circular dot strip — same vocabulary as the Data Centers stage hero.
+          The active dot's ring SVG only renders for the active dot; on
+          slide change the SVG unmounts/remounts and the CSS keyframe
+          restarts from 0, so the ring perfectly tracks the autoplay timer. */}
+      {slides.length > 1 && (
+        <div className="proj-hero__dots" role="tablist" aria-label="Slides">
+          {slides.map((_, idx) => {
+            const isActive = idx === i;
+            return (
+              <button key={idx}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={"proj-hero__dot " + (isActive ? "is-on" : "")}
+                      onClick={() => setI(idx)}
+                      aria-label={"Slide " + (idx + 1)}>
+                <span className="proj-hero__dot-core" />
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {/* Scroll-down hint — sits below the dots, points at the sector tiles
+          which live in the section directly underneath. Clickable: smooth-
+          scrolls to .sector-stage so users can jump without scrolling
+          manually. */}
+      <button type="button" className="proj-hero__scroll" onClick={scrollToSectors} aria-label={t.proyectos.scrollHint}>
+        <span className="proj-hero__scroll-label">{t.proyectos.scrollHint}</span>
+        <span className="proj-hero__scroll-arrow" aria-hidden="true">↓</span>
+      </button>
+    </section>
+  );
+};
+
 const PageProyectos = ({ setRoute }) => {
   const { t } = useLang();
   const [cat, setCat] = React.useState("todos");
   const items = cat === "todos" ? window.AI_PROJECTS : window.AI_PROJECTS.filter(p => p.cat === cat);
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_7.jpg)`}}>
-        <div className="page-hero__ov"/>
-        <div className="container page-hero__inner">
-          <Reveal><Eyebrow onDark>{t.proyectos.eyebrow}</Eyebrow></Reveal>
-          <Reveal delay={100}><h1 className="display" style={{color:"#F5F5F3"}}>{t.proyectos.title}</h1></Reveal>
-        </div>
-      </section>
+      {/* 1. Hero carousel — 4 photo slides + minimalist "Projects" overlay +
+            circular dot ring + scroll-down hint pointing to the sectors. */}
+      <ProyectosHero />
 
-      {/* Sector tiles — six landing-page entry points, sit above the all-portfolio
-          filter grid. Click a tile to jump into a sector-specific landing page;
-          stay on this page to use the filter tabs across the whole portfolio. */}
-      <section className="section section--light">
+      {/* 2. Sector stage — F+P-style editorial grid on a deep navy band. The
+            title now lives in the hero above, so this section opens directly
+            with the tile grid (no duplicate "Projects" heading). */}
+      <section className="sector-stage">
         <div className="container">
-          <Reveal className="section__head"><Eyebrow>{t.proyectos.sectorsEyebrow}</Eyebrow></Reveal>
-          <div className="sector-grid">
-            {(t.sectors || []).map((s, i) => (
-              <Reveal key={s.id} delay={(i % 3) * 80}>
-                <a className="sector-tile"
-                   onClick={() => setRoute({route:"sector", sectorId: s.id})}>
-                  <div className="sector-tile__imgwrap">
-                    <img className="sector-tile__img" src={s.img} alt={s.label} loading="lazy" />
-                  </div>
-                  <div className="sector-tile__ov">
-                    <div className="sector-tile__row">
-                      <h3 className="sector-tile__title">{s.label}</h3>
-                      <span className="sector-tile__arrow">→</span>
-                    </div>
-                  </div>
-                </a>
-              </Reveal>
-            ))}
+          {/* Chevron pattern in a 3-col grid — wide tiles (span 2 cols) alternate
+              with narrow tiles (1 col) to create an asymmetric F+P-style
+              rhythm. Idx 0,3,4 are wide; 1,2,5 are narrow. Each row sums to
+              3 cols. Wide and narrow tiles share the same row height (their
+              aspect-ratios are tuned so the height stays constant). */}
+          <div className="sector-stage__grid">
+            {(t.sectors || []).map((s, i) => {
+              const isWide = i === 0 || i === 3 || i === 4;
+              return (
+                <SectorTile key={s.id}
+                            sector={s}
+                            setRoute={setRoute}
+                            isWide={isWide}
+                            delay={(i % 3) * 80} />
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section className="section section--alt">
+      {/* All-portfolio continuation — same deep navy band as the sector
+          stage so the page reads as one continuous canvas. A hairline rule
+          at the top separates the editorial sector tiles above from the
+          browseable archive below. */}
+      <section className="sector-stage sector-stage--archive">
         <div className="container">
+          <Reveal>
+            <div className="sector-stage__archive-head">
+              <Eyebrow onDark>{t.proyectos.archiveEyebrow || "Archive"}</Eyebrow>
+            </div>
+          </Reveal>
           <FilterTabs items={t.categories} active={cat} onChange={setCat} />
           <div className="proj-grid">
             {items.map((p,i) => (
               <Reveal key={p.name + i} delay={(i % 6) * 60}>
-                <ProjectCard p={p} />
+                <ProjectCard p={p} setRoute={setRoute} />
               </Reveal>
             ))}
           </div>
@@ -321,7 +480,6 @@ const SectorHeroPanel = ({ sector, common }) => {
           <video ref={videoRef}
                  className="shero__video"
                  src={currentClip.src}
-                 poster={v.poster || sector.img}
                  autoPlay
                  muted
                  playsInline
@@ -386,6 +544,17 @@ const SectorStageHero = ({ sector, common, setRoute }) => {
   const [clipIdx, setClipIdx] = React.useState(0);
   const videoRef = React.useRef(null);
   const ringRef  = React.useRef(null);
+  const stageRef = React.useRef(null);
+  /* scrollPastHero — clicking the heroHint smooth-scrolls past the
+     full-bleed stage into the sector's first content section (the
+     section directly after .shero--stage in the DOM). Mirrors the
+     "Ver sectores" pattern on the Proyectos hero. */
+  const scrollPastHero = () => {
+    const next = stageRef.current && stageRef.current.nextElementSibling;
+    if (next && typeof next.scrollIntoView === "function") {
+      next.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+  };
   const RADIUS = 9;
   const RING_C = 2 * Math.PI * RADIUS;   // ~56.55 — full-circle stroke length
 
@@ -421,11 +590,10 @@ const SectorStageHero = ({ sector, common, setRoute }) => {
 
   const currentClip = clips[clipIdx] || {};
   return (
-    <section className="shero shero--stage" aria-label={sector.label}>
+    <section ref={stageRef} className="shero shero--stage" aria-label={sector.label}>
       <video ref={videoRef}
              className="shero__bg-video"
              src={currentClip.src}
-             poster={v.poster || sector.img}
              autoPlay
              muted
              playsInline
@@ -482,7 +650,198 @@ const SectorStageHero = ({ sector, common, setRoute }) => {
           })}
         </div>
       )}
+
+      {/* Tiny "Discover our …" hint under the dots — only renders when
+          the sector defines heroHint. Mirrors the Proyectos "Ver
+          sectores" pattern but smaller and quieter; click smooth-
+          scrolls past the stage into the content below. */}
+      {sector.heroHint && (
+        <button type="button"
+                className="shero__stage-hint"
+                onClick={scrollPastHero}
+                aria-label={sector.heroHint}>
+          <span className="shero__stage-hint-label">{sector.heroHint}</span>
+          <span className="shero__stage-hint-arrow" aria-hidden="true">↓</span>
+        </button>
+      )}
     </section>
+  );
+};
+
+/* SectorDeckHero — three-card deck layout for sectors with
+ * heroVariant: "deck". Three square clips are visible at once: the active
+ * one sits centred (full size + full brightness), flanked left and right by
+ * the previous and next clips (scaled down + dimmed). Clicking a dot or
+ * letting autoplay advance shifts the whole row — visually the centred
+ * clip slides away and the next one rotates into the forefront.
+ *
+ * Implementation: instead of mounting N videos at a time, we always render
+ * exactly 3 video elements (one per slot). Each slot's clip index is
+ * computed as (activeIdx + offset + N) % N where offset ∈ {-1, 0, +1}.
+ * Updating activeIdx re-keys each <video> with its new src; the React
+ * effect below kicks load() + play() on the active one so the centre
+ * clip is always actually playing (sides are paused on frame 0). */
+const SectorDeckHero = ({ sector, common, setRoute }) => {
+  const v = sector.video || {};
+  const clips = Array.isArray(v.clips) && v.clips.length > 0
+    ? v.clips
+    : (v.src ? [{ src: v.src, cap: v.cap }] : []);
+  const [activeIdx, setActiveIdx] = React.useState(0);
+  /* Every clip mounts its own <video>; we keep refs so we can play/pause
+     each one individually. When activeIdx changes, the CSS variable
+     `--offset` on each card transitions — the boxes themselves slide to
+     their new positions instead of the videos swapping in fixed slots. */
+  const videoRefs = React.useRef([]);
+
+  React.useEffect(() => {
+    videoRefs.current.forEach((vid, idx) => {
+      if (!vid) return;
+      if (idx === activeIdx) {
+        vid.currentTime = 0;
+        const p = vid.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } else {
+        vid.pause();
+      }
+    });
+  }, [activeIdx]);
+
+  const advance = () => {
+    if (clips.length <= 1) return;
+    setActiveIdx(i => (i + 1) % clips.length);
+  };
+
+  /* wrapOffset turns the raw index delta (i - activeIdx) into the
+     shortest-path delta around a ring of N cards. Without this, the
+     card at the far end of the list sits at offset N-1 forever; with
+     it, that card crosses over to offset -1 once activeIdx gets close,
+     so the deck loops both ways with no dead edges. */
+  const N = clips.length;
+  const wrapOffset = (raw) => {
+    if (N === 0) return 0;
+    let o = raw;
+    if (o >  N / 2) o -= N;
+    if (o <= -N / 2) o += N;
+    return o;
+  };
+
+  /* With N=3 every step forces one card to teleport from offset -1 to
+     +1 (or back) — otherwise CSS would slide it straight through the
+     active card. We detect that case per render and tag the warping
+     card with `is-warp`; the CSS rule kills its transition for that
+     one frame, so it snaps invisibly to the far side instead of
+     crossing the centre. The ref tracks previous-frame offsets so
+     subsequent renders can compare and only flag the cards that
+     actually jumped > 1 slot. */
+  const offsets = clips.map((_, i) => wrapOffset(i - activeIdx));
+  const prevOffsetsRef = React.useRef([]);
+  const warpFlags = offsets.map((o, i) => {
+    const p = prevOffsetsRef.current[i];
+    return p !== undefined && Math.abs(o - p) > 1;
+  });
+  React.useEffect(() => { prevOffsetsRef.current = offsets; });
+
+  return (
+    <section className="shero shero--deck" aria-label={sector.label}>
+      <div className="shero-deck__inner">
+        {/* Centred deck title — prefers the sector's heroTitle (longer
+            invitational copy like "Descubre nuestros hospitales") and
+            falls back to the plain label. Both are localized via the
+            sector record itself, so ES/EN switch happens for free. */}
+        <h1 className="shero-deck__title">{sector.heroTitle || sector.label}</h1>
+        {/* Stage holds all cards absolutely positioned; their --offset
+            CSS variable drives the transform. React just updates the
+            offsets on activeIdx change — CSS transitions handle the slide. */}
+        <div className="shero-deck__stage">
+          {clips.map((clip, i) => {
+            const offset = offsets[i];
+            const role = offset === 0 ? "is-active"
+                       : offset === -1 ? "is-prev"
+                       : offset === 1  ? "is-next"
+                       : "is-far";
+            const warpClass = warpFlags[i] ? " is-warp" : "";
+            return (
+              <button key={i}
+                      type="button"
+                      className={"shero-deck__card " + role + warpClass}
+                      style={{"--offset": offset}}
+                      onClick={offset === 0 ? undefined : () => setActiveIdx(i)}
+                      aria-label={"Clip " + (i + 1)}
+                      aria-current={offset === 0 ? "true" : undefined}
+                      tabIndex={offset === 0 ? -1 : 0}>
+                {/* No `loop` — onEnded must fire to advance to the next
+                    clip. The effect on activeIdx pauses the outgoing
+                    video and resets the incoming one to t=0. */}
+                <video ref={el => { videoRefs.current[i] = el; }}
+                       src={clip.src}
+                       muted playsInline preload="metadata"
+                       onEnded={offset === 0 ? advance : undefined}
+                       aria-hidden="true" />
+              </button>
+            );
+          })}
+        </div>
+
+        {clips.length > 1 && (
+          <DeckDots clips={clips}
+                    activeIdx={activeIdx}
+                    onPick={setActiveIdx}
+                    activeVideoRef={() => videoRefs.current[activeIdx]} />
+        )}
+      </div>
+    </section>
+  );
+};
+
+/* DeckDots — one circular dot per clip. The active dot wears a progress
+ * ring whose stroke-dashoffset is mutated each frame from the active
+ * video's currentTime/duration ratio (rAF). Re-mounts the ring SVG on
+ * activeIdx change so the fill restarts cleanly. */
+const DeckDots = ({ clips, activeIdx, onPick, activeVideoRef }) => {
+  const ringRef = React.useRef(null);
+  const RING_R = 9;
+  const RING_C = 2 * Math.PI * RING_R;
+  React.useEffect(() => {
+    if (ringRef.current) ringRef.current.style.strokeDashoffset = String(RING_C);
+    let raf;
+    const tick = () => {
+      const v = activeVideoRef && activeVideoRef();
+      const r = ringRef.current;
+      if (v && r && v.duration > 0) {
+        const pct = Math.min(1, Math.max(0, v.currentTime / v.duration));
+        r.style.strokeDashoffset = String(RING_C * (1 - pct));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [activeIdx, RING_C, activeVideoRef]);
+  return (
+    <div className="shero-deck__dots" role="tablist">
+      {clips.map((_, i) => {
+        const isActive = i === activeIdx;
+        return (
+          <button key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  className={"shero-deck__dot " + (isActive ? "is-on" : "")}
+                  onClick={() => onPick(i)}
+                  aria-label={"Clip " + (i + 1)}>
+            <span className="shero-deck__dot-core" />
+            {isActive && (
+              <svg className="shero-deck__dot-ring" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                <circle ref={ringRef}
+                        cx="14" cy="14" r={RING_R}
+                        fill="none" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"
+                        strokeDasharray={RING_C} strokeDashoffset={RING_C}
+                        style={{transform:"rotate(-90deg)",transformOrigin:"50% 50%"}} />
+              </svg>
+            )}
+          </button>
+        );
+      })}
+    </div>
   );
 };
 
@@ -511,9 +870,13 @@ const PageSector = ({ sectorId, setRoute }) => {
       {/* ── 1. Hero ───────────────────────────────────────────────────
           Default: split panel (copy left, framed media right).
           heroVariant === "stage": full-bleed 100vh video stage with
-          progress-ring dots (Foster + Partners cadence). */}
+          progress-ring dots (Foster + Partners cadence).
+          heroVariant === "deck": 3-card deck rotation (centre clip in
+          forefront, flanks scaled down + dimmed — used by Hospitales). */}
       {sector.heroVariant === "stage" ? (
         <SectorStageHero sector={sector} common={common} setRoute={setRoute} />
+      ) : sector.heroVariant === "deck" ? (
+        <SectorDeckHero sector={sector} common={common} setRoute={setRoute} />
       ) : (
         <section className="shero">
           <div className="shero__inner container">
@@ -589,7 +952,7 @@ const PageSector = ({ sectorId, setRoute }) => {
           <div className="proj-grid">
             {featured.map((p, i) => (
               <Reveal key={p.name + i} delay={(i % 3) * 70}>
-                <ProjectCard p={p} onClick={() => setRoute("proyectos")} />
+                <ProjectCard p={p} setRoute={setRoute} />
               </Reveal>
             ))}
           </div>
@@ -628,21 +991,50 @@ const PageSector = ({ sectorId, setRoute }) => {
   );
 };
 
+/* PersonasHero — single-photo hero in the same vocabulary as ProyectosHero,
+   but without the carousel dots (just one image, the page title at bottom-
+   left, and a scroll-down hint pointing at the team grid below). Reuses
+   the .proj-hero CSS so layout/typography/animation are exactly aligned. */
+const PersonasHero = ({ heroImg, title, scrollHint }) => {
+  const scrollDown = () => {
+    const el = document.querySelector(".personas-team");
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+  };
+  return (
+    <section className="proj-hero proj-hero--short" aria-label={title}>
+      <div className="proj-hero__slide is-active">
+        <img className="proj-hero__img"
+             src={heroImg}
+             alt=""
+             loading="eager"
+             style={{objectPosition: "center top"}} />
+      </div>
+      <div className="proj-hero__overlay" />
+      <div className="container proj-hero__inner">
+        <h1 className="proj-hero__title">{title}</h1>
+      </div>
+      <button type="button" className="proj-hero__scroll" onClick={scrollDown} aria-label={scrollHint}>
+        <span className="proj-hero__scroll-label">{scrollHint}</span>
+        <span className="proj-hero__scroll-arrow" aria-hidden="true">↓</span>
+      </button>
+    </section>
+  );
+};
+
 const PagePersonas = () => {
   const { t } = useLang();
   const P = t.personas;
   return (
     <>
-      <section className="page-hero page-hero--parallax" style={{backgroundImage:`url(assets/bg_industrial_5.jpg)`}}>
-        <div className="page-hero__ov"/>
-        <div className="container page-hero__inner">
-          <Reveal><Eyebrow onDark>{P.eyebrow}</Eyebrow></Reveal>
-          <Reveal delay={100}><h1 className="display" style={{color:"#F5F5F3"}}>{P.title}</h1></Reveal>
-        </div>
-      </section>
-      <section className="section section--light">
+      <PersonasHero heroImg={P.heroImg} title={P.title} scrollHint={P.scrollHint} />
+
+      {/* Team grid on the same deep navy as the Proyectos sector stage —
+          continuous editorial canvas, no parallax interruption. */}
+      <section className="personas-team">
         <div className="container">
-          <Reveal className="section__head"><Eyebrow>{P.teamEyebrow}</Eyebrow></Reveal>
+          <Reveal className="section__head"><Eyebrow onDark>{P.teamEyebrow}</Eyebrow></Reveal>
           <div className="team-grid">
             {t.team.map((person,i) => (
               <Reveal key={i} delay={i * 80}>
@@ -652,9 +1044,12 @@ const PagePersonas = () => {
           </div>
         </div>
       </section>
-      <section className="section section--alt">
+
+      {/* Quote band — stays on dark, hairline divider above to mark the shift
+          from the team grid into the editorial pull-quote. */}
+      <section className="personas-quote">
         <div className="container" style={{maxWidth:880,textAlign:"left"}}>
-          <Reveal><span className="pullquote">{P.quote}</span></Reveal>
+          <Reveal><span className="pullquote pullquote--on-dark">{P.quote}</span></Reveal>
         </div>
       </section>
     </>
@@ -932,4 +1327,116 @@ const PageArticle = ({ articleId, setRoute }) => {
   );
 };
 
-Object.assign(window, { PageHome, PageQuienes, PageProyectos, PageSector, PagePersonas, PageTalento, PageNewsletter, PageArticle, PageContacto });
+/* PageProject — project-detail view. Reached via
+   setRoute({route:"project", projectId}). Surfaces the structured fields
+   (client / year / surface / architect / investment / cert / scope) recovered
+   from the live site and stored on each AI_PROJECTS entry. Only the fields a
+   given project actually has are rendered. */
+const PageProject = ({ projectId, setRoute }) => {
+  const { t } = useLang();
+  const D = t.projectDetail || {};
+  const p = window.findProject(projectId, t.featured);
+
+  // Defensive — bad/missing id sends the visitor back to the portfolio.
+  if (!p) return (
+    <section className="section section--alt">
+      <div className="container" style={{ textAlign: "center", padding: "80px 0" }}>
+        <Eyebrow>{t.proyectos.eyebrow}</Eyebrow>
+        <p className="body-lg" style={{ marginTop: 16 }}>—</p>
+        <a className="back-link" onClick={() => setRoute("proyectos")} style={{ marginTop: 24, display: "inline-block" }}>← {t.proyectos.backToProyectos}</a>
+      </div>
+    </section>
+  );
+
+  const label = p.tag || t.catLabels[p.cat] || p.cat || "";
+  // `loc` is the card display string and often encodes "Architect · City". When
+  // we also carry a dedicated architect field, show only the trailing place in
+  // the Location row to avoid repeating the architect twice.
+  const prettyLoc = (p.architect && p.loc && p.loc.includes("·"))
+    ? p.loc.split("·").pop().trim()
+    : p.loc;
+  // Field caption → value, in display order. Falsy values are filtered out.
+  const facts = [
+    [D.client, p.client],
+    [D.location, prettyLoc],
+    [D.architect, p.architect],
+    [D.year, p.year],
+    [D.surface, p.surface],
+    [D.investment, p.investment],
+    [D.cert, p.cert],
+  ].filter(([, v]) => v);
+
+  // Related: same sector, excluding this project. Up to 3.
+  const related = (window.AI_PROJECTS || [])
+    .filter(r => r.cat === p.cat && window.projSlug(r.name) !== projectId)
+    .slice(0, 3);
+
+  return (
+    <article className="pdetail">
+      {/* Hero */}
+      <header className="pdetail__hero" style={{ backgroundImage: `url(${p.img})` }}>
+        <div className="pdetail__hero-ov" />
+        <div className="container pdetail__hero-inner">
+          <a className="back-link back-link--light" onClick={() => setRoute({ route: "sector", sectorId: t.sectors.find(s => s.cat === p.cat || (s.projCats || []).includes(p.cat))?.id || "data-centers" })}>← {D.back || "Volver"}</a>
+          <Reveal delay={120}><span className="pdetail__cat">{label}</span></Reveal>
+          <Reveal delay={180}><h1 className="pdetail__title">{p.name}</h1></Reveal>
+          {prettyLoc && <Reveal delay={240}><p className="pdetail__loc">{prettyLoc}</p></Reveal>}
+        </div>
+      </header>
+
+      {/* Facts */}
+      {facts.length > 0 && (
+        <section className="section section--light">
+          <div className="container">
+            <Reveal className="section__head"><Eyebrow>{D.overview}</Eyebrow></Reveal>
+            <dl className="pdetail__facts">
+              {facts.map(([k, v], i) => (
+                <Reveal key={i} delay={i * 60} className="pdetail__fact">
+                  <dt className="pdetail__fact-k">{k}</dt>
+                  <dd className="pdetail__fact-v">{v}</dd>
+                </Reveal>
+              ))}
+            </dl>
+          </div>
+        </section>
+      )}
+
+      {/* Scope */}
+      {p.scope && (
+        <section className="section section--dark">
+          <div className="container pdetail__scope">
+            <Reveal><Eyebrow onDark>{D.scopeTitle}</Eyebrow></Reveal>
+            <Reveal delay={100}><p className="pdetail__scope-text">{p.scope}</p></Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* Related projects */}
+      {related.length > 0 && (
+        <section className="section section--alt">
+          <div className="container">
+            <Reveal className="section__head"><Eyebrow>{D.relatedTitle}</Eyebrow></Reveal>
+            <div className="proj-grid">
+              {related.map((r, i) => (
+                <Reveal key={r.name + i} delay={(i % 3) * 70}>
+                  <ProjectCard p={r} setRoute={setRoute} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <section className="section section--light">
+        <div className="container pdetail__cta">
+          <Reveal><h2 className="section__title">{D.ctaTitle}</h2></Reveal>
+          <Reveal delay={80}><p className="body-lg">{D.ctaSub}</p></Reveal>
+          <Reveal delay={160}><ArrowCTA primary onClick={() => setRoute("contacto")}>{D.ctaBtn}</ArrowCTA></Reveal>
+        </div>
+      </section>
+    </article>
+  );
+};
+
+Object.assign(window, { PageHome, PageQuienes, PageProyectos, PageSector, PagePersonas, PageTalento, PageNewsletter, PageArticle, PageContacto, PageProject });

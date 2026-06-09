@@ -1,69 +1,181 @@
+/* HeroCarousel — full-bleed video carousel.
+ *
+ * Each slide carries a `video` field (an .mp4 path, concatenation of several
+ * source cuts). The carousel plays one slide's clip in full, then advances
+ * via the `ended` event — no fixed setTimeout. Manual navigation (arrow / dot
+ * click) sets the index and the new slide's video autoplays immediately;
+ * `videoRef.load() + .play()` covers Safari/iOS which don't restart playback
+ * on src swaps reliably.
+ *
+ * The dot progress ring on the active dot is driven by requestAnimationFrame:
+ * a loop reads `video.currentTime / video.duration` every frame and mutates
+ * the SVG circle's `stroke-dashoffset` directly via ref — no React re-renders
+ * per frame, smooth at 60fps. When the active slide changes the ref points
+ * at the new active dot's circle and the loop continues seamlessly.
+ *
+ * Backward-compatible: if a slide ever omits `video`, it falls back to the
+ * `img` poster + a fixed 6s setTimeout for that slide only.
+ */
 const HeroCarousel = ({ setRoute }) => {
   const { t } = useLang();
   const slides = t.home.heroSlides;
   const [i, setI] = React.useState(0);
+  /* Refs to ALL slide videos — keyed by slide index. We mount one <video>
+     per slide and control play/pause through these refs (rather than only
+     rendering the active video and swapping it back to an <img> on
+     deactivation). Keeping every video mounted means the cross-fade between
+     slides is video↔video — no more freeze-frame of the poster image while
+     the old slide fades out. */
+  const videoRefs = React.useRef([]);
+  const ringRef   = React.useRef(null);
+  const RING_R = 9;
+  const RING_C = 2 * Math.PI * RING_R;   // ≈ 56.55
 
-  // Autoplay — self-rescheduling 6s setTimeout that depends on `i`.
-  // Every time the slide changes (manual click, dot tap, or previous auto-
-  // advance), the cleanup cancels the pending advance and a fresh 6s timer
-  // is scheduled from now. So every slide always gets a full 6s of display
-  // time regardless of how the user arrived at it.
+  // Slide-change orchestration:
+  //   • Pause every inactive video — but DON'T rewind it. We want the
+  //     outgoing slide to fade out on the frame it was just showing,
+  //     not snap back to frame 0 mid-transition.
+  //   • Reset + play the active video so it starts from the beginning.
+  //   • Drive the active dot's ring via rAF reading currentTime/duration.
   React.useEffect(() => {
+    videoRefs.current.forEach((vid, idx) => {
+      if (!vid) return;
+      if (idx === i) {
+        vid.currentTime = 0;
+        const p = vid.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } else {
+        vid.pause();
+      }
+    });
+    if (ringRef.current) ringRef.current.style.strokeDashoffset = String(RING_C);
+    let raf;
+    const tick = () => {
+      const v = videoRefs.current[i];
+      const r = ringRef.current;
+      if (v && r && v.duration > 0) {
+        const pct = Math.min(1, Math.max(0, v.currentTime / v.duration));
+        r.style.strokeDashoffset = String(RING_C * (1 - pct));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [i, RING_C]);
+
+  // Image-only fallback: if the active slide has no video, advance after 6s.
+  // Live-only when the current slide actually lacks `video`, so video-driven
+  // slides never run this timer in parallel with their own ended event.
+  React.useEffect(() => {
+    if (slides[i] && slides[i].video) return;
     const tm = setTimeout(() => setI(x => (x + 1) % slides.length), 6000);
     return () => clearTimeout(tm);
-  }, [i, slides.length]);
+  }, [i, slides]);
 
-  // All slide-change handlers use functional setI so they read from the
-  // latest committed state instead of capturing `i` in a render-time closure.
-  // (Previous arrow handlers used `(i - 1 + slides.length) % slides.length`
-  // which could go stale between paints when autoplay raced a manual click.)
-  const next = () => setI(x => (x + 1) % slides.length);
+  const advance = () => setI(x => (x + 1) % slides.length);
+  const next = () => advance();
   const prev = () => setI(x => (x - 1 + slides.length) % slides.length);
 
   /* CTA target — if the active slide carries a `sectorId`, the "View projects"
-     button drops into that sector landing page; otherwise it falls back to the
-     all-portfolio /proyectos route. Avoids surfacing the all-portfolio page
-     when the slide already says "Data Centers". */
+     button drops into that sector landing page; otherwise falls back to
+     /proyectos. */
   const goSlide = (slide) => {
     if (slide && slide.sectorId) setRoute({route: "sector", sectorId: slide.sectorId});
     else setRoute("proyectos");
   };
+
   return (
     <section className="hero">
-      {slides.map((s, idx) => (
-        <div key={idx} className={"hero__slide " + (idx === i ? "is-active" : "")}>
-          <img src={s.img} alt="" className="hero__img" style={s.objectPosition ? {objectPosition: s.objectPosition} : null} />
-          <div className="hero__overlay" />
-          <div className="hero__inner">
-            <div className={"hero__content " + (idx === i ? "is-shown" : "")}>
-              <Eyebrow onDark>{s.eyebrow}</Eyebrow>
-              <h1 className="hero__headline">{s.headline}</h1>
-              {/* No sub paragraph — the home carousel matches the stage hero's
-                  tight layout (eyebrow + headline + CTA only). Long descriptive
-                  copy lived here previously and pulled focus off the imagery. */}
-              <div className="hero__cta">
-                <ArrowCTA outline dark onClick={() => goSlide(s)}>{t.home.viewProjects}</ArrowCTA>
+      {slides.map((s, idx) => {
+        const isActive = idx === i;
+        return (
+          <div key={idx} className={"hero__slide " + (isActive ? "is-active" : "")}>
+            {/* Every video-bearing slide mounts its <video> permanently —
+                inactive ones stay paused on frame 0 (which renders as the
+                poster image). On a cross-fade the OUTGOING slide keeps
+                showing its video (now paused) instead of swapping to a
+                still <img>, so the transition is genuinely video↔video.
+                Slides without a video field fall back to <img>. */}
+            {s.video ? (
+              <video ref={el => { videoRefs.current[idx] = el; }}
+                     className="hero__video"
+                     src={s.video}
+                     muted playsInline preload="auto"
+                     onEnded={isActive ? advance : undefined}
+                     style={s.objectPosition ? {objectPosition: s.objectPosition} : null}
+                     aria-hidden="true" />
+            ) : (
+              <img src={s.img} alt="" className="hero__img" style={s.objectPosition ? {objectPosition: s.objectPosition} : null} />
+            )}
+            <div className="hero__overlay" />
+            <div className="hero__inner">
+              <div className={"hero__content " + (isActive ? "is-shown" : "")}>
+                <Eyebrow onDark>{s.eyebrow}</Eyebrow>
+                {/* Headline supports `\n` for forced line breaks (per-slide
+                    control over wrap point that text-wrap:balance can't give). */}
+                <h1 className="hero__headline">
+                  {s.headline.split("\n").map((line, li, arr) => (
+                    <React.Fragment key={li}>
+                      {line}
+                      {li < arr.length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
+                </h1>
+                <div className="hero__cta">
+                  <ArrowCTA outline dark onClick={() => goSlide(s)}>{t.home.viewProjects}</ArrowCTA>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <button className="hero__arrow hero__arrow--l" onClick={prev} aria-label="Prev"><Icon.Chevron dir="left" s={22} c="#fff"/></button>
       <button className="hero__arrow hero__arrow--r" onClick={next} aria-label="Next"><Icon.Chevron s={22} c="#fff"/></button>
+      {/* Dot strip — ref-driven progress ring. The ring SVG is rendered only
+          for the active dot; the rAF loop above mutates its strokeDashoffset
+          based on video.currentTime/duration each frame. Clicking another dot
+          jumps + resets via the same effect. */}
       <div className="hero__dots">
-        {slides.map((_, idx) => (
-          <button key={idx} className={"hero__dot " + (idx === i ? "on" : "")} onClick={() => setI(idx)} aria-label={"Slide " + (idx+1)} />
-        ))}
+        {slides.map((_, idx) => {
+          const isActive = idx === i;
+          return (
+            <button key={idx}
+                    type="button"
+                    className={"hero__dot " + (isActive ? "is-on" : "")}
+                    onClick={() => setI(idx)}
+                    aria-label={"Slide " + (idx + 1)}>
+              <span className="hero__dot-core" />
+              {isActive && (
+                <svg className="hero__dot-ring" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                  <circle ref={ringRef}
+                          cx="14" cy="14" r={RING_R}
+                          fill="none"
+                          stroke="#FFFFFF"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeDasharray={RING_C}
+                          strokeDashoffset={RING_C}
+                          style={{transform: "rotate(-90deg)", transformOrigin: "50% 50%"}} />
+                </svg>
+              )}
+            </button>
+          );
+        })}
       </div>
     </section>
   );
 };
 
-const ProjectCard = ({ p, onClick }) => {
+const ProjectCard = ({ p, onClick, setRoute }) => {
   const { t } = useLang();
   const label = p.tag || t.catLabels[p.cat] || p.cat || "";
+  // Default action: open the project-detail view. An explicit onClick (or the
+  // absence of setRoute) overrides this — keeps older call sites working.
+  const handleClick = onClick || (setRoute
+    ? () => setRoute({ route: "project", projectId: window.projSlug(p.name) })
+    : undefined);
   return (
-    <a className="pcard" onClick={onClick}>
+    <a className="pcard" onClick={handleClick}>
       <div className="pcard__imgwrap">
         <img className="pcard__img" src={p.img} alt={p.name} loading="lazy" />
       </div>
