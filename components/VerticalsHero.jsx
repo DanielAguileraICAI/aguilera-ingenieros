@@ -345,10 +345,21 @@ const VerticalsHero = ({ setRoute }) => {
      intersected at any frame, which oscillated between adjacent rows. Here we
      compute the menu row whose vertical centre is *closest* to the viewport
      centre on every scroll frame. There is always exactly one winner, so no
-     flip-flopping. Hover doesn't affect any of this. */
+     flip-flopping. Hover doesn't affect any of this.
+     —
+     Below 900px the layout collapses to a vertical stack (see CSS @media at
+     900px), the SVG sits above the menu, and pinning the active row to the
+     viewport centre stops making any visual sense — yet the rAF + getBCR
+     loop kept firing on every scroll frame, which is the lag the user saw on
+     a minimised window / phone. We now skip the listener entirely below
+     900px, and re-attach if the window grows back over the breakpoint. */
   React.useEffect(() => {
     if (typeof window === "undefined") return;
+    const DESKTOP_BP = 900;
     let raf = 0;
+    let attached = false;
+    let cleanupAttached = null;
+
     const compute = () => {
       raf = 0;
       const items = document.querySelectorAll(".vhero__item[data-id]");
@@ -368,11 +379,33 @@ const VerticalsHero = ({ setRoute }) => {
       }
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(compute); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    compute();
+
+    const attach = () => {
+      if (attached) return;
+      attached = true;
+      window.addEventListener("scroll", onScroll, { passive: true });
+      compute();
+      cleanupAttached = () => {
+        window.removeEventListener("scroll", onScroll);
+        if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      };
+    };
+    const detach = () => {
+      if (!attached) return;
+      attached = false;
+      if (cleanupAttached) cleanupAttached();
+      cleanupAttached = null;
+    };
+
+    const evaluate = () => {
+      if (window.innerWidth >= DESKTOP_BP) attach();
+      else detach();
+    };
+    evaluate();
+    window.addEventListener("resize", evaluate, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("resize", evaluate);
+      detach();
     };
   }, []);
 
